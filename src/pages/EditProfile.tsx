@@ -22,7 +22,7 @@ export default function EditProfile() {
   }
   // useEffect
   useEffect(()=>{
-    if(cards.length > 1)
+    if(cards.length > 0)
     bottomCardRef.current?.scrollIntoView({behavior: 'smooth'});
   }, [cards]);
 
