@@ -1,4 +1,4 @@
-import { Delete } from '@mui/icons-material';
+import { Clear } from '@mui/icons-material';
 import { IconButton, TextField } from '@mui/material';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -74,16 +74,21 @@ export default function EditCreditCard(props: EditCreditCardProps) {
     return testando;
   }
 
+  const styleCard = {
+    background: `linear-gradient(-90deg, #393939 2%, ${editCard.color} 90%)`,
+    filter: 'drop-shadow(0px 4px 4px white)',
+  }
+
   return (
-    <div className='EditCreditCard' style={{ backgroundColor: editCard.color }}>
+    <div className='EditCreditCard' style={styleCard}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <ColorPicker selectedColor={editCard.color} handleColorChange={handleColorChange} />
         <IconButton
           sx={{ position: 'absolute', right: 0, top: 0 }}
-          color='error'
+          color='primary'
           onClick={() => removeCard(id)}
         >
-          <Delete />
+          <Clear />
         </IconButton>
         <TextField
           label='Nome do cartão'
@@ -92,28 +97,22 @@ export default function EditCreditCard(props: EditCreditCardProps) {
           onChange={(e) => handleChange('title', e.target.value)}
         />
         <DesktopDatePicker
-          sx={{ width: '100%' }}
+          sx={{ width: '45%' }}
           className='DatePicker'
-          label='Data de fechamento'
+          label='Fechamento'
           views={['day']}
           value={getDate(editCard.closingDate)}
           onChange={handleClosingDate}
         />
         <DesktopDatePicker
-          sx={{ width: '100%' }}
+          sx={{ width: '45%' }}
           className='DatePicker'
-          label='Data de pagamento'
+          label='Vencimento'
           views={['day']}
           value={getDate(editCard.dueDate)}
           onChange={handleDueDate}
         />
-        <TextField
-          fullWidth
-          label='Limite'
-          type='number'
-          value={editCard.limit}
-          onChange={(e) => handleChange('limit', e.target.value)}
-        />
+        
       </LocalizationProvider>
     </div>
   )

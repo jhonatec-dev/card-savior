@@ -5,7 +5,6 @@ export interface CardType {
   id: number;
   title: string;
   closingDate: number;
-  limit: number;
   dueDate: number;
   color: string;
 }
@@ -13,6 +12,8 @@ export interface CardType {
 interface UserType {
   username: string;
   password: string;
+  email: string;
+  telefone: string;
 }
 
 interface ContextType {
@@ -35,6 +36,8 @@ export function AppProvider({ children }: ProviderProps) {
   const [user, setUser] = useState<UserType>({
     username: '',
     password: '',
+    email: '',
+    telefone: '',
   })
 
   const updateCards = (card: CardType) => {
@@ -51,11 +54,9 @@ export function AppProvider({ children }: ProviderProps) {
       newCards = cards.map((c) => (c.id === card.id ? card : c));
     }
     setCards(newCards);
-    console.log('newCards',newCards);
   }
 
   const getNewColor = () => {
-    console.log('cards na escolha da cor', cards);
     if(cards.length === 0) {
       return colors[0];
     }
@@ -64,12 +65,10 @@ export function AppProvider({ children }: ProviderProps) {
   }
 
   const createCard = () => {
-    console.log('createCard')
     setCards([...cards, {
       id: -1,
       title: '',
       closingDate: 0,
-      limit: 0,
       dueDate: 0,
       color: getNewColor(),
     }])

@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, MenuItem, Select } from '@mui/material';
 import { colors } from '../utils/helpers';
 
 interface ColorPickerProps {
@@ -6,14 +6,24 @@ interface ColorPickerProps {
   handleColorChange: (color: string) => void;
 }
 
+const styleDivColor = (color: string) => ({
+  background: color,
+  width: '30px',
+  color: 'transparent',
+  borderRadius: '50%',
+  fontSize: '20px',
+  margin: '0 auto',
+})
+
 export default function ColorPicker(props: ColorPickerProps) {
   return (
     <FormControl>
-      <InputLabel id="colorPicker">Cor de fundo</InputLabel>
+      <label>Cor</label>
       <Select
-        variant='filled'
+        variant='outlined'
         id="colorPicker"
-        sx={{ width: 100 }}
+        className='glass'
+        sx={{ width: 80}}
         value={props.selectedColor}
         onChange={(event) => {
           props.handleColorChange(event.target.value as string);
@@ -21,7 +31,9 @@ export default function ColorPicker(props: ColorPickerProps) {
       >
         {colors.map((color) => (
           <MenuItem key={color} value={color}>
-            <div style={{ background: color, width: '100%', color: 'transparent' }}>{color}</div>
+            <div 
+            style={styleDivColor(color)}
+            >.</div>
           </MenuItem>
         ))}
       </Select>

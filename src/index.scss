@@ -5,13 +5,18 @@
 }
 
 :root {
+  // Variables
+  --main-color: #e0e0e0;
+  --main-back-color: #242424;
+
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: red;
-  background-color: #242424;
+  color: var(--main-color);
+  background-color: var(--main-back-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,8 +24,6 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  // Variables
-  --main-color: #ff0000;
 }
 
 a {
@@ -47,6 +50,13 @@ h1 {
 }
 
 // Initial app styles
+.glass {
+  backdrop-filter: blur(10px);
+  // background-color: var(--main-back-color);
+  background-color: #2424249f;
+  border-radius: 10px;
+}
+
 .Wrapper {
   height: 100%;
   top: 0;
@@ -56,7 +66,8 @@ h1 {
   padding: 12px;
   overflow-x: hidden;
   overflow-y: scroll;
-  padding-bottom: 60px;
+  padding-bottom: 80px;
+  min-width: 300px;
 }
 
 .UserProfile {
@@ -72,10 +83,10 @@ h1 {
 
   .EditCreditCard {
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: wrap;
+    justify-content: space-between;
     width: 100%;
-    gap: 12px;
+    gap: 16px;
     border : 1px solid var(--main-color);
     border-radius: 4px;
     padding: 20px 12px;
