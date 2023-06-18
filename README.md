@@ -1,5 +1,7 @@
 # card-savior by Jhonatec
-Save yourself from the madness to remember who bought what: just add the bill and we make everything to you!
+### Save yourself from the madness to remember who bought what: just add the bill and we make everything to you!
+
+Linkedin: https://linkedin.com/in/jhonatec/
 
 A credit card expense tracker... You know that friend who asks you to pay because you're the wizard of limits? But it always gives you a headache when it comes to adding everything up and that immense embarrassment when it's time to collect...
 
