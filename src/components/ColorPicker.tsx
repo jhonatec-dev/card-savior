@@ -1,5 +1,5 @@
 import { FormControl, MenuItem, Select } from '@mui/material';
-import { colors } from '../utils/helpers';
+import { colors } from '../utils';
 
 interface ColorPickerProps {
   selectedColor: string;

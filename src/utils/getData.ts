@@ -9,35 +9,3 @@ bills: {
   }
 }
 */
-
-import { showError } from ".";
-
-const getFromLS = (key: string) =>{
-  const item = localStorage.getItem(key);
-  if(item){
-    return JSON.parse(item);
-  }
-
-  return null;
-}
-
-const saveToLS = <T>(key: string, value: T) => localStorage.setItem(key, JSON.stringify(value));
-
-
-export const getUser = () => {
-  try {
-    const user = getFromLS("user");
-    return user;
-  } catch (error: any) {
-    showError(error.message);
-  }
-};
-
-export const getCards = () => {
-  try {
-    const cards = getFromLS("cards");
-    return cards;
-  } catch (error: any) {
-    showError(error.message);
-  }
-}

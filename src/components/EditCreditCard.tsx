@@ -1,4 +1,4 @@
-import { Clear } from '@mui/icons-material';
+import { Backspace, Clear } from '@mui/icons-material';
 import { IconButton, TextField } from '@mui/material';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -26,7 +26,6 @@ export default function EditCreditCard(props: EditCreditCardProps) {
       const cardDueDateValid = editCard?.dueDate !== 0;
       const cardClosingDateValid = editCard?.closingDate !== 0;
       if (cardNameValid && cardDueDateValid && cardClosingDateValid) {
-        console.log('edit', editCard);
         updateCards(editCard);
       }
     }
@@ -95,6 +94,14 @@ export default function EditCreditCard(props: EditCreditCardProps) {
           fullWidth
           value={editCard.title}
           onChange={(e) => handleChange('title', e.target.value)}
+          InputProps={{
+            endAdornment:
+              <>
+                <IconButton onClick={() => handleChange('title', '')} color="primary">
+                  <Backspace />
+                </IconButton>
+              </>
+          }}
         />
         <DesktopDatePicker
           sx={{ width: '45%' }}
@@ -112,7 +119,7 @@ export default function EditCreditCard(props: EditCreditCardProps) {
           value={getDate(editCard.dueDate)}
           onChange={handleDueDate}
         />
-        
+
       </LocalizationProvider>
     </div>
   )

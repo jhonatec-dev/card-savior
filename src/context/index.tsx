@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useState } from "react";
-import { colors } from "../utils/helpers";
+import { colors, decryption, encryption, getFromLS, saveToLS } from "../utils";
 
 export interface CardType {
   id: number;
@@ -17,12 +17,13 @@ interface UserType {
 }
 
 interface ContextType {
-  user: UserType;
+  user: UserType | null;
   cards: CardType[];
   updateCards: (card: CardType) => void;
   createCard: () => void;
   removeCard: (id: number) => void;
-  setUser: (user: UserType) => void;
+  updateUserData: (user: UserType) => void;
+  userLogin: () => void;
 }
 
 interface ProviderProps {
@@ -33,12 +34,7 @@ export const AppContext = createContext<ContextType>({} as ContextType);
 
 export function AppProvider({ children }: ProviderProps) {
   const [cards, setCards] = useState<CardType[]>([]);
-  const [user, setUser] = useState<UserType>({
-    username: '',
-    password: '',
-    email: '',
-    telefone: '',
-  })
+  const [user, setUser] = useState<UserType | null>(null)
 
   const updateCards = (card: CardType) => {
     let newCards;
@@ -67,7 +63,7 @@ export function AppProvider({ children }: ProviderProps) {
   const createCard = () => {
     setCards([...cards, {
       id: -1,
-      title: '',
+      title: 'Novo Cartão',
       closingDate: 0,
       dueDate: 0,
       color: getNewColor(),
@@ -78,8 +74,22 @@ export function AppProvider({ children }: ProviderProps) {
     setCards(cards.filter((card) => card.id !== id));
   }
 
+  const updateUserData = (user: UserType) => {
+    setUser(user);
+    const userToLS = {...user, password: encryption(user.password)};
+    saveToLS('user', userToLS);
+    saveToLS('cards', cards);
+  }
+
+  const userLogin = () => {
+    const userFromLS = getFromLS('user');
+    if (userFromLS) {
+      setUser({...userFromLS, password: decryption(userFromLS.password)});
+    }
+  }
+
   return (
-    <AppContext.Provider value={{ user,setUser, cards, updateCards, createCard, removeCard  }}>
+    <AppContext.Provider value={{ user, updateUserData, userLogin, cards, updateCards, createCard, removeCard  }}>
       {children}
     </AppContext.Provider>
   );

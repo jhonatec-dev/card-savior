@@ -70,6 +70,15 @@ h1 {
   min-width: 300px;
 }
 
+.Login{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+  gap: 20px;
+}
+
 .UserProfile {
   display: flex;
   flex-direction: column;
@@ -100,6 +109,15 @@ h1 {
   color: var(--main-color);
 }
 
+.NotFound{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  gap: 12px;
+  height: 100%;
+}
 
 @media (prefers-color-scheme: light) {
   :root {

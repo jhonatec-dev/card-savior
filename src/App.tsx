@@ -2,6 +2,7 @@ import { ThemeProvider, createTheme } from '@mui/material'
 import { Route, Routes } from 'react-router-dom'
 import { AppProvider } from './context'
 import EditProfile from './pages/EditProfile'
+import Home from './pages/Home'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 
@@ -40,6 +41,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<EditProfile />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/editProfile" element={<EditProfile />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
     </ThemeProvider>
