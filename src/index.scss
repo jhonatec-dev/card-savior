@@ -1,23 +1,29 @@
-*{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 :root {
+  // Variables
+  --main-color: #e0e0e0;
+  --main-back-color: #242424;
+
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: red;
-  background-color: #242424;
+  color: var(--main-color);
+  background-color: var(--main-back-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
 }
 
 a {
@@ -25,6 +31,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -43,23 +50,36 @@ h1 {
 }
 
 // Initial app styles
-.Wrapper{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  padding: 12px;
+.glass {
+  backdrop-filter: blur(10px);
+  // background-color: var(--main-back-color);
+  background-color: #2424249f;
+  border-radius: 10px;
 }
 
-.FloatButton{
+.Wrapper {
+  height: 100%;
+  top: 0;
+  left: 0;
   position: absolute;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  padding: 12px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-bottom: 80px;
+  min-width: 300px;
 }
 
-.UserProfile{
+.Login{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+  gap: 20px;
+}
+
+.UserProfile {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,16 +87,48 @@ h1 {
   gap: 12px;
 }
 
+.Cards {
+  width: 100%;
 
+  .EditCreditCard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    gap: 16px;
+    border : 1px solid var(--main-color);
+    border-radius: 4px;
+    padding: 20px 12px;
+    margin: 12px 0;
+    position: relative;
+  }
+
+}
+
+.DatePicker svg {
+  color: var(--main-color);
+}
+
+.NotFound{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  gap: 12px;
+  height: 100%;
+}
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #004786;
     background-color: #e3e3e3;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #7c1616;
   }
