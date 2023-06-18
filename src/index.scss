@@ -1,4 +1,4 @@
-*{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -18,6 +18,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  // Variables
+  --main-color: #ff0000;
 }
 
 a {
@@ -25,6 +28,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -43,23 +47,19 @@ h1 {
 }
 
 // Initial app styles
-.Wrapper{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  padding: 12px;
-}
-
-.FloatButton{
+.Wrapper {
+  height: 100%;
+  top: 0;
+  left: 0;
   position: absolute;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  padding: 12px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-bottom: 60px;
 }
 
-.UserProfile{
+.UserProfile {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,6 +67,27 @@ h1 {
   gap: 12px;
 }
 
+.Cards {
+  width: 100%;
+
+  .EditCreditCard {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+    border : 1px solid var(--main-color);
+    border-radius: 4px;
+    padding: 20px 12px;
+    margin: 12px 0;
+    position: relative;
+  }
+
+}
+
+.DatePicker svg {
+  color: var(--main-color);
+}
 
 
 @media (prefers-color-scheme: light) {
@@ -74,9 +95,11 @@ h1 {
     color: #004786;
     background-color: #e3e3e3;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #7c1616;
   }

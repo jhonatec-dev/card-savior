@@ -1,6 +1,6 @@
 import { ThemeProvider, createTheme } from '@mui/material'
-import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { AppProvider } from './context'
 import EditProfile from './pages/EditProfile'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
@@ -34,11 +34,8 @@ const theme = createTheme({
 });
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    
-    <>
+    <AppProvider>
       <ThemeProvider theme={ theme }>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -46,7 +43,7 @@ function App() {
           <Route path='*' element={<NotFound />} />
         </Routes>
     </ThemeProvider>
-    </>
+    </AppProvider>
   )
 }
 
