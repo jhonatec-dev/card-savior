@@ -3,7 +3,7 @@ import { Avatar, Button, IconButton, TextField } from '@mui/material';
 import { KeyboardEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context';
-import { correctPassword, getFromLS, showError } from '../utils';
+import { correctPassword, getFromLS, showError, showInfo } from '../utils';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -26,8 +26,7 @@ export default function Login() {
   const { userLogin } = useContext(AppContext);
 
   const handleLockReset = () => {
-    console.log('Em breve!');
-
+    showInfo('App em desenvolvimento', 'Em breve');
   }
 
   const handleLogin = () => {

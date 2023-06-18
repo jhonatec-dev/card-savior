@@ -19,6 +19,7 @@
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.8",
     "mui-color-input": "^1.0.6",
+    "nodemailer": "^6.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.13.0",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
+    "@types/nodemailer": "^6.4.8",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@types/validator": "^13.7.17",

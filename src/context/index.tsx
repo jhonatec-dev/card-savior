@@ -86,6 +86,10 @@ export function AppProvider({ children }: ProviderProps) {
     if (userFromLS) {
       setUser({...userFromLS, password: decryption(userFromLS.password)});
     }
+    const cards = getFromLS('cards');
+    if(cards) {
+      setCards(cards);
+    }
   }
 
   return (

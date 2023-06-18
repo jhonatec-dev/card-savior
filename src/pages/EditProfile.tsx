@@ -42,7 +42,8 @@ export default function EditProfile() {
         setPasswordConfirm(user.password);
       }
     }
-  }, [navigate, pathname]);
+  }, [navigate, pathname, user]);
+  
   const handleSave = () => {
     // variáveis de conferência
     const usernameValid = username.length > 3;

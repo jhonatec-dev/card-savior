@@ -2,7 +2,7 @@ import CryptoJS, { AES } from "crypto-js";
 import Swal from 'sweetalert2';
 
 const SECRET_KEY = 'JHONATEC';
-export const showError = (message: string) => {
+export const showError = (message: string) =>
   Swal.fire({
     icon: 'error',
     title: 'Oops...',
@@ -13,7 +13,18 @@ export const showError = (message: string) => {
     timer: 3000,
     timerProgressBar: true,
   })
-}
+
+export const showInfo = (message: string, title: string) =>
+  Swal.fire({
+    icon: 'info',
+    title,
+    text: message,
+    customClass: 'glass',
+    color: '#96D6EB',
+    confirmButtonColor: '#96D6EB',
+    timer: 3000,
+    timerProgressBar: true,
+  })
 
 export const colors = [
   '#72AEAF',
@@ -37,17 +48,17 @@ export const getFromLS = (key: string) => {
   }
   return null;
 }
-export const encryption = (password : string) => {
+export const encryption = (password: string) => {
   const hashedPassword = AES.encrypt(password, SECRET_KEY).toString();
   return hashedPassword;
 }
 
-export const decryption = (password : string) => {
+export const decryption = (password: string) => {
   const hashedPassword = AES.decrypt(password, SECRET_KEY).toString(CryptoJS.enc.Utf8);
   return hashedPassword;
 }
 
-export const correctPassword = (password : string) => {
+export const correctPassword = (password: string) => {
   const user = getFromLS('user');
   const hashedPassword = encryption(password);
   if (user) {
