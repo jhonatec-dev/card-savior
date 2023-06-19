@@ -63,8 +63,7 @@ h1 {
 }
 
 .Wrapper {
-  padding: 8px;
-  padding-bottom: 80px;
+  padding: 20px 12px 80px;
   min-width: 300px;
 }
 
@@ -167,6 +166,8 @@ h1 {
     max-width: 1300px;
     margin: 0 auto;
     display: flex;
+    align-items: center;
+    // height: 100%;
     gap: 20px;
   }
 
@@ -176,17 +177,13 @@ h1 {
   }
 
   .UserProfile {
-    padding: 20px;
-    padding-top: 100px;
-    position: fixed;
-    left: 0;
-    max-width: 30%;
+    // height: 100%;
+    padding: 12px;
+    min-width: 350px;
+    max-width: 40%;
   }
 
   .CardsWrapper {
-    // max-width: 70%;
-    margin-left: 30%;
-
     .Cards {
       width: 100%;
       display: flex;
