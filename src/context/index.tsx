@@ -63,7 +63,7 @@ export function AppProvider({ children }: ProviderProps) {
   const createCard = () => {
     setCards([...cards, {
       id: -1,
-      title: 'Novo Cartão',
+      title: '',
       closingDate: 0,
       dueDate: 0,
       color: getNewColor(),

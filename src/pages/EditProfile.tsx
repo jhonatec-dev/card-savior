@@ -43,7 +43,7 @@ export default function EditProfile() {
       }
     }
   }, [navigate, pathname, user]);
-  
+
   const handleSave = () => {
     // variáveis de conferência
     const usernameValid = username.length > 3;
@@ -184,23 +184,25 @@ export default function EditProfile() {
           helperText={password !== passwordConfirm ? 'Senhas não conferem' : ''}
         />
       </div>
-      <Divider sx={{ margin: '20px 0', fontSize: '20px', fontWeight: 'bold' }}>Cartões</Divider>
-      <div className="Cards">
-        {cards.map((card) => (
-          <EditCreditCard key={card.id} id={card.id} />
-        ))}
-        <Button
-          variant="outlined"
-          fullWidth
-          startIcon={<Add />}
-          onClick={handleAddCard}
-          ref={bottomCardRef}
-          disabled={shouldBeDisabled()}
-        >
-          Adicionar Cartão
-        </Button>
+      <div className="CardsWrapper">
+        <Divider sx={{ margin: '20px 0', fontSize: '20px', fontWeight: 'bold' }}>Cartões</Divider>
+        <div className="Cards">
+          {cards.map((card) => (
+            <EditCreditCard key={card.id} id={card.id} />
+          ))}
+          <Button
+            variant="outlined"
+            fullWidth
+            startIcon={<Add />}
+            onClick={handleAddCard}
+            ref={bottomCardRef}
+            disabled={shouldBeDisabled()}
+          >
+            Adicionar Cartão
+          </Button>
+        </div>
       </div>
-      <FloatButton handleClick={handleSave} icon={<Save />} text="Save" />
+      <FloatButton handleClick={handleSave} icon={<Save />} text="Salvar" />
     </div >
   )
 }

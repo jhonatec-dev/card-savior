@@ -26,6 +26,11 @@
 
 }
 
+div#root {
+  height: 100vh;
+  width: 100vw;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -58,19 +63,12 @@ h1 {
 }
 
 .Wrapper {
-  height: 100%;
-  top: 0;
-  left: 0;
-  position: absolute;
-  width: 100%;
-  padding: 12px;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  padding: 8px;
   padding-bottom: 80px;
   min-width: 300px;
 }
 
-.Login{
+.Login {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -96,7 +94,7 @@ h1 {
     justify-content: space-between;
     width: 100%;
     gap: 16px;
-    border : 1px solid var(--main-color);
+    border: 1px solid var(--main-color);
     border-radius: 4px;
     padding: 20px 12px;
     margin: 12px 0;
@@ -109,7 +107,7 @@ h1 {
   color: var(--main-color);
 }
 
-.NotFound{
+.NotFound {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -122,7 +120,8 @@ h1 {
 @media (prefers-color-scheme: light) {
   :root {
     color: #004786;
-    background-color: #e3e3e3;
+    background-color: #e7e4e4;
+    --main-color: #004786;
   }
 
   a:hover {
@@ -132,4 +131,73 @@ h1 {
   button {
     background-color: #7c1616;
   }
+}
+
+@media screen and (min-width: 750px) {
+  .Wrapper {
+    // max-width: 1500px;
+    // margin: 0 auto;
+    // display: flex;
+    // gap: 20px;
+  }
+
+  .Login {
+    width: 500px;
+    margin: 20px auto;
+  }
+
+  .CardsWrapper {
+    .Cards {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      gap: 16px;
+
+      .EditCreditCard {
+        width: calc(50% - 16px);
+      }
+    }
+  }
+
+}
+
+@media screen and (min-width: 1000px) {
+  .Wrapper {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+  }
+
+  .Login {
+    max-width: 500px;
+    margin: 20px auto;
+  }
+
+  .UserProfile {
+    padding: 20px;
+    padding-top: 100px;
+    position: fixed;
+    left: 0;
+    max-width: 30%;
+  }
+
+  .CardsWrapper {
+    // max-width: 70%;
+    margin-left: 30%;
+
+    .Cards {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      gap: 16px;
+
+      .EditCreditCard {
+        width: calc(50% - 16px);
+      }
+    }
+  }
+
 }
