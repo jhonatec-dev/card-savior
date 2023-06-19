@@ -46,7 +46,7 @@ export default function EditProfile() {
 
   const handleSave = () => {
     // variáveis de conferência
-    const usernameValid = username.length > 3;
+    const usernameValid = username.length >= 3;
     const emailValid = validator.isEmail(email);
     const passwordValid = password.length > 3;
     const passwordConfirmValid = password === passwordConfirm;
@@ -99,7 +99,7 @@ export default function EditProfile() {
           fullWidth value={username}
           onChange={(e) => setUsername(e.target.value)}
           error={username.length < 3}
-          helperText={username.length < 4 ? 'Nome muito curto' : ''}
+          helperText={username.length < 3 ? 'Nome muito curto' : ''}
           InputProps={{
             endAdornment:
               <IconButton onClick={() => setUsername('')} color="primary">

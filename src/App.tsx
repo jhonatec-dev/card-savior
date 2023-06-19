@@ -14,6 +14,7 @@ function App() {
   return (
     <AppProvider>
       <ProviderTheme>
+
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<EditProfile />} />
@@ -21,6 +22,7 @@ function App() {
           <Route path="/editProfile" element={<EditProfile />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
+
       </ProviderTheme>
     </AppProvider>
   )

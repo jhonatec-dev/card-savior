@@ -66,3 +66,11 @@ export const correctPassword = (password: string) => {
   }
   return false;
 }
+
+export const hasUser = () => {
+  const user = getFromLS('user');
+  if (user) {
+    return true;
+  }
+  return false;
+}

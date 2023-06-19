@@ -116,6 +116,21 @@ h1 {
   height: 100%;
 }
 
+.Header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.CardResume {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #004786;
@@ -132,6 +147,8 @@ h1 {
   }
 }
 
+
+
 @media screen and (min-width: 750px) {
   .Wrapper {
     // max-width: 1500px;
@@ -145,19 +162,19 @@ h1 {
     margin: 20px auto;
   }
 
-  .CardsWrapper {
-    .Cards {
-      width: 100%;
-      display: flex;
-      justify-content: space-evenly;
-      flex-wrap: wrap;
-      gap: 16px;
 
-      .EditCreditCard {
-        width: calc(50% - 16px);
-      }
+  .Cards {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    .EditCreditCard {
+      width: calc(50% - 16px);
     }
   }
+
 
 }
 
@@ -167,34 +184,35 @@ h1 {
     margin: 0 auto;
     display: flex;
     align-items: center;
-    // height: 100%;
+    flex-wrap: wrap;
     gap: 20px;
   }
 
   .Login {
-    max-width: 500px;
+    max-width: 400px;
     margin: 20px auto;
   }
 
   .UserProfile {
-    // height: 100%;
     padding: 12px;
-    min-width: 350px;
-    max-width: 40%;
+    max-width: 35%;
   }
 
   .CardsWrapper {
-    .Cards {
-      width: 100%;
-      display: flex;
-      justify-content: space-evenly;
-      flex-wrap: wrap;
-      gap: 16px;
+    max-width: 60%;
+  }
 
-      .EditCreditCard {
-        width: calc(50% - 16px);
-      }
+  .Cards {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    .EditCreditCard {
+      width: calc(50% - 16px);
     }
   }
+
 
 }

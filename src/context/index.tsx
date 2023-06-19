@@ -64,8 +64,8 @@ export function AppProvider({ children }: ProviderProps) {
     setCards([...cards, {
       id: -1,
       title: '',
-      closingDate: 0,
-      dueDate: 0,
+      closingDate: 1,
+      dueDate: 10,
       color: getNewColor(),
     }])
   }
