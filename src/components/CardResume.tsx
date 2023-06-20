@@ -31,8 +31,7 @@ export default function CardResume() {
 
 
   const styleCard = {
-    background: `linear-gradient(-90deg, #393939 2%, ${selectedCard.color} 90%)`,
-    filter: 'drop-shadow(0px 4px 4px white)',
+    background: `linear-gradient(131deg,${selectedCard.color} 0%, #252525 100%)`
   }
 
   const nextCard = () => {

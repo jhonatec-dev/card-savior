@@ -40,7 +40,7 @@ export default function Home() {
           <Overdue />
         </div>
         <DataList />
-        <FloatButton icon={<Add />} handleClick={handleAdd} />
+        <FloatButton icon={<Add />} handleClick={handleAdd} text="Adicionar novo" />
       </div>
     </BillsProvider>
   )

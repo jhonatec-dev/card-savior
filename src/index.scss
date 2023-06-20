@@ -86,20 +86,29 @@ h1 {
 
 .Cards {
   width: 100%;
-
+  color: whitesmoke!important;
   .EditCreditCard {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
     gap: 16px;
-    border: 1px solid var(--main-color);
+    // border: 1px solid var(--main-color);
     border-radius: 4px;
     padding: 20px 12px;
     margin: 12px 0;
     position: relative;
+    filter: drop-shadow(0px 0px 2px white);
   }
 
+}
+
+.DataList{
+  width: 100%;
+  border: 1px solid var(--main-color);
+  border-radius: 4px;
+  padding: 20px 12px;
+  box-shadow: 0px 0px 4px white;
 }
 
 .DatePicker svg {
@@ -144,6 +153,10 @@ h1 {
 
   button {
     background-color: #7c1616;
+  }
+
+  .EditCreditCard{
+    background-blend-mode: color-burn !important;
   }
 }
 

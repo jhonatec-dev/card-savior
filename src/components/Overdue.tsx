@@ -28,11 +28,11 @@ export default function Overdue() {
     //{year: {1: [{isPaid}, {}], 2: []}}
     let total = 0;
     Object.keys(bills).forEach((year) => {
-      console.log(year, yearNow);
+      // console.log(year, yearNow);
       if (+year < yearNow) {
         Object.keys(bills[year]).forEach((month) => {
           const monthBills = bills[year][month];
-          console.log(monthBills);
+          // console.log(monthBills);
           monthBills.forEach((bill) => {
             if (!bill.paid) {
               total += bill.value;
@@ -51,18 +51,15 @@ export default function Overdue() {
           }
           
         }); // monthBills
-
       }
-
     }); // yearBills
-
     setTotal(total.toFixed(2));
   }
 
 
   const styleCard = {
-    background: `linear-gradient(-90deg, #393939 2%, #893939 90%)`,
-    filter: 'drop-shadow(0px 4px 4px white)',
+    background: `linear-gradient(131deg, #893939 0%, #252525 100%)`
+    
   }
 
   const handleShowOverdue = () => {

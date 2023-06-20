@@ -18,7 +18,7 @@ export default function EditProfile() {
   // States
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [telefone, setTelefone] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +37,7 @@ export default function EditProfile() {
       } else {
         setUsername(user.username);
         setEmail(user.email);
-        setTelefone(user.telefone);
+        setPhone(user.phone);
         setPassword(user.password);
         setPasswordConfirm(user.password);
       }
@@ -56,7 +56,7 @@ export default function EditProfile() {
       const newUser = {
         username,
         email,
-        telefone,
+        phone,
         password,
       }
       updateUserData(newUser);
@@ -129,11 +129,11 @@ export default function EditProfile() {
           label="Telefone"
           fullWidth
           type="tel"
-          value={telefone}
-          onChange={(e) => setTelefone(e.target.value)}
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
           InputProps={{
             endAdornment:
-              <IconButton onClick={() => setTelefone('')} color="primary">
+              <IconButton onClick={() => setPhone('')} color="primary">
                 <Backspace />
               </IconButton>
           }}

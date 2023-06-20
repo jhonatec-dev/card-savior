@@ -72,10 +72,9 @@ export default function EditCreditCard(props: EditCreditCardProps) {
     const testando = dayjs(`${year}-${month}-${day}`);
     return testando;
   }
-
+  
   const styleCard = {
-    background: `linear-gradient(-90deg, #393939 2%, ${editCard.color} 90%)`,
-    filter: 'drop-shadow(0px 4px 4px white)',
+    background: `linear-gradient(131deg,${editCard.color} 0%, #252525 100%)`
   }
 
   return (

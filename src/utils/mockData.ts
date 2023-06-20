@@ -4,8 +4,8 @@ import { CardType } from "../context";
 export const mockContacts = [
   {
     id: 1,
-    name: 'Marcos',
-    phone: '+7 (999) 999-99-99'
+    name: 'Gel',
+    phone: '81 8955-7512'
   },
   {
     id: 2,
@@ -79,7 +79,21 @@ export const mockBills = {
         totalValue: 20,
         paid: false,
         idCard: 1,
+      },
+      {
+        id: 2,
+        idContact: 0,
+        idSignature: 0,
+        description: 'Sapato',
+        when: '2023-01-01',
+        value: 160,
+        installment: 1,
+        totalInstallments: 2,
+        totalValue: 320,
+        paid: true,
+        idCard: 2,
       }
+
     ],
     2: [
       {
@@ -106,6 +120,45 @@ export const mockBills = {
         totalValue: 20,
         paid: false,
         idCard: 1,
+      },
+      {
+        id: 3,
+        idContact: 0,
+        idSignature: 0,
+        description: 'Sapato',
+        when: '2023-01-01',
+        value: 160,
+        installment: 2,
+        totalInstallments: 2,
+        totalValue: 320,
+        paid: false,
+        idCard: 2,
+      },
+      {
+        id: 4,
+        idContact: 0,
+        idSignature: 0,
+        description: 'Lanche',
+        when: '2023-01-01',
+        value: 55.60,
+        installment: 1,
+        totalInstallments: 1,
+        totalValue: 55.60,
+        paid: false,
+        idCard: 1,
+      },
+      {
+        id: 5,
+        idContact: 0,
+        idSignature: 0,
+        description: 'Presente para alguém',
+        when: '2023-01-01',
+        value: 39.90,
+        installment: 1,
+        totalInstallments: 1,
+        totalValue: 39.90,
+        paid: true,
+        idCard: 2,
       }
     ],
   }

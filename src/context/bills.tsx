@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { mockBills } from '../utils/mockData';
+import { mockBills, mockContacts } from '../utils/mockData';
 
 interface BillsContextType {
   bills: [];
@@ -17,7 +17,7 @@ export function BillsProvider({ children }: { children: ReactNode }) {
   const [bills, setBills] = useState(mockBills);
   const [filteredBills, setFilteredBills] = useState([]);
   const [date, setDate] = useState(new Date('2023-02-15'));
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(mockContacts);
   const [signatures, setSignatures] = useState([]);
 
   useEffect(() => {

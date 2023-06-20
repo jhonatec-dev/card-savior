@@ -13,7 +13,7 @@ interface UserType {
   username: string;
   password: string;
   email: string;
-  telefone: string;
+  phone: string;
 }
 
 interface ContextType {
