@@ -1,20 +1,8 @@
 import { ReactNode, createContext, useState } from "react";
 import { colors, decryption, encryption, getFromLS, saveToLS } from "../utils";
+import { CardType, UserType } from "./types";
 
-export interface CardType {
-  id: number;
-  title: string;
-  closingDate: number;
-  dueDate: number;
-  color: string;
-}
 
-interface UserType {
-  username: string;
-  password: string;
-  email: string;
-  phone: string;
-}
 
 interface ContextType {
   user: UserType | null;
