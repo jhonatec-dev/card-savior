@@ -140,6 +140,13 @@ h1 {
   text-align: center;
 }
 
+.InputPassword {
+  animation: animateWrongType 0.2s linear;
+  animation-iteration-count: 3;
+}
+
+// Media queries
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #004786;
@@ -228,4 +235,21 @@ h1 {
   }
 
 
+}
+
+
+// KeyFrames
+@keyframes animateWrongType {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(15px);
+  }
+  75% {
+    transform: translateX(-15px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }

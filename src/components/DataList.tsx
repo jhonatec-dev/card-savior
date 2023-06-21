@@ -87,6 +87,10 @@ Até a próxima!`;
     //https://api.whatsapp.com/send?phone=5533998203838&text=Ol%C3%A1%20JhonaTec!%20Estou%20entrando%20em%20contato%20pelo%20site!
   }
 
+  const handlePaidBild = (bill) => {
+    console.log('handlePaidBild', bill);
+  }
+  
   const renderBills = () => {
     if (!billsByContact || !billsByContact.length) {
       return null;
@@ -111,7 +115,7 @@ Até a próxima!`;
                 }
               >
                 <ListItemButton>
-                  <Checkbox checked={bill.paid} />
+                  <Checkbox checked={bill.paid} onChange={() => handlePaidBild(bill)} />
                   <p>{bill.description} - {bill.card?.title} - R$ {bill.value.toFixed(2)}</p>
                 </ListItemButton>
               </ListItem>
