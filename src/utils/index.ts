@@ -1,7 +1,6 @@
 import CryptoJS, { AES } from "crypto-js";
 import Swal from 'sweetalert2';
 
-const SECRET_KEY = 'JHONATEC';
 export const showError = (message: string) =>
   Swal.fire({
     icon: 'error',
@@ -37,7 +36,24 @@ export const colors = [
   '#d1a48f',
 ];
 
-export const saveToLS = (key: string, value: any) => {
+export const monthNames = [
+  'Janeiro',
+  'Fevereiro',
+  'Março',
+  'Abril',
+  'Maio',
+  'Junho',
+  'Julho',
+  'Agosto',
+  'Setembro',
+  'Outubro',
+  'Novembro',
+  'Dezembro',
+];
+
+const SECRET_KEY = 'JHONATEC';
+
+export const saveToLS = (key: string, value: unknown) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
@@ -63,6 +79,14 @@ export const correctPassword = (password: string) => {
   const hashedPassword = encryption(password);
   if (user) {
     return decryption(hashedPassword) === decryption(user.password);
+  }
+  return false;
+}
+
+export const hasUser = () => {
+  const user = getFromLS('user');
+  if (user) {
+    return true;
   }
   return false;
 }

@@ -26,6 +26,7 @@ export default function FloatButton(props: FloatButtonProps) {
       onMouseEnter={handleHover}
       onMouseLeave={handleLostFocus}
       variant={showText ? 'extended' : 'circular'}
+      color="primary"
     >
       {icon}
       {showText && <span>{text}</span>}

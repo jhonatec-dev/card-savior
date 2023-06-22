@@ -18,7 +18,7 @@ export default function EditProfile() {
   // States
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [telefone, setTelefone] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -37,32 +37,30 @@ export default function EditProfile() {
       } else {
         setUsername(user.username);
         setEmail(user.email);
-        setTelefone(user.telefone);
+        setPhone(user.phone);
         setPassword(user.password);
         setPasswordConfirm(user.password);
       }
     }
   }, [navigate, pathname, user]);
-  
+
   const handleSave = () => {
     // variáveis de conferência
-    const usernameValid = username.length > 3;
+    const usernameValid = username.length >= 3;
     const emailValid = validator.isEmail(email);
     const passwordValid = password.length > 3;
     const passwordConfirmValid = password === passwordConfirm;
-    const cardsValid = !cards.some((card) => card.id === -1);
-    if (usernameValid && emailValid && passwordValid && passwordConfirmValid && cardsValid) {
+    // const cardsValid = !cards.some((card) => card.id === -1);
+    if (usernameValid && emailValid && passwordValid && passwordConfirmValid ) {
       // salvar
       const newUser = {
         username,
         email,
-        telefone,
+        phone,
         password,
       }
       updateUserData(newUser);
       navigate(-1);
-    } else if (usernameValid && emailValid && passwordValid && passwordConfirmValid && !cardsValid) {
-      showError('Preencha todos os campos do cartão corretamente');
     } else {
       showError('Preencha todos os campos corretamente');
     }
@@ -77,16 +75,6 @@ export default function EditProfile() {
     createCard();
   }
 
-  const shouldBeDisabled = () => {
-    if (cards.length === 0)
-      return false
-    else {
-      return cards.some((card) => card.id === -1);
-    }
-  }
-
-
-
   return (
     <div className="Wrapper">
       <div className="UserProfile">
@@ -99,7 +87,7 @@ export default function EditProfile() {
           fullWidth value={username}
           onChange={(e) => setUsername(e.target.value)}
           error={username.length < 3}
-          helperText={username.length < 4 ? 'Nome muito curto' : ''}
+          helperText={username.length < 3 ? 'Nome muito curto' : ''}
           InputProps={{
             endAdornment:
               <IconButton onClick={() => setUsername('')} color="primary">
@@ -129,11 +117,11 @@ export default function EditProfile() {
           label="Telefone"
           fullWidth
           type="tel"
-          value={telefone}
-          onChange={(e) => setTelefone(e.target.value)}
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
           InputProps={{
             endAdornment:
-              <IconButton onClick={() => setTelefone('')} color="primary">
+              <IconButton onClick={() => setPhone('')} color="primary">
                 <Backspace />
               </IconButton>
           }}
@@ -184,23 +172,24 @@ export default function EditProfile() {
           helperText={password !== passwordConfirm ? 'Senhas não conferem' : ''}
         />
       </div>
-      <Divider sx={{ margin: '20px 0', fontSize: '20px', fontWeight: 'bold' }}>Cartões</Divider>
-      <div className="Cards">
-        {cards.map((card) => (
-          <EditCreditCard key={card.id} id={card.id} />
-        ))}
-        <Button
-          variant="outlined"
-          fullWidth
-          startIcon={<Add />}
-          onClick={handleAddCard}
-          ref={bottomCardRef}
-          disabled={shouldBeDisabled()}
-        >
-          Adicionar Cartão
-        </Button>
+      <div className="CardsWrapper">
+        <Divider sx={{ margin: '20px 0', fontSize: '20px', fontWeight: 'bold' }}>Cartões</Divider>
+        <div className="Fluid">
+          {cards.map((card) => (
+            <EditCreditCard key={card.id} id={card.id} />
+          ))}
+          <Button
+            variant="outlined"
+            fullWidth
+            startIcon={<Add />}
+            onClick={handleAddCard}
+            ref={bottomCardRef}
+          >
+            Adicionar Cartão
+          </Button>
+        </div>
       </div>
-      <FloatButton handleClick={handleSave} icon={<Save />} text="Save" />
+      <FloatButton handleClick={handleSave} icon={<Save />} text="Salvar" />
     </div >
   )
 }

@@ -8,10 +8,10 @@ interface ColorPickerProps {
 
 const styleDivColor = (color: string) => ({
   background: color,
-  width: '30px',
+  width: '25px',
   color: 'transparent',
   borderRadius: '50%',
-  fontSize: '20px',
+  fontSize: '16px',
   margin: '0 auto',
 })
 
@@ -21,9 +21,10 @@ export default function ColorPicker(props: ColorPickerProps) {
       <label>Cor</label>
       <Select
         variant='outlined'
+        size='small'
         id="colorPicker"
         className='glass'
-        sx={{ width: 80}}
+        sx={{ width: 70}}
         value={props.selectedColor}
         onChange={(event) => {
           props.handleColorChange(event.target.value as string);
