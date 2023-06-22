@@ -37,6 +37,21 @@ export const colors = [
   '#d1a48f',
 ];
 
+export const monthNames = [
+  'Janeiro',
+  'Fevereiro',
+  'Março',
+  'Abril',
+  'Maio',
+  'Junho',
+  'Julho',
+  'Agosto',
+  'Setembro',
+  'Outubro',
+  'Novembro',
+  'Dezembro',
+]
+
 export const saveToLS = (key: string, value: any) => {
   localStorage.setItem(key, JSON.stringify(value));
 };

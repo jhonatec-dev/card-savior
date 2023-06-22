@@ -4,11 +4,12 @@ import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useContext, useEffect, useState } from 'react';
-import { AppContext, CardType } from '../context';
+import { AppContext } from '../context';
+import { CardType } from '../context/types';
 import ColorPicker from './ColorPicker';
 
 interface EditCreditCardProps {
-  id: number;
+  id: string;
 }
 
 export default function EditCreditCard(props: EditCreditCardProps) {
@@ -31,7 +32,7 @@ export default function EditCreditCard(props: EditCreditCardProps) {
     }
   }, [editCard, initialCard, updateCards]);
 
-  const handleChange = (name: string, value: any) => {
+  const handleChange = (name: string, value: string | number) => {
     setEditCard({
       ...editCard,
       [name]: value,
@@ -64,7 +65,7 @@ export default function EditCreditCard(props: EditCreditCardProps) {
     } as CardType);
   }
 
-  const getDate = (day: number) => {
+  const getDate = (day: number | string) => {
     if (day === 0) return null;
     const date = new Date(Date.now());
     const year = date.getFullYear();

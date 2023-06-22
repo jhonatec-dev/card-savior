@@ -50,8 +50,8 @@ export default function EditProfile() {
     const emailValid = validator.isEmail(email);
     const passwordValid = password.length > 3;
     const passwordConfirmValid = password === passwordConfirm;
-    const cardsValid = !cards.some((card) => card.id === -1);
-    if (usernameValid && emailValid && passwordValid && passwordConfirmValid && cardsValid) {
+    // const cardsValid = !cards.some((card) => card.id === -1);
+    if (usernameValid && emailValid && passwordValid && passwordConfirmValid ) {
       // salvar
       const newUser = {
         username,
@@ -61,8 +61,6 @@ export default function EditProfile() {
       }
       updateUserData(newUser);
       navigate(-1);
-    } else if (usernameValid && emailValid && passwordValid && passwordConfirmValid && !cardsValid) {
-      showError('Preencha todos os campos do cartão corretamente');
     } else {
       showError('Preencha todos os campos corretamente');
     }
@@ -76,16 +74,6 @@ export default function EditProfile() {
   const handleAddCard = () => {
     createCard();
   }
-
-  const shouldBeDisabled = () => {
-    if (cards.length === 0)
-      return false
-    else {
-      return cards.some((card) => card.id === -1);
-    }
-  }
-
-
 
   return (
     <div className="Wrapper">
@@ -196,7 +184,6 @@ export default function EditProfile() {
             startIcon={<Add />}
             onClick={handleAddCard}
             ref={bottomCardRef}
-            disabled={shouldBeDisabled()}
           >
             Adicionar Cartão
           </Button>

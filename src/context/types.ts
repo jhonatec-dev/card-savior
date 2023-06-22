@@ -1,8 +1,8 @@
 export type CardType = {
   id: string,
   title: string,
-  dueDate: number | string,
-  closingDate: number | string,
+  dueDate: number,
+  closingDate: number,
   color: string,
 }
 
@@ -14,7 +14,7 @@ export type ContactType = {
 }
 
 export type UserType = {
-  name: string,
+  username: string,
   email: string,
   password: string,
   phone: string,

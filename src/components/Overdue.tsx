@@ -2,12 +2,11 @@ import { FilterAlt, FilterAltOff } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../context';
-import { BillsContext } from '../context/bills';
+import { monthNames } from '../utils';
 
 export default function Overdue() {
   // Context
-  const { bills } = useContext(BillsContext);
-  const { cards } = useContext(AppContext);
+  const { bills } = useContext(AppContext);
 
   //State
   const [showOverdue, setShowOverdue] = useState(false);
@@ -15,68 +14,58 @@ export default function Overdue() {
 
   // Effects
   useEffect(() => {
-
-      calculateTotal();
-    
-  }, [])
-
-  const calculateTotal = () => {
-    const now = new Date(Date.now());
-    const yearNow = now.getFullYear();
-    const monthNow = now.getMonth() + 1;
-    if (!bills) return 0;
-    //{year: {1: [{isPaid}, {}], 2: []}}
-    let total = 0;
-    Object.keys(bills).forEach((year) => {
-      // console.log(year, yearNow);
-      if (+year < yearNow) {
-        Object.keys(bills[year]).forEach((month) => {
-          const monthBills = bills[year][month];
-          // console.log(monthBills);
-          monthBills.forEach((bill) => {
+    if (!bills) return;
+    const calculateTotal = () => {
+      if (!bills) return 0;
+      const now = new Date(Date.now());
+      const yearNow = now.getFullYear();
+      const monthNow = now.getMonth() + 1;
+      const overduedBills = bills.filter(
+        (bill) => {
+          if (bill.year < yearNow || (bill.year === yearNow && bill.month < monthNow)) {
+            return !bill.paid;
+          } else if (bill.year === yearNow && bill.month === monthNow) {
             if (!bill.paid) {
-              total += bill.value;
+              return bill.card.closingDate >= now.getDate();
             }
-          });
-        }); // monthBills
-      } else if(+year === yearNow) {
-        Object.keys(bills[year]).forEach((month) => {
-          if(+month < monthNow) {
-            const monthBills = bills[year][month];
-            monthBills.forEach((bill) => {
-              if (!bill.paid) {
-                total += bill.value;
-              }
-            });
           }
-          
-        }); // monthBills
-      }
-    }); // yearBills
-    setTotal(total.toFixed(2));
-  }
+          return false;
+        }
+      );
+      if (!overduedBills) return 0;
+      const total = overduedBills.reduce((acc, bill) => {
+        return acc + +bill.value;
+      }, 0);
 
+
+      setTotal(total.toFixed(2));
+    }
+    calculateTotal();
+  }, [bills]);
 
   const styleCard = {
     background: `linear-gradient(131deg, #893939 0%, #252525 100%)`
-    
   }
 
   const handleShowOverdue = () => {
     setShowOverdue(!showOverdue);
   }
 
+  const getActualDate = () => {
+    const now = new Date(Date.now());
+    const yearNow = now.getFullYear();
+    const monthNow = monthNames[now.getMonth()];
+    return `${monthNow}/${yearNow}`
+  }
+
   return (
     <div className='EditCreditCard' style={styleCard}>
-
       <div>
-        <h4>Atrasados</h4>
+        <h4>Atrasados até {getActualDate()}</h4>
         <h2>R$ {total}</h2>
       </div>
-
       <Button startIcon={showOverdue ? <FilterAlt /> : <FilterAltOff />}
         onClick={handleShowOverdue}>{showOverdue ? 'Mostrar somente atrasados' : 'Mostrar todos'}</Button>
-
     </div>
   )
 }

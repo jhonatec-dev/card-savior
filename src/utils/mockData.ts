@@ -1,7 +1,16 @@
 import { v4 as uuidv4 } from "uuid";
+import { colors } from ".";
 import { BillType, CardType, ContactType, SignatureType } from "../context/types";
 
 console.log(uuidv4())
+
+export const cardVoid: CardType = {
+  id: uuidv4(),
+  title: "Cartão de exemplo",
+  dueDate: 1,
+  closingDate: 10,
+  color: "#ccc",
+}
 
 export const mockContacts: ContactType[] = [
   {
@@ -26,14 +35,14 @@ export const mockCards: CardType[] = [
     title: 'Cartão de crédito',
     closingDate: 10,
     dueDate: 1,
-    color: '#888',
+    color: colors[2],
   },
   {
     id: '708c4155-c376-44bb-8d41-306344b0a128',
     title: 'Cartão de débito',
     closingDate: 10,
     dueDate: 1,
-    color: '#888',
+    color: colors[1],
   }
 ];
 
@@ -53,6 +62,14 @@ export const mockBills: BillType[] = [
   {
     ...mockSignatures[0],
     year: 2023,
+    month: 0,
+    paid: true,
+    installment: 1,
+    totalInstallments: 1,
+  },
+  {
+    ...mockSignatures[0],
+    year: 2023,
     month: 1,
     paid: true,
     installment: 1,
@@ -85,7 +102,7 @@ export const mockBills: BillType[] = [
   {
     id: '9ffb340b-09fc-4578-a48e-35c268b91b00',
     year: 2023,
-    month: 1,
+    month: 0,
     paid: true,
     description: 'Sapato',
     card: mockCards[1],
@@ -97,7 +114,7 @@ export const mockBills: BillType[] = [
   {
     id: '9ffb340b-09fc-4578-a48e-35c268b91b00',
     year: 2023,
-    month: 2,
+    month: 1,
     paid: true,
     description: 'Sapato',
     card: mockCards[1],
@@ -109,7 +126,7 @@ export const mockBills: BillType[] = [
   {
     id: '9ffb340b-09fc-4578-a48e-35c268b91b00',
     year: 2023,
-    month: 3,
+    month: 2,
     paid: true,
     description: 'Sapato',
     card: mockCards[1],
@@ -121,8 +138,8 @@ export const mockBills: BillType[] = [
   {
     id: '9ffb340b-09fc-4578-a48e-35c268b91b00',
     year: 2023,
-    month: 4,
-    paid: true,
+    month: 3,
+    paid: false,
     description: 'Sapato',
     card: mockCards[1],
     installment: 4,
