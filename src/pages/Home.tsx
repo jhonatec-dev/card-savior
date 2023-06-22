@@ -2,6 +2,7 @@ import { Add } from "@mui/icons-material";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CardResume from "../components/CardResume";
+import DataList from "../components/DataList";
 import FloatButton from "../components/FloatButton";
 import Header from "../components/Header";
 import Overdue from "../components/Overdue";
@@ -36,7 +37,7 @@ export default function Home() {
           <CardResume />
           <Overdue />
         </div>
-        {/* <DataList /> */}
+        <DataList />
         <FloatButton icon={<Add />} handleClick={handleAdd} text="Adicionar novo" />
       </div>
   )

@@ -1,7 +1,6 @@
 import CryptoJS, { AES } from "crypto-js";
 import Swal from 'sweetalert2';
 
-const SECRET_KEY = 'JHONATEC';
 export const showError = (message: string) =>
   Swal.fire({
     icon: 'error',
@@ -50,9 +49,11 @@ export const monthNames = [
   'Outubro',
   'Novembro',
   'Dezembro',
-]
+];
 
-export const saveToLS = (key: string, value: any) => {
+const SECRET_KEY = 'JHONATEC';
+
+export const saveToLS = (key: string, value: unknown) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 

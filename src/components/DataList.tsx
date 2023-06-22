@@ -2,31 +2,31 @@ import { ArrowBackIos, ArrowForwardIos, Edit, ExpandMore, WhatsApp } from "@mui/
 import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, IconButton, List, ListItem, ListItemButton } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context";
-import { BillsContext } from "../context/bills";
-import { showError } from "../utils";
+import { BillType } from "../context/types";
+import { monthNames, showError } from "../utils";
 
 export default function DataList() {
   //Context
-  const { filteredBills, contacts } = useContext(BillsContext);
-  const { cards, user } = useContext(AppContext);
+  const { cards, user, bills, selMonth, selYear, changeMonth } = useContext(AppContext);
 
   //State
   const [billsByContact, setBillsByContact] = useState([]);
+  const [filteredBills, setFilteredBills] = useState<BillType[]>([] as BillType[]);
 
   //Effects
   useEffect(() => {
-    if (filteredBills && filteredBills.length > 0) {
-      getBillsPerContact();
+    if (bills && bills.length > 0) {
+      setFilteredBills(bills.filter((bill) => bill.year === selYear && bill.month === selMonth));
     }
 
-  }, [filteredBills])
+  }, [bills, selMonth, selYear])
 
   const nextMonth = () => {
-    console.log('nextMonth');
+    changeMonth(1);
   }
 
   const prevMonth = () => {
-    console.log('prevMonth');
+    changeMonth(-1);
   }
 
   const getBillsPerContact = () => {
@@ -142,7 +142,7 @@ Até a próxima!`;
         <IconButton onClick={prevMonth}>
           <ArrowBackIos />
         </IconButton>
-        <h3>{new Date(Date.now()).toDateString()}</h3>
+        <h3>{monthNames[selMonth]} / {selYear}</h3>
         <IconButton onClick={nextMonth}>
           <ArrowForwardIos />
         </IconButton>
