@@ -4,9 +4,9 @@ import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useContext, useEffect, useState } from 'react';
-import { AppContext } from '../context';
-import { CardType } from '../context/types';
-import ColorPicker from './ColorPicker';
+import ColorPicker from '../../../components/ColorPicker';
+import { AppContext } from '../../../context';
+import { CardType } from '../../../context/types';
 
 interface EditCreditCardProps {
   id: string;

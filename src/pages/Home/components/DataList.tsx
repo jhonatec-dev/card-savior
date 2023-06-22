@@ -1,9 +1,9 @@
 import { ArrowBackIos, ArrowForwardIos, Edit, ExpandMore, WhatsApp } from "@mui/icons-material";
 import { Accordion, AccordionDetails, AccordionSummary, Checkbox, IconButton, List, ListItem, ListItemButton } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../context";
-import { BillType, ContactType } from "../context/types";
-import { monthNames } from "../utils";
+import { AppContext } from "../../../context";
+import { BillType, ContactType } from "../../../context/types";
+import { monthNames } from "../../../utils";
 
 type BillContact = ContactType & {
   bills: BillType[]

@@ -3,10 +3,10 @@ import { Avatar, Button, Divider, IconButton, TextField } from "@mui/material";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import validator from 'validator';
-import EditCreditCard from "../components/EditCreditCard";
-import FloatButton from "../components/FloatButton";
-import { AppContext } from "../context/index";
-import { getFromLS, showError } from "../utils";
+import FloatButton from "../../components/FloatButton";
+import { AppContext } from "../../context/index";
+import { getFromLS, showError } from "../../utils";
+import EditCreditCard from "./components/EditCreditCard";
 
 export default function EditProfile() {
   // Navigate
@@ -14,7 +14,7 @@ export default function EditProfile() {
   const location = useLocation();
   const { pathname } = location;
   // Context
-  const { cards, createCard, user, updateUserData } = useContext(AppContext);
+  const { cards, createCard, user, updateUserData, userLogin } = useContext(AppContext);
   // States
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -32,17 +32,23 @@ export default function EditProfile() {
         navigate('/home');
       }
     } else {
-      if (!userLS || !user) {
+      if (!userLS) {
         navigate('/register');
       } else {
-        setUsername(user.username);
-        setEmail(user.email);
-        setPhone(user.phone);
-        setPassword(user.password);
-        setPasswordConfirm(user.password);
+        userLogin();
       }
     }
-  }, [navigate, pathname, user]);
+  }, [navigate, pathname, userLogin]);
+
+  useEffect(() => {
+    if(user){
+      setUsername(user.username);
+      setEmail(user.email);
+      setPhone(user.phone);
+      setPassword(user.password);
+      setPasswordConfirm(user.password);
+    }
+  }, [user]);
 
   const handleSave = () => {
     // variáveis de conferência

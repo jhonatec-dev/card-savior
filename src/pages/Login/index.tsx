@@ -2,8 +2,8 @@ import { ArrowForward } from '@mui/icons-material';
 import { Avatar, IconButton, TextField } from '@mui/material';
 import { KeyboardEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../context';
-import { correctPassword, getFromLS, showInfo } from '../utils';
+import { AppContext } from '../../context';
+import { correctPassword, getFromLS } from '../../utils';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -25,10 +25,6 @@ export default function Login() {
 
   //Context
   const { userLogin } = useContext(AppContext);
-
-  const handleLockReset = () => {
-    showInfo('App em desenvolvimento', 'Em breve');
-  }
 
   const handleLogin = () => {
     if (correctPassword(password)) {

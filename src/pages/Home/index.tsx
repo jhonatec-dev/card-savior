@@ -1,13 +1,13 @@
 import { Add } from "@mui/icons-material";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import CardResume from "../components/CardResume";
-import DataList from "../components/DataList";
-import FloatButton from "../components/FloatButton";
-import Header from "../components/Header";
-import Overdue from "../components/Overdue";
-import { AppContext } from "../context";
-import { hasUser } from "../utils";
+import FloatButton from "../../components/FloatButton";
+import Header from "../../components/Header";
+import { AppContext } from "../../context";
+import { hasUser } from "../../utils";
+import CardResume from "./components/CardResume";
+import DataList from "./components/DataList";
+import Overdue from "./components/Overdue";
 
 export default function Home() {
   const navigate = useNavigate();
