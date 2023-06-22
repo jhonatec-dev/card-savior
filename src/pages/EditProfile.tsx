@@ -174,7 +174,7 @@ export default function EditProfile() {
       </div>
       <div className="CardsWrapper">
         <Divider sx={{ margin: '20px 0', fontSize: '20px', fontWeight: 'bold' }}>Cartões</Divider>
-        <div className="Cards">
+        <div className="Fluid">
           {cards.map((card) => (
             <EditCreditCard key={card.id} id={card.id} />
           ))}

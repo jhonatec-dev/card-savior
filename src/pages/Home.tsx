@@ -33,7 +33,7 @@ export default function Home() {
       <div className="Wrapper">
         <Header />
         <h3>Olá, {user?.username}!</h3>
-        <div className="Cards">
+        <div className="Fluid">
           <CardResume />
           <Overdue />
         </div>

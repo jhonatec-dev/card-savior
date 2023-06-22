@@ -1,5 +1,5 @@
 import { Backspace, Clear } from '@mui/icons-material';
-import { IconButton, TextField } from '@mui/material';
+import { IconButton, TextField, ThemeProvider, createTheme } from '@mui/material';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -11,6 +11,16 @@ import ColorPicker from './ColorPicker';
 interface EditCreditCardProps {
   id: string;
 }
+
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      light: '#fff',
+      main: '#fff',
+    },
+  }
+})
 
 export default function EditCreditCard(props: EditCreditCardProps) {
   const { id } = props;
@@ -73,54 +83,56 @@ export default function EditCreditCard(props: EditCreditCardProps) {
     const testando = dayjs(`${year}-${month}-${day}`);
     return testando;
   }
-  
+
   const styleCard = {
     background: `linear-gradient(131deg,${editCard.color} 0%, #252525 100%)`
   }
 
   return (
     <div className='EditCreditCard' style={styleCard}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <ColorPicker selectedColor={editCard.color} handleColorChange={handleColorChange} />
-        <IconButton
-          sx={{ position: 'absolute', right: 0, top: 0 }}
-          color='primary'
-          onClick={() => removeCard(id)}
-        >
-          <Clear />
-        </IconButton>
-        <TextField
-          label='Nome do cartão'
-          fullWidth
-          value={editCard.title}
-          onChange={(e) => handleChange('title', e.target.value)}
-          InputProps={{
-            endAdornment:
-              <>
-                <IconButton onClick={() => handleChange('title', '')} color="primary">
-                  <Backspace />
-                </IconButton>
-              </>
-          }}
-        />
-        <DesktopDatePicker
-          sx={{ width: '45%' }}
-          className='DatePicker'
-          label='Fechamento'
-          views={['day']}
-          value={getDate(editCard.closingDate)}
-          onChange={handleClosingDate}
-        />
-        <DesktopDatePicker
-          sx={{ width: '45%' }}
-          className='DatePicker'
-          label='Vencimento'
-          views={['day']}
-          value={getDate(editCard.dueDate)}
-          onChange={handleDueDate}
-        />
+      <ThemeProvider theme={theme}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <ColorPicker selectedColor={editCard.color} handleColorChange={handleColorChange} />
+          <IconButton
+            sx={{ position: 'absolute', right: 0, top: 0 }}
+            color='primary'
+            onClick={() => removeCard(id)}
+          >
+            <Clear />
+          </IconButton>
+          <TextField
+            label='Nome do cartão'
+            fullWidth
+            value={editCard.title}
+            onChange={(e) => handleChange('title', e.target.value)}
+            InputProps={{
+              endAdornment:
+                <>
+                  <IconButton onClick={() => handleChange('title', '')} color="primary">
+                    <Backspace />
+                  </IconButton>
+                </>
+            }}
+          />
+          <DesktopDatePicker
+            sx={{ width: '45%' }}
+            className='DatePicker'
+            label='Fechamento'
+            views={['day']}
+            value={getDate(editCard.closingDate)}
+            onChange={handleClosingDate}
+          />
+          <DesktopDatePicker
+            sx={{ width: '45%' }}
+            className='DatePicker'
+            label='Vencimento'
+            views={['day']}
+            value={getDate(editCard.dueDate)}
+            onChange={handleDueDate}
+          />
 
-      </LocalizationProvider>
+        </LocalizationProvider>
+      </ThemeProvider>
     </div>
   )
 }

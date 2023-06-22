@@ -1,8 +1,8 @@
 import { ReactNode, createContext, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { colors, decryption, encryption, getFromLS, saveToLS } from "../utils";
-import { mockBills, mockCards } from "../utils/mockData";
-import { BillType, CardType, UserType } from "./types";
+import { mockBills, mockCards, mockContacts } from "../utils/mockData";
+import { BillType, CardType, ContactType, UserType } from "./types";
 
 interface ContextType {
   user: UserType | null;
@@ -10,12 +10,14 @@ interface ContextType {
   bills: BillType[];
   selYear: number;
   selMonth: number;
+  contacts: ContactType[];
   changeMonth: (month: number) => void;
   updateCards: (card: CardType) => void;
   createCard: () => void;
   removeCard: (id: string) => void;
   updateUserData: (user: UserType) => void;
   userLogin: () => void;
+  changePaidBill: (bill: BillType) => void;
 }
 
 interface ProviderProps {
@@ -30,6 +32,7 @@ export function AppProvider({ children }: ProviderProps) {
   const [selYear, setSelYear] = useState<number>(new Date().getFullYear());
   const [selMonth, setSelMonth] = useState<number>(0);
   const [bills, setBills] = useState<BillType[]>(mockBills);
+  const [contacts, setContacts] = useState<ContactType[]>(mockContacts);
 
   const updateCards = (card: CardType) => {
     setCards(cards.map((c) => c.id === card.id ? card : c));
@@ -93,18 +96,30 @@ export function AppProvider({ children }: ProviderProps) {
     }
   }
 
+  const changePaidBill = (bill: BillType) => {
+    const newBills = bills.map((b) => {
+      if (b.id === bill.id && b.year === bill.year && b.month === bill.month) {
+        return { ...b, paid: !b.paid };
+      }
+      return b;
+    });
+    setBills(newBills);
+  }
+
   const values = { //useMemo(() => ({
     user,
     cards,
     bills,
     selYear,
     selMonth,
+    contacts,
     updateCards,
     createCard,
     removeCard,
     updateUserData,
     userLogin,
-    changeMonth
+    changeMonth,
+    changePaidBill
   };
   // }), [user, cards, updateCards, createCard, removeCard, updateUserData]);
 
