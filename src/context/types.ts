@@ -9,8 +9,6 @@ export type CardType = {
 export type ContactType = {
   id: string,
   name: string,
-  email?: string,
-  phone: string,
 }
 
 export type UserType = {

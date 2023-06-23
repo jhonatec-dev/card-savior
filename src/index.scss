@@ -115,6 +115,14 @@ h1 {
 //   color: var(--main-color);
 // }
 
+.StepContent{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 12px;
+}
+
 .NotFound {
   display: flex;
   flex-direction: column;

@@ -16,17 +16,14 @@ export const mockContacts: ContactType[] = [
   {
     id: '0fb1c8b1-6ad0-4eb8-8ec5-a0f1bf25990f',
     name: 'Gel',
-    phone: '81 8955-7512'
   },
   {
     id: 'cea323e7-46d2-4d78-b1fe-92144a9debc5',
     name: 'Ronaldo',
-    phone: '+7 (999) 999-99-99'
   },
   {
     id: '14db3125-21b9-4feb-aab1-85eb8c8cd1f4',
     name: 'Márcia',
-    phone: '+7 (999) 999-99-99'
   }
 ]
 export const mockCards: CardType[] = [
