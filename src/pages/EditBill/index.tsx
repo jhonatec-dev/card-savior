@@ -6,7 +6,7 @@ import {
   StepLabel,
   Stepper,
   ToggleButton,
-  ToggleButtonGroup,
+  ToggleButtonGroup
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -30,7 +30,7 @@ import {
 // Lógica: se tiver parametros, então é edição...
 export default function EditBill() {
   const navigate = useNavigate();
-  const {addBills} = useContext(AppContext);
+  const { addBills, contacts, addContact } = useContext(AppContext);
 
   const [activeStep, setActiveStep] = useState(0);
   const [bills, setBills] = useState<BillType[]>([]);
@@ -40,6 +40,7 @@ export default function EditBill() {
       purchaseDate: dayjs().format("YYYY-MM-DD"),
       value: 0,
       id: uuiv4(),
+      selContact: null,
     },
   });
 
@@ -50,6 +51,8 @@ export default function EditBill() {
     const year = dayjs(data.dueDate).year();
     const month = dayjs(data.dueDate).month();
 
+    console.log("FORM DATA", data);
+
     const installment = {
       id: data.id,
       value: +data.value,
@@ -59,7 +62,7 @@ export default function EditBill() {
       installment: 1,
       totalInstallments: 1,
       paid: data.paid,
-      idContact: data.idContact || "",
+      idContact: data.selContact?.id || "",
       description: data.description,
       card: data.selCard,
     };
@@ -94,7 +97,17 @@ export default function EditBill() {
 
   const handleSave = () => {
     addBills(bills);
-    navigate('/home');
+    const { getValues } = methods;
+    const selContact = getValues("selContact");
+    console.log(selContact);
+    if (selContact && !contacts.find((c) => c.id === selContact?.id)) {
+      addContact({
+        id: selContact.id,
+        name: selContact.name,
+      });
+    }
+
+    navigate("/home");
   };
 
   const divButtonsNav = (isSubmit = false) => (
@@ -114,7 +127,7 @@ export default function EditBill() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
+        <form className="Form" onSubmit={methods.handleSubmit(onSubmit, onError)}>
           <Header title="Editar despesa" showGoBack />
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>

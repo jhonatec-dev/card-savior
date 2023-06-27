@@ -23,14 +23,15 @@ const SelectCards = ({ label }: IProps) => {
     setSelCardId(e.target.value);
     const selCard = cards.find((card) => card.id === e.target.value);
     setValue("selCard", selCard);
-    clearErrors("selCard");
+    clearErrors(["selCard", "dueDate"]);
   }
 
   return (
-    <>
+    <div style={{width: "100%"}}>
       <Select
         fullWidth
         label={label}
+        variant="outlined"
         value={selCardId}
         onChange={handleChange}
         error={!!errors.selCard}
@@ -54,7 +55,7 @@ const SelectCards = ({ label }: IProps) => {
         ))}
       </Select>
       <FormHelperText error={!!errors.selCard}>{errors.selCard && "Selecione um cartão"}</FormHelperText>
-    </>
+    </div>
   );
 };
 

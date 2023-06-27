@@ -12,6 +12,12 @@ export type ContactType = {
   name: string,
 }
 
+export type ContactNewType = {
+  id: string;
+  name: string;
+  inputValue: string;
+};
+
 export type UserType = {
   username: string,
   email: string,

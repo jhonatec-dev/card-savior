@@ -1,29 +1,19 @@
 import { Clear } from "@mui/icons-material";
-import {
-  Autocomplete,
-  IconButton,
-  InputAdornment,
-  TextField,
-} from "@mui/material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 import dayjs from "dayjs";
-import { useContext, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { AppContext } from "../../../context";
+import { AutocompleteContacts } from "./AutocompleteContacts";
 import { SelectCards } from "./SelectCards";
 
 const SingleInstallment = () => {
-  const { register, setValue, watch, formState:{errors} } = useFormContext();
-  const { contacts } = useContext(AppContext);
+  const {
+    register,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
+
   const [selCard, purchaseDate] = watch(["selCard", "purchaseDate"]);
-  const [valueText, setValueText] = useState({});
-  const [inputValue, setInputValue] = useState("");
-
-  register('contact');
-
-  const handleChangeContact = (_e: any, value: any) => {
-    setValue("contact", value);
-    console.log(value);
-  }
 
   const renderDueDate = () => {
     const purchaseDay = dayjs(purchaseDate).date();
@@ -36,11 +26,15 @@ const SingleInstallment = () => {
     if (selCard) {
       if (purchaseDay > selCard.closingDate) {
         // console.log("mes que vem");
-        const newDueDate = dayjs(`${purchaseYear}-${purchaseMonth}-${selCard.dueDate}`).add(1, "month");
+        const newDueDate = dayjs(
+          `${purchaseYear}-${purchaseMonth}-${selCard.dueDate}`
+        ).add(1, "month");
         setValue("dueDate", newDueDate.format("YYYY-MM-DD"));
       } else {
         // console.log("agora");
-        const newDueDate = dayjs(`${purchaseYear}-${purchaseMonth}-${selCard.dueDate}`);
+        const newDueDate = dayjs(
+          `${purchaseYear}-${purchaseMonth}-${selCard.dueDate}`
+        );
         setValue("dueDate", newDueDate.format("YYYY-MM-DD"));
       }
     }
@@ -50,12 +44,17 @@ const SingleInstallment = () => {
         label="Vencimento"
         type="date"
         fullWidth
+        InputProps={{
+          inputProps: {
+            min: "2020-01-01",
+          },
+        }}
         InputLabelProps={{
           shrink: true,
         }}
-        {...register("dueDate", {required: true})}
+        {...register("dueDate", { required: true })}
         error={!!errors.dueDate}
-        helperText={errors.dueDate && 'Você precisa digitar uma data.'}
+        helperText={errors.dueDate && "Você precisa digitar uma data."}
       />
     );
   };
@@ -69,17 +68,14 @@ const SingleInstallment = () => {
         fullWidth
         InputProps={{
           endAdornment: (
-            <IconButton
-              onClick={() => setValue("description", "")}
-            >
-              <Clear  />
+            <IconButton onClick={() => setValue("description", "")}>
+              <Clear />
             </IconButton>
           ),
         }}
-        {...register("description", {required: true})}
+        {...register("description", { required: true })}
         error={!!errors.description}
-        helperText={errors.description && 'Você precisa digitar uma descrição.'}
-        
+        helperText={errors.description && "Você precisa digitar uma descrição."}
       />
 
       <TextField
@@ -90,41 +86,30 @@ const SingleInstallment = () => {
         InputProps={{
           startAdornment: <InputAdornment position="start">R$</InputAdornment>,
         }}
-        {...register("value", {required: true, min: 0,})}
+        {...register("value", { required: true, min: 0 })}
         error={!!errors.value}
-        helperText={errors.value && 'Você precisa digitar um valor válido.'}
+        helperText={errors.value && "Você precisa digitar um valor válido."}
       />
 
-      <Autocomplete
-        freeSolo
-        fullWidth
-        disablePortal
-        options={contacts.map((c) => ({label: c.name, id: c.id }))}
-        onChange={(e, newValue) => setValueText(newValue)}
-        value={valueText}
-        inputValue={inputValue}
-        onInputChange={(e, value) => setInputValue(value)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Quem comprou"
-            helperText="Escolha quem comprou ou digite um novo nome. Deixe em branco para registrar como seus gastos."
-          />
-        )}
-      />
-
-      <p>{inputValue} / {valueText?.id}</p>
+      <AutocompleteContacts />
 
       <TextField
         type="date"
         fullWidth
         label="Quando foi?"
+        InputProps={{
+          inputProps: {
+            min: "2020-01-01",
+          },
+        }}
         InputLabelProps={{
           shrink: true,
         }}
-        {...register("purchaseDate", {required: true})}
+        {...register("purchaseDate", { required: true })}
         error={!!errors.purchaseDate}
-        helperText={errors.purchaseDate && 'Você precisa digitar uma data.'}
+        helperText={
+          errors.purchaseDate && "Você precisa digitar uma data válida."
+        }
       />
 
       <SelectCards label="Em qual cartão" />

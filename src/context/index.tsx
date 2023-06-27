@@ -19,6 +19,7 @@ interface ContextType {
   userLogin: () => void;
   changePaidBill: (bill: BillType) => void;
   addBills: (newBills: BillType[]) => void;
+  addContact: (newContact: ContactType) => void;
 }
 
 interface ProviderProps {
@@ -33,7 +34,7 @@ export function AppProvider({ children }: ProviderProps) {
   const [selYear, setSelYear] = useState<number>(new Date().getFullYear());
   const [selMonth, setSelMonth] = useState<number>(new Date().getMonth() );
   const [bills, setBills] = useState<BillType[]>(mockBills);
-  const [contacts] = useState<ContactType[]>(mockContacts);
+  const [contacts, setContacts] = useState<ContactType[]>(mockContacts);
 
   const updateCards = (card: CardType) => {
     setCards(cards.map((c) => c.id === card.id ? card : c));
@@ -108,6 +109,10 @@ export function AppProvider({ children }: ProviderProps) {
     setBills(newBills);
   }
 
+  const addContact = (newContact: ContactType) => {
+    setContacts([...contacts, newContact]);
+  }
+
   // Bills Area ************************************
   const addBills = (newBills: BillType[]) => {
     console.log('newBills', newBills);
@@ -130,6 +135,7 @@ export function AppProvider({ children }: ProviderProps) {
     changeMonth,
     changePaidBill,
     addBills,
+    addContact,
   };
 
   return (
