@@ -18,6 +18,7 @@ interface ContextType {
   updateUserData: (user: UserType) => void;
   userLogin: () => void;
   changePaidBill: (bill: BillType) => void;
+  addBills: (newBills: BillType[]) => void;
 }
 
 interface ProviderProps {
@@ -30,7 +31,7 @@ export function AppProvider({ children }: ProviderProps) {
   const [cards, setCards] = useState<CardType[]>(mockCards);
   const [user, setUser] = useState<UserType | null>(null);
   const [selYear, setSelYear] = useState<number>(new Date().getFullYear());
-  const [selMonth, setSelMonth] = useState<number>(0);
+  const [selMonth, setSelMonth] = useState<number>(new Date().getMonth() );
   const [bills, setBills] = useState<BillType[]>(mockBills);
   const [contacts] = useState<ContactType[]>(mockContacts);
 
@@ -107,7 +108,14 @@ export function AppProvider({ children }: ProviderProps) {
     setBills(newBills);
   }
 
-  const values = { //useMemo(() => ({
+  // Bills Area ************************************
+  const addBills = (newBills: BillType[]) => {
+    console.log('newBills', newBills);
+    setBills([...bills, ...newBills]);    
+  }
+
+
+  const values = { 
     user,
     cards,
     bills,
@@ -120,9 +128,9 @@ export function AppProvider({ children }: ProviderProps) {
     updateUserData,
     userLogin,
     changeMonth,
-    changePaidBill
+    changePaidBill,
+    addBills,
   };
-  // }), [user, cards, updateCards, createCard, removeCard, updateUserData]);
 
   return (
     <AppContext.Provider value={values}>

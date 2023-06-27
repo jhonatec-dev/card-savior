@@ -1,5 +1,5 @@
-import { MenuItem, Select } from "@mui/material";
-import { useContext, useState } from "react";
+import { FormHelperText, MenuItem, Select } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { AppContext } from "../../../context";
 
@@ -10,12 +10,20 @@ interface IProps {
 const SelectCards = ({ label }: IProps) => {
   const { cards } = useContext(AppContext);
   const [selCardId, setSelCardId] = useState("");
-  const {setValue} = useFormContext();
+  const {setValue, register, formState:{errors}, clearErrors, getValues} = useFormContext();
 
-  const handleChange = (e) => {
+  register("selCard", { required: true });
+
+  useEffect(() => {
+    if(getValues("selCard"))
+    setSelCardId(getValues("selCard").id);
+  }, [getValues]);
+
+  const handleChange = (e: any) => {
     setSelCardId(e.target.value);
     const selCard = cards.find((card) => card.id === e.target.value);
     setValue("selCard", selCard);
+    clearErrors("selCard");
   }
 
   return (
@@ -25,6 +33,7 @@ const SelectCards = ({ label }: IProps) => {
         label={label}
         value={selCardId}
         onChange={handleChange}
+        error={!!errors.selCard}
       >
         {cards.map((card) => (
           <MenuItem key={card.id} value={card.id}>
@@ -44,6 +53,7 @@ const SelectCards = ({ label }: IProps) => {
           </MenuItem>
         ))}
       </Select>
+      <FormHelperText error={!!errors.selCard}>{errors.selCard && "Selecione um cartão"}</FormHelperText>
     </>
   );
 };

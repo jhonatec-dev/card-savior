@@ -146,3 +146,6 @@ export const mockBills: BillType[] = [
   }
 
 ]
+
+
+// add PurchaseDate

@@ -1,3 +1,4 @@
+
 export type CardType = {
   id: string,
   title: string,
@@ -39,4 +40,5 @@ export type BillType = {
   description: string,
   installment: number,
   totalInstallments: number,
+  purchaseDate: string,
 }
