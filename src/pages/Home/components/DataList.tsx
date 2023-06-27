@@ -28,8 +28,6 @@ export default function DataList() {
         const myContact: ContactType = {
           id: '',
           name: 'Meus gastos',
-          phone: user?.phone || '',
-          email: user?.email,
         }
         setBillsByContact(
           billsForSelectedMonth.reduce((result, bill) => {
@@ -61,6 +59,7 @@ export default function DataList() {
 
   const prevMonth = () => {
     changeMonth(-1);
+    console.log(filteredBills);
   }
 
 

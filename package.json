@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host ",
+    "dev": "vite --host --open",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -22,6 +22,7 @@
     "nodemailer": "^6.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.45.0",
     "react-router-dom": "^6.13.0",
     "react-share": "^4.4.1",
     "sweetalert2": "^11.7.12",

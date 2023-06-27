@@ -7,15 +7,15 @@ console.log(uuidv4())
 export const cardVoid: CardType = {
   id: uuidv4(),
   title: "Cartão de exemplo",
-  dueDate: 1,
-  closingDate: 10,
+  dueDate: 10,
+  closingDate: 1,
   color: "#ccc",
 }
 
 export const mockContacts: ContactType[] = [
   {
     id: '0fb1c8b1-6ad0-4eb8-8ec5-a0f1bf25990f',
-    name: 'Gel',
+    name: 'Michael Scott',
   },
   {
     id: 'cea323e7-46d2-4d78-b1fe-92144a9debc5',
@@ -29,17 +29,17 @@ export const mockContacts: ContactType[] = [
 export const mockCards: CardType[] = [
   {
     id: 'd9ea4ead-14f0-4f77-b6a1-e13b7bf2d6fd',
-    title: 'Cartão de crédito',
-    closingDate: 10,
-    dueDate: 1,
-    color: colors[2],
+    title: 'PicPay',
+    closingDate: 1,
+    dueDate: 10,
+    color: colors[5],
   },
   {
     id: '708c4155-c376-44bb-8d41-306344b0a128',
-    title: 'Cartão de débito',
-    closingDate: 10,
-    dueDate: 1,
-    color: colors[1],
+    title: 'Mercado Pago',
+    closingDate: 18,
+    dueDate: 25,
+    color: colors[3],
   }
 ];
 

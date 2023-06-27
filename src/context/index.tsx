@@ -32,7 +32,7 @@ export function AppProvider({ children }: ProviderProps) {
   const [selYear, setSelYear] = useState<number>(new Date().getFullYear());
   const [selMonth, setSelMonth] = useState<number>(0);
   const [bills, setBills] = useState<BillType[]>(mockBills);
-  const [contacts, setContacts] = useState<ContactType[]>(mockContacts);
+  const [contacts] = useState<ContactType[]>(mockContacts);
 
   const updateCards = (card: CardType) => {
     setCards(cards.map((c) => c.id === card.id ? card : c));
@@ -56,6 +56,7 @@ export function AppProvider({ children }: ProviderProps) {
   }
 
   const removeCard = (id: string) => {
+    return console.warn('desabilitado por enquanto');
     setCards(cards.filter((card) => card.id !== id));
   }
 
