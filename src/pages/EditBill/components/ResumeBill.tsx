@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemButton } from "@mui/material";
+import { Divider, List, ListItem } from "@mui/material";
 import dayjs from "dayjs";
 import { useContext } from "react";
 import { useFormContext } from "react-hook-form";
@@ -21,41 +21,43 @@ const ResumeBill = ({ bills, type }: IProps) => {
 
   const getBuyerName = () => {
     const selContact = getValues("selContact");
-    if(!selContact){
-      return "Eu"
+    if (!selContact) {
+      return "Eu";
     }
 
     return selContact.name;
-  }
+  };
 
   return (
-    <div>
-      <h4>{type}</h4>
+    <div style={{ width: "100%" }}>
+      <h3>{type}</h3>
       {/* <pre>{JSON.stringify(bills, null, 2)}</pre> */}
-      <p>O que foi comprado: {firstBill.description}</p>
       <p>
-        Data de compra: {dayjs(firstBill.purchaseDate).format("DD/MM/YYYY")}
+        O que foi comprado: <strong>{firstBill?.description}</strong>
       </p>
-      <p>Quanto custou R$: {(+getTotalBill).toFixed(2)}</p>
       <p>
-        Quem comprou: {getBuyerName()}
+        Data de compra:{" "}
+        <strong>{dayjs(firstBill?.purchaseDate).format("DD/MM/YYYY")}</strong>
       </p>
-      <p>No cartão: {firstBill.card?.title}</p>
-      <h4>Parcelas</h4>
-      <List>
+      <p>
+        Quanto custou: <strong>R$ {(+getTotalBill).toFixed(2)}</strong>
+      </p>
+      <p>Quem comprou: <strong>{getBuyerName()}</strong></p>
+      <p>No cartão: <strong>{firstBill?.card?.title}</strong></p>
+      <Divider sx={{ my: 2, fontSize: "1.2rem" }} >{bills && bills.length} Parcelas</Divider>
+      <List sx={{ width: "100%", bgcolor: "background.paper"}}>
         {bills.map((bill, index) => (
           <ListItem key={index}>
-            <ListItemButton>
-              <div>
-                <p>Valor da parcela R$: {(+bill.value).toFixed(2)}</p>
-                <p>
-                  Data de vencimento:{" "}
-                  {dayjs(
-                    `${bill.year}-${bill.month + 1}-${bill.card.dueDate}`
-                  ).format("DD/MM/YYYY")}
-                </p>
-              </div>
-            </ListItemButton>
+            <div style={{textAlign: "center" }}>
+              <p>Valor da parcela R$: {(+bill.value).toFixed(2)}</p>
+              <p>
+                Data de vencimento:{" "}
+                {dayjs(
+                  `${bill.year}-${bill.month + 1}-${bill.card.dueDate}`
+                ).format("DD/MM/YYYY")}
+              </p>
+              <p>{bill.paid ? "[PAGO]" : "[PENDENTE]"}</p>
+            </div>
           </ListItem>
         ))}
       </List>

@@ -63,7 +63,7 @@ const MultipleInstallments = () => {
         helperText={
           errors.purchaseDate
             ? "Você precisa digitar uma data válida."
-            : "Se não souber, a gente preenche automaticamente pra você"
+            : "Se não souber, a gente preenche com a data aproximada relacionado ao vencimento da primeira parcela"
         }
       />
 
@@ -84,6 +84,8 @@ const MultipleInstallments = () => {
           required: true,
           valueAsNumber: true,
         })}
+        error={!!errors.totalInstallments}
+        helperText={errors.totalInstallments && "Você precisa digitar um valor entre 1 e 360."}
       />
 
       <ListInstallments />

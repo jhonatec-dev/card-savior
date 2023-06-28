@@ -83,7 +83,7 @@ const AutocompleteContacts = () => {
           <TextField
             {...params}
             label="Quem comprou"
-            helperText="Escolha quem comprou ou digite um novo nome. Deixe em branco para registrar como seus gastos."
+            helperText="Deixe em branco para registrar como seus gastos."
           />
         )}
       />

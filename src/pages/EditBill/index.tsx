@@ -1,4 +1,3 @@
-import { Save } from "@mui/icons-material";
 import {
   Button,
   Step,
@@ -6,7 +5,7 @@ import {
   StepLabel,
   Stepper,
   ToggleButton,
-  ToggleButtonGroup
+  ToggleButtonGroup,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -42,6 +41,7 @@ export default function EditBill() {
       value: 0,
       id: uuiv4(),
       selContact: null,
+      totalInstallments: 1,
     },
   });
 
@@ -51,9 +51,7 @@ export default function EditBill() {
   const setSingleInstallment = (data: any) => {
     const year = dayjs(data.dueDate).year();
     const month = dayjs(data.dueDate).month();
-
-    console.log("FORM DATA", data);
-
+    
     const installment = {
       id: data.id,
       value: +data.value,
@@ -68,20 +66,47 @@ export default function EditBill() {
       card: data.selCard,
     };
 
-    console.log(installment);
-
     setBills([installment as BillType]);
   };
 
+  const setMultipleInstallments = (data: any) => {
+    const newBills: BillType[] = [];
+    for (let i = 0; i < data.totalInstallments; i += 1) {
+      const year = dayjs(data.dueDate[i]).year();
+      const month = dayjs(data.dueDate[i]).month();
+
+      const installment = {
+        id: data.id,
+        value: +data.value / +data.totalInstallments,
+        purchaseDate: data.purchaseDate,
+        year,
+        month,
+        installment: 1,
+        totalInstallments: 1,
+        paid: data.paid[i] || false,
+        idContact: data.selContact?.id || "",
+        description: data.description,
+        card: data.selCard,
+      };
+      console.log(installment);
+      newBills.push(installment);
+    }
+    setBills(newBills);
+  };
+
   const onSubmit = (data: any) => {
-    handleNext();
+    console.log(data);
     switch (selectedType) {
       case SINGLE_INSTALLMENT:
         setSingleInstallment(data);
         break;
-      default:
+      case MULTIPLE_INSTALLMENTS:
+        setMultipleInstallments(data);
         break;
+      default:
+        return;
     }
+    handleNext();
   };
 
   const onError = () => {
@@ -100,7 +125,7 @@ export default function EditBill() {
     addBills(bills);
     const { getValues } = methods;
     const selContact = getValues("selContact");
-    console.log(selContact);
+    // console.log(selContact);
     if (selContact && !contacts.find((c) => c.id === selContact?.id)) {
       addContact({
         id: selContact.id,
@@ -128,7 +153,10 @@ export default function EditBill() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <FormProvider {...methods}>
-        <form className="Form" onSubmit={methods.handleSubmit(onSubmit, onError)}>
+        <form
+          className="Form"
+          onSubmit={methods.handleSubmit(onSubmit, onError)}
+        >
           <Header title="Editar despesa" showGoBack />
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
@@ -157,9 +185,7 @@ export default function EditBill() {
               <StepLabel>Detalhes da Despesa</StepLabel>
               <StepContent>
                 <div className="StepContent">
-                  {selectedType === SINGLE_INSTALLMENT && (
-                    <SingleInstallment />
-                  )}
+                  {selectedType === SINGLE_INSTALLMENT && <SingleInstallment />}
                   {selectedType === MULTIPLE_INSTALLMENTS && (
                     <MultipleInstallments />
                   )}
@@ -171,21 +197,17 @@ export default function EditBill() {
               <StepLabel>Confirmação</StepLabel>
               <StepContent>
                 <div className="StepContent">
-                  <h3>Confira os dados antes de salvar</h3>
                   <ResumeBill bills={bills} type={selectedType} />
+                  <div>
+                    <Button onClick={handleBack}>Voltar</Button>
+                    <Button onClick={handleSave}>
+                      Salvar
+                    </Button>
+                  </div>
                 </div>
               </StepContent>
             </Step>
           </Stepper>
-
-          {activeStep === 2 && (
-            <div>
-              <Button onClick={handleBack}>Voltar</Button>
-              <Button onClick={handleSave} startIcon={<Save />}>
-                Salvar
-              </Button>
-            </div>
-          )}
         </form>
       </FormProvider>
     </LocalizationProvider>

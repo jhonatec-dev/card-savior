@@ -1,5 +1,11 @@
 import { Clear } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import dayjs from "dayjs";
 import { useFormContext } from "react-hook-form";
 import { AutocompleteContacts } from "./AutocompleteContacts";
@@ -20,25 +26,19 @@ const SingleInstallment = () => {
     const purchaseMonth = dayjs(purchaseDate).month() + 1;
     const purchaseYear = dayjs(purchaseDate).year();
 
-    // console.log(purchaseDay, selCard);
-    // console.log('errors no formulario', {errors})
-
     if (selCard) {
       if (purchaseDay > selCard.closingDate) {
-        // console.log("mes que vem");
         const newDueDate = dayjs(
           `${purchaseYear}-${purchaseMonth}-${selCard.dueDate}`
         ).add(1, "month");
         setValue("dueDate", newDueDate.format("YYYY-MM-DD"));
       } else {
-        // console.log("agora");
         const newDueDate = dayjs(
           `${purchaseYear}-${purchaseMonth}-${selCard.dueDate}`
         );
         setValue("dueDate", newDueDate.format("YYYY-MM-DD"));
       }
     }
-
     return (
       <TextField
         label="Vencimento"
@@ -114,6 +114,13 @@ const SingleInstallment = () => {
 
       <SelectCards label="Em qual cartão" />
       {renderDueDate()}
+      <Button sx={{ padding: "0", textAlign: "left" }} fullWidth onClick={() => setValue("paid", !watch("paid"))}>
+        <Checkbox
+          checked={watch("paid") || false}
+          onChange={(e) => setValue("paid", e.target.checked)}
+        />
+        <p>Pago</p>
+      </Button>
     </>
   );
 };
