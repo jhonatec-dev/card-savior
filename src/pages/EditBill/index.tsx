@@ -20,6 +20,7 @@ import Header from "../../components/Header";
 import { AppContext } from "../../context";
 import { BillType } from "../../context/types";
 import { SingleInstallment } from "./components";
+import { MultipleInstallments } from "./components/MultipleInstallments";
 import { ResumeBill } from "./components/ResumeBill";
 import {
   MULTIPLE_INSTALLMENTS,
@@ -156,7 +157,12 @@ export default function EditBill() {
               <StepLabel>Detalhes da Despesa</StepLabel>
               <StepContent>
                 <div className="StepContent">
-                  <SingleInstallment />
+                  {selectedType === SINGLE_INSTALLMENT && (
+                    <SingleInstallment />
+                  )}
+                  {selectedType === MULTIPLE_INSTALLMENTS && (
+                    <MultipleInstallments />
+                  )}
                   {divButtonsNav(true)}
                 </div>
               </StepContent>
