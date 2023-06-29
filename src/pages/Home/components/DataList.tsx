@@ -1,6 +1,7 @@
 import { ArrowBackIos, ArrowForwardIos, Edit, ExpandMore, WhatsApp } from "@mui/icons-material";
 import { Accordion, AccordionDetails, AccordionSummary, Checkbox, IconButton, List, ListItem, ListItemButton } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context";
 import { BillType, ContactType } from "../../../context/types";
 import { monthNames } from "../../../utils";
@@ -13,7 +14,7 @@ type BillContact = ContactType & {
 export default function DataList() {
   //Context
   const { user, contacts, bills, selMonth, selYear, changeMonth, changePaidBill } = useContext(AppContext);
-
+  const navigate = useNavigate();
   //State
   const [billsByContact, setBillsByContact] = useState<BillContact[]>([] as BillContact[]);
   const [filteredBills, setFilteredBills] = useState<BillType[]>([] as BillType[]);
@@ -107,6 +108,10 @@ Até a próxima!`;
     changePaidBill(bill);
   }
 
+  const handleEdit = (bill: BillType) => {
+    navigate(`/edit/${bill.id}`);
+  }
+
   const renderBills = () => {
     if (!billsByContact || billsByContact.length < 1) {
       return null;
@@ -129,7 +134,7 @@ Até a próxima!`;
             {billContact.bills.map((bill) => (
               <ListItem key={bill.id}
                 secondaryAction={
-                  <IconButton color="primary"><Edit /></IconButton>
+                  <IconButton color="primary" onClick={() => handleEdit(bill)}><Edit /></IconButton>
                 }
               >
                 <ListItemButton onClick={() => handlePaidBild(bill)}>

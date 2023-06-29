@@ -26,7 +26,7 @@ export default function Home() {
   }, [navigate, user, userLogin]);
 
   const handleAdd = () => {
-    navigate('/addBill');
+    navigate('/add');
   }
 
   return (

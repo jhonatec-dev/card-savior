@@ -1,8 +1,8 @@
 import { ReactNode, createContext, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { colors, decryption, encryption, getFromLS, saveToLS } from "../utils";
-import { mockBills, mockCards, mockContacts } from "../utils/mockData";
-import { BillType, CardType, ContactType, UserType } from "./types";
+import { mockBills, mockCards, mockContacts, mockSignatures } from "../utils/mockData";
+import { BillType, CardType, ContactType, SignatureType, UserType } from "./types";
 
 interface ContextType {
   user: UserType | null;
@@ -11,6 +11,7 @@ interface ContextType {
   selYear: number;
   selMonth: number;
   contacts: ContactType[];
+  signatures: SignatureType[];
   changeMonth: (month: number) => void;
   updateCards: (card: CardType) => void;
   createCard: () => void;
@@ -35,6 +36,7 @@ export function AppProvider({ children }: ProviderProps) {
   const [selMonth, setSelMonth] = useState<number>(new Date().getMonth() );
   const [bills, setBills] = useState<BillType[]>(mockBills);
   const [contacts, setContacts] = useState<ContactType[]>(mockContacts);
+  const [signatures, setSignatures] = useState<SignatureType[]>(mockSignatures);
 
   const updateCards = (card: CardType) => {
     setCards(cards.map((c) => c.id === card.id ? card : c));
@@ -126,6 +128,7 @@ export function AppProvider({ children }: ProviderProps) {
     bills,
     selYear,
     selMonth,
+    signatures,
     contacts,
     updateCards,
     createCard,

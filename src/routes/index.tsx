@@ -12,8 +12,8 @@ export default function AppRoutes() {
       <Route path="/register" element={<EditProfile />} />
       <Route path="/home" element={<Home />} />
       <Route path="/editProfile" element={<EditProfile />} />
-      <Route path="/addBill" element={<EditBill />} />
-      <Route path='/editBill:id' element={<EditBill />} />
+      <Route path="/add" element={<EditBill />} />
+      <Route path='/edit/:id' element={<EditBill />} />
       <Route path='*' element={<NotFound />} />
     </Routes>
   )

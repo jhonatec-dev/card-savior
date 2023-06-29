@@ -11,9 +11,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuiv4 } from "uuid";
 import Header from "../../components/Header";
 import { AppContext } from "../../context";
@@ -30,10 +30,12 @@ import {
 // Lógica: se tiver parametros, então é edição...
 export default function EditBill() {
   const navigate = useNavigate();
-  const { addBills, contacts, addContact } = useContext(AppContext);
+  const { id } = useParams();
+  const { addBills, contacts, addContact, bills, signatures } =
+    useContext(AppContext);
 
   const [activeStep, setActiveStep] = useState(0);
-  const [bills, setBills] = useState<BillType[]>([]);
+  const [preBills, setPreBills] = useState<BillType[]>([]);
 
   const methods = useForm({
     defaultValues: {
@@ -45,13 +47,73 @@ export default function EditBill() {
     },
   });
 
+  useEffect(() => {
+    const isSignature = (id: string) => {
+      return signatures.some((s) => s.id === id);
+    };
+
+    if (id) {
+      const newBills = bills.filter((bill) => bill.id === id);
+      setPreBills(newBills);
+      // console.log(newBills);
+      // return;
+      const firstBill = newBills[0];
+      console.log(firstBill);
+
+      const { setValue } = methods;
+      setValue("description", firstBill.description);
+      setValue(
+        "purchaseDate",
+        dayjs(firstBill.purchaseDate).format("YYYY-MM-DD")
+      );
+      setValue("value", firstBill.value * firstBill.totalInstallments);
+      if (firstBill.idContact)
+        setValue(
+          "selContact",
+          contacts.find((c) => c.id === firstBill.idContact)
+        );
+      setValue("selCard", firstBill.card);
+      setValue("totalInstallments", firstBill.totalInstallments);
+
+      //TODO: verificar como alterar as datas de vencimento de outra forma, como 
+      // usar um ref, ou algo que permita ativar o onChange
+      // do primeiro input da data de vencimento
+
+      for (let i = 0; i < firstBill.totalInstallments; i++) {
+        setValue(
+          `dueDate.${i}`,
+          dayjs(
+            `${newBills[i].year}-${newBills[i].month}-${newBills[i].card.dueDate}`
+          ).format("YYYY-MM-DD")
+        );
+        setValue(`paid.${i}`, newBills[i].paid);
+      }
+
+      // setValue(
+      //   `dueDate.0`,
+      //   dayjs(
+      //     `${firstBill.year}-${firstBill.month}-${firstBill.card.dueDate}`
+      //   ).format("YYYY-MM-DD")
+      // );
+
+      if (firstBill.totalInstallments > 1) {
+        setSelectedType(MULTIPLE_INSTALLMENTS);
+      } else if (isSignature(firstBill.id)) {
+        setSelectedType(SIGNATURE);
+      } else {
+        setSelectedType(SINGLE_INSTALLMENT);
+      }
+      setActiveStep(1);
+    }
+  }, [id]);
+
   const [selectedType, setSelectedType] = useState(SINGLE_INSTALLMENT);
   // const [instalments, setInstalments] = useState<BillType[]>([]);
 
   const setSingleInstallment = (data: any) => {
     const year = dayjs(data.dueDate).year();
     const month = dayjs(data.dueDate).month();
-    
+
     const installment = {
       id: data.id,
       value: +data.value,
@@ -66,7 +128,7 @@ export default function EditBill() {
       card: data.selCard,
     };
 
-    setBills([installment as BillType]);
+    setPreBills([installment as BillType]);
   };
 
   const setMultipleInstallments = (data: any) => {
@@ -91,7 +153,7 @@ export default function EditBill() {
       console.log(installment);
       newBills.push(installment);
     }
-    setBills(newBills);
+    setPreBills(newBills);
   };
 
   const onSubmit = (data: any) => {
@@ -122,7 +184,7 @@ export default function EditBill() {
   };
 
   const handleSave = () => {
-    addBills(bills);
+    addBills(preBills);
     const { getValues } = methods;
     const selContact = getValues("selContact");
     // console.log(selContact);
@@ -197,12 +259,10 @@ export default function EditBill() {
               <StepLabel>Confirmação</StepLabel>
               <StepContent>
                 <div className="StepContent">
-                  <ResumeBill bills={bills} type={selectedType} />
+                  <ResumeBill bills={preBills} type={selectedType} />
                   <div>
                     <Button onClick={handleBack}>Voltar</Button>
-                    <Button onClick={handleSave}>
-                      Salvar
-                    </Button>
+                    <Button onClick={handleSave}>Salvar</Button>
                   </div>
                 </div>
               </StepContent>
