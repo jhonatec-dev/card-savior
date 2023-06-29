@@ -27,7 +27,8 @@ export default function CardResume() {
       (bill) => bill.year === selYear && bill.month === selMonth);
     // console.log(selYear, selMonth, filteredBills);
     if (!filteredBills) return 0;
-    const billsForSelectedCard = filteredBills.filter((bill) => bill.card?.id === selectedCard.id);
+
+    const billsForSelectedCard = filteredBills.filter((bill) => bill.idCard === selectedCard.id);
     const total = billsForSelectedCard.reduce((acc, bill) => acc + +bill.value, 0);
     return total.toFixed(2);
   }

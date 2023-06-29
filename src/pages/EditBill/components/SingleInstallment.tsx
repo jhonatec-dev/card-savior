@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { AutocompleteContacts } from "./AutocompleteContacts";
 import { SelectCards } from "./SelectCards";
@@ -19,26 +20,35 @@ const SingleInstallment = () => {
     formState: { errors },
   } = useFormContext();
 
-  const [selCard, purchaseDate] = watch(["selCard", "purchaseDate"]);
+  const [selCard, dueDate] = watch(["selCard", "dueDate"]);
+
+  useEffect(() => {
+    if (selCard) {
+      const previousDueDate = dayjs(dueDate[0]);
+      const test = {
+        target: {
+          value: dayjs(
+            `${previousDueDate.year()}-${previousDueDate.month() + 1}-${
+              selCard.dueDate
+            }`
+          ).format("YYYY-MM-DD"),
+        },
+      };
+      handleDueDateChange(test);
+    }
+  }, [dueDate, selCard, setValue]);
+
+  const handleDueDateChange = (e: any) => {
+    const newDueDate = dayjs(e.target.value);
+    setValue(
+      `dueDate.0`,
+      dayjs(
+        `${newDueDate.year()}-${newDueDate.month() + 1}-${selCard.dueDate}`
+      ).format("YYYY-MM-DD")
+    );
+  };
 
   const renderDueDate = () => {
-    const purchaseDay = dayjs(purchaseDate).date();
-    const purchaseMonth = dayjs(purchaseDate).month() + 1;
-    const purchaseYear = dayjs(purchaseDate).year();
-
-    if (selCard) {
-      if (purchaseDay > selCard.closingDate) {
-        const newDueDate = dayjs(
-          `${purchaseYear}-${purchaseMonth}-${selCard.dueDate}`
-        ).add(1, "month");
-        setValue("dueDate", newDueDate.format("YYYY-MM-DD"));
-      } else {
-        const newDueDate = dayjs(
-          `${purchaseYear}-${purchaseMonth}-${selCard.dueDate}`
-        );
-        setValue("dueDate", newDueDate.format("YYYY-MM-DD"));
-      }
-    }
     return (
       <TextField
         label="Vencimento"
@@ -52,7 +62,8 @@ const SingleInstallment = () => {
         InputLabelProps={{
           shrink: true,
         }}
-        {...register("dueDate", { required: true })}
+        {...register("dueDate.0", { required: true })}
+        onChange={handleDueDateChange}
         error={!!errors.dueDate}
         helperText={errors.dueDate && "Você precisa digitar uma data."}
       />
@@ -93,7 +104,7 @@ const SingleInstallment = () => {
 
       <AutocompleteContacts />
 
-      <TextField
+      {/* <TextField
         type="date"
         fullWidth
         label="Quando foi?"
@@ -110,14 +121,18 @@ const SingleInstallment = () => {
         helperText={
           errors.purchaseDate && "Você precisa digitar uma data válida."
         }
-      />
+      /> */}
 
       <SelectCards label="Em qual cartão" />
       {renderDueDate()}
-      <Button sx={{ padding: "0", textAlign: "left" }} fullWidth onClick={() => setValue("paid", !watch("paid"))}>
+      <Button
+        sx={{ padding: "0", textAlign: "left" }}
+        fullWidth
+        onClick={() => setValue("paid.0", !watch("paid.0"))}
+      >
         <Checkbox
-          checked={watch("paid") || false}
-          onChange={(e) => setValue("paid", e.target.checked)}
+          checked={watch("paid.0") || false}
+          onChange={(e) => setValue("paid.0", e.target.checked)}
         />
         <p>Pago</p>
       </Button>

@@ -46,7 +46,7 @@ const MultipleInstallments = () => {
 
       <AutocompleteContacts />
 
-      <TextField
+      {/* <TextField
         type="date"
         fullWidth
         label="Quando foi?"
@@ -65,7 +65,7 @@ const MultipleInstallments = () => {
             ? "Você precisa digitar uma data válida."
             : "Se não souber, a gente preenche com a data aproximada relacionado ao vencimento da primeira parcela"
         }
-      />
+      /> */}
 
       <SelectCards label="Em qual cartão" />
 

@@ -17,7 +17,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuiv4 } from "uuid";
 import Header from "../../components/Header";
 import { AppContext } from "../../context";
-import { BillType } from "../../context/types";
+import { BillType, CardType } from "../../context/types";
+import { showError } from "../../utils";
 import { SingleInstallment } from "./components";
 import { MultipleInstallments } from "./components/MultipleInstallments";
 import { ResumeBill } from "./components/ResumeBill";
@@ -31,7 +32,7 @@ import {
 export default function EditBill() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { addBills, contacts, addContact, bills, signatures } =
+  const { addBills, contacts, cards, addContact, bills, signatures } =
     useContext(AppContext);
 
   const [activeStep, setActiveStep] = useState(0);
@@ -39,11 +40,18 @@ export default function EditBill() {
 
   const methods = useForm({
     defaultValues: {
-      purchaseDate: dayjs().format("YYYY-MM-DD"),
+      // purchaseDate: dayjs().format("YYYY-MM-DD"),
       value: 0,
       id: uuiv4(),
       selContact: null,
       totalInstallments: 1,
+      selCard: null,
+      dueDate: [ dayjs().format("YYYY-MM-DD")],
+      paid: [],
+      description: "",
+      installment: 1,
+      year: dayjs().year(),
+      month: dayjs().month(),
     },
   });
 
@@ -55,46 +63,29 @@ export default function EditBill() {
     if (id) {
       const newBills = bills.filter((bill) => bill.id === id);
       setPreBills(newBills);
-      // console.log(newBills);
-      // return;
       const firstBill = newBills[0];
-      console.log(firstBill);
-
+      // console.log(firstBill);
       const { setValue } = methods;
+      setValue("id", firstBill.id);
       setValue("description", firstBill.description);
-      setValue(
-        "purchaseDate",
-        dayjs(firstBill.purchaseDate).format("YYYY-MM-DD")
-      );
+      // setValue(
+      //   "purchaseDate",
+      //   dayjs(firstBill.purchaseDate).format("YYYY-MM-DD")
+      // );
       setValue("value", firstBill.value * firstBill.totalInstallments);
       if (firstBill.idContact)
         setValue(
           "selContact",
           contacts.find((c) => c.id === firstBill.idContact)
         );
-      setValue("selCard", firstBill.card);
+      const billCard = cards.find((card) => card.id === firstBill.idCard) as CardType;
+      setValue("selCard", billCard || null);
       setValue("totalInstallments", firstBill.totalInstallments);
 
-      //TODO: verificar como alterar as datas de vencimento de outra forma, como 
-      // usar um ref, ou algo que permita ativar o onChange
-      // do primeiro input da data de vencimento
-
       for (let i = 0; i < firstBill.totalInstallments; i++) {
-        setValue(
-          `dueDate.${i}`,
-          dayjs(
-            `${newBills[i].year}-${newBills[i].month}-${newBills[i].card.dueDate}`
-          ).format("YYYY-MM-DD")
-        );
+        setValue(`dueDate.${i}`, dayjs(`${newBills[i].year}-${newBills[i].month + 1}-${billCard.dueDate}`).format("YYYY-MM-DD"));
         setValue(`paid.${i}`, newBills[i].paid);
       }
-
-      // setValue(
-      //   `dueDate.0`,
-      //   dayjs(
-      //     `${firstBill.year}-${firstBill.month}-${firstBill.card.dueDate}`
-      //   ).format("YYYY-MM-DD")
-      // );
 
       if (firstBill.totalInstallments > 1) {
         setSelectedType(MULTIPLE_INSTALLMENTS);
@@ -104,32 +95,13 @@ export default function EditBill() {
         setSelectedType(SINGLE_INSTALLMENT);
       }
       setActiveStep(1);
+
     }
   }, [id]);
 
   const [selectedType, setSelectedType] = useState(SINGLE_INSTALLMENT);
   // const [instalments, setInstalments] = useState<BillType[]>([]);
 
-  const setSingleInstallment = (data: any) => {
-    const year = dayjs(data.dueDate).year();
-    const month = dayjs(data.dueDate).month();
-
-    const installment = {
-      id: data.id,
-      value: +data.value,
-      purchaseDate: data.purchaseDate,
-      year,
-      month,
-      installment: 1,
-      totalInstallments: 1,
-      paid: data.paid,
-      idContact: data.selContact?.id || "",
-      description: data.description,
-      card: data.selCard,
-    };
-
-    setPreBills([installment as BillType]);
-  };
 
   const setMultipleInstallments = (data: any) => {
     const newBills: BillType[] = [];
@@ -140,33 +112,28 @@ export default function EditBill() {
       const installment = {
         id: data.id,
         value: +data.value / +data.totalInstallments,
-        purchaseDate: data.purchaseDate,
+        // purchaseDate: data.purchaseDate,
         year,
         month,
-        installment: 1,
-        totalInstallments: 1,
-        paid: data.paid[i] || false,
+        installment: i + 1,
+        totalInstallments: data.totalInstallments,
+        paid: data.paid && data.paid[i] || false,
         idContact: data.selContact?.id || "",
         description: data.description,
-        card: data.selCard,
+        idCard: data.selCard.id,
       };
-      console.log(installment);
+      // console.log(installment);
       newBills.push(installment);
     }
     setPreBills(newBills);
   };
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    switch (selectedType) {
-      case SINGLE_INSTALLMENT:
-        setSingleInstallment(data);
-        break;
-      case MULTIPLE_INSTALLMENTS:
-        setMultipleInstallments(data);
-        break;
-      default:
-        return;
+    // console.log(data);
+    if(selectedType === SIGNATURE){
+      showError('ASSINATURA AINDA NÃO IMPLEMENTADA');
+    } else{
+      setMultipleInstallments(data);
     }
     handleNext();
   };
@@ -188,7 +155,7 @@ export default function EditBill() {
     const { getValues } = methods;
     const selContact = getValues("selContact");
     // console.log(selContact);
-    if (selContact && !contacts.find((c) => c.id === selContact?.id)) {
+    if (selContact && !contacts.find((c) => c.id === selContact.id)) {
       addContact({
         id: selContact.id,
         name: selContact.name,
@@ -198,9 +165,13 @@ export default function EditBill() {
     navigate("/home");
   };
 
+  const shouldBackButtonBeVisible = () => {
+    return (activeStep === 0 || (activeStep === 1 && id !== undefined));
+  }
+
   const divButtonsNav = (isSubmit = false) => (
     <div>
-      <Button onClick={handleBack} disabled={activeStep === 0}>
+      <Button onClick={handleBack} disabled={shouldBackButtonBeVisible()}>
         Voltar
       </Button>
       <Button

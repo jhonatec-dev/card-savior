@@ -117,8 +117,9 @@ export function AppProvider({ children }: ProviderProps) {
 
   // Bills Area ************************************
   const addBills = (newBills: BillType[]) => {
-    console.log('newBills', newBills);
-    setBills([...bills, ...newBills]);    
+    //remover bills antigas
+    const oldBills = bills.filter((b) => b.id !== newBills[0].id);
+    setBills([...oldBills, ...newBills]);    
   }
 
 

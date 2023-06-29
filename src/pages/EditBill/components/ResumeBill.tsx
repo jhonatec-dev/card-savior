@@ -11,9 +11,10 @@ interface IProps {
 }
 
 const ResumeBill = ({ bills, type }: IProps) => {
-  const { contacts } = useContext(AppContext);
+  const { contacts, cards } = useContext(AppContext);
   const { getValues } = useFormContext();
   const firstBill = bills[0];
+  const billCard = cards.find((card) => card.id === firstBill?.idCard);
 
   const getTotalBill = bills.reduce((acc, bill) => {
     return acc + +bill.value;
@@ -35,15 +36,15 @@ const ResumeBill = ({ bills, type }: IProps) => {
       <p>
         O que foi comprado: <strong>{firstBill?.description}</strong>
       </p>
-      <p>
+      {/* <p>
         Data de compra:{" "}
         <strong>{dayjs(firstBill?.purchaseDate).format("DD/MM/YYYY")}</strong>
-      </p>
+      </p> */}
       <p>
         Quanto custou: <strong>R$ {(+getTotalBill).toFixed(2)}</strong>
       </p>
       <p>Quem comprou: <strong>{getBuyerName()}</strong></p>
-      <p>No cartão: <strong>{firstBill?.card?.title}</strong></p>
+      <p>No cartão: <strong>{billCard?.title}</strong></p>
       <Divider sx={{ my: 2, fontSize: "1.2rem" }} >{bills && bills.length} Parcelas</Divider>
       <List sx={{ width: "100%", bgcolor: "background.paper"}}>
         {bills.map((bill, index) => (
@@ -53,7 +54,7 @@ const ResumeBill = ({ bills, type }: IProps) => {
               <p>
                 Data de vencimento:{" "}
                 {dayjs(
-                  `${bill.year}-${bill.month + 1}-${bill.card.dueDate}`
+                  `${bill.year}-${bill.month + 1}-${billCard?.dueDate}`
                 ).format("DD/MM/YYYY")}
               </p>
               <p>{bill.paid ? "[PAGO]" : "[PENDENTE]"}</p>

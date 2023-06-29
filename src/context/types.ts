@@ -28,9 +28,9 @@ export type UserType = {
 export type SignatureType = {
   id: string,
   idContact: string,
-  card: CardType,
+  idCard: string,
   value: number,
-  startDate: number | string,
+  // purchaseDate: string,
   active: boolean,
   description: string,
 }
@@ -38,7 +38,7 @@ export type SignatureType = {
 export type BillType = {
   id: string,
   idContact: string,
-  card: CardType,
+  idCard: string,
   value: number,
   year: number,
   month: number,
@@ -46,5 +46,5 @@ export type BillType = {
   description: string,
   installment: number,
   totalInstallments: number,
-  purchaseDate: string,
+  // purchaseDate: string,
 }

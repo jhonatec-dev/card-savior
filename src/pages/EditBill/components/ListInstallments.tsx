@@ -10,26 +10,48 @@ import {
   TextField,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 const ZERO = 0;
 
 const ListInstallments = () => {
+  const { id } = useParams();
   const {
     register,
     watch,
     setValue,
     formState: { errors },
   } = useFormContext();
-  const [totalInstallments, value, selCard, purchaseDate] = watch([
+  const [totalInstallments, value, selCard, dueDate] = watch([
     "totalInstallments",
     "value",
     "selCard",
-    "purchaseDate",
+    "dueDate",
   ]);
 
   const [allPaid, setAllPaid] = useState(false);
+  const [expandAcc, setExpandAcc] = useState(false);
+
+  useEffect(() => {
+    if (errors.dueDate) {
+      setExpandAcc(true);
+    }
+  }, [errors.dueDate]);
+
+  useEffect(() => {
+    
+    if(selCard){
+      const previousDueDate = dayjs(dueDate[0]);
+      const test = {
+        target : {
+          value: dayjs(`${previousDueDate.year()}-${previousDueDate.month() + 1}-${selCard.dueDate}`).format("YYYY-MM-DD"),
+        }
+      }
+      handleDueDateChange(test);
+    }
+  }, [dueDate, selCard, setValue, totalInstallments]);
 
   const getInstallmentValue = () => {
     return +value / +totalInstallments;
@@ -38,7 +60,14 @@ const ListInstallments = () => {
   const handleDueDateChange = (e: any) => {
     const newDueDate = dayjs(e.target.value);
     for (let i = 0; i < totalInstallments; i += 1) {
-      setValue(`dueDate.${i}`, newDueDate.add(i, "month").format("YYYY-MM-DD"));
+      setValue(
+        `dueDate.${i}`,
+        dayjs(
+          `${newDueDate.year()}-${newDueDate.month() + 1}-${selCard.dueDate}`
+        )
+          .add(i, "month")
+          .format("YYYY-MM-DD")
+      );
     }
   };
 
@@ -57,23 +86,6 @@ const ListInstallments = () => {
   };
 
   const renderDueDate = (index: number) => {
-    const purchaseDay = dayjs(purchaseDate).date();
-    const purchaseMonth = dayjs(purchaseDate).month() + 1;
-    const purchaseYear = dayjs(purchaseDate).year();
-
-    if (selCard) {
-      if (purchaseDay > selCard.closingDate) {
-        const newDueDate = dayjs(
-          `${purchaseYear}-${purchaseMonth}-${selCard.dueDate}`
-        ).add(1 + index, "month");
-        setValue(`dueDate.${index}`, newDueDate.format("YYYY-MM-DD"));
-      } else {
-        const newDueDate = dayjs(
-          `${purchaseYear}-${purchaseMonth}-${selCard.dueDate}`
-        ).add(index, "month");
-        setValue(`dueDate.${index}`, newDueDate.format("YYYY-MM-DD"));
-      }
-    }
     return (
       <TextField
         label="Vencimento"
@@ -99,7 +111,7 @@ const ListInstallments = () => {
   return (
     <div style={{ width: "100%" }}>
       <Button>Gerar</Button>
-      <Accordion>
+      <Accordion expanded={expandAcc} onChange={() => setExpandAcc(!expandAcc)}>
         <AccordionSummary
           expandIcon={<Expand />}
           aria-controls="panel1a-content"
@@ -128,7 +140,10 @@ const ListInstallments = () => {
               Array(totalInstallments)
                 .fill(0)
                 .map((_, index: number) => (
-                  <ListItem key={index} sx={{ minHeight: "90px", padding: "0" }}>
+                  <ListItem
+                    key={index}
+                    sx={{ minHeight: "90px", padding: "0" }}
+                  >
                     {/* onClick={() =>
                         setValue(`paid.${index}`, !watch(`paid.${index}`))
                       } */}
@@ -143,9 +158,9 @@ const ListInstallments = () => {
                       }}
                     >
                       <Button
-                      sx={{
-                        paddingLeft: "0",
-                      }}
+                        sx={{
+                          paddingLeft: "0",
+                        }}
                         onClick={() =>
                           setValue(`paid.${index}`, !watch(`paid.${index}`))
                         }

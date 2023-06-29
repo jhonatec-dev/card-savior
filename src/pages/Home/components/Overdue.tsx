@@ -2,11 +2,12 @@ import { FilterAlt, FilterAltOff } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../../context';
+import { CardType } from '../../../context/types';
 import { monthNames } from '../../../utils';
 
 export default function Overdue() {
   // Context
-  const { bills } = useContext(AppContext);
+  const { bills, cards } = useContext(AppContext);
 
   //State
   const [showOverdue, setShowOverdue] = useState(false);
@@ -22,11 +23,12 @@ export default function Overdue() {
       const monthNow = now.getMonth() + 1;
       const overduedBills = bills.filter(
         (bill) => {
+          const billCard = cards.find((card) => card.id === bill.idCard) as CardType;
           if (bill.year < yearNow || (bill.year === yearNow && bill.month < monthNow)) {
             return !bill.paid;
           } else if (bill.year === yearNow && bill.month === monthNow) {
             if (!bill.paid) {
-              return bill.card.closingDate >= now.getDate();
+              return billCard.closingDate >= now.getDate();
             }
           }
           return false;

@@ -29,7 +29,17 @@ const AutocompleteContacts = () => {
   }, [selContact, setValue]);
 
   const handleChange = (event: any, newValue: any) => {
-    if (newValue && newValue.inputValue) {
+    if(!newValue) {
+      setSelContact(null);
+      return
+    }
+    if(typeof newValue === "string") {
+      setSelContact({
+        id: newIdContact,
+        name: newValue,
+        inputValue: "",
+      });
+    } else if (newValue.inputValue) {
       setSelContact({
         id: newIdContact,
         name: newValue.inputValue,
