@@ -14,12 +14,8 @@ import {
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { useParams } from "react-router-dom";
-
-const ZERO = 0;
 
 const ListInstallments = () => {
-  const { id } = useParams();
   const {
     register,
     watch,
@@ -115,7 +111,6 @@ const ListInstallments = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      <Button>Gerar</Button>
       <Accordion expanded={expandAcc} onChange={() => setExpandAcc(!expandAcc)}>
         <AccordionSummary
           expandIcon={<ExpandMore />}

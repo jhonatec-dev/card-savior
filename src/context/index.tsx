@@ -48,7 +48,7 @@ export function AppProvider({ children }: ProviderProps) {
   const [selMonth, setSelMonth] = useState<number>(new Date().getMonth());
   const [bills, setBills] = useState<BillType[]>(mockBills);
   const [contacts, setContacts] = useState<ContactType[]>(mockContacts);
-  const [signatures, setSignatures] = useState<SignatureType[]>(mockSignatures);
+  const [signatures] = useState<SignatureType[]>(mockSignatures);
 
   const updateCards = (card: CardType) => {
     setCards(cards.map((c) => (c.id === card.id ? card : c)));

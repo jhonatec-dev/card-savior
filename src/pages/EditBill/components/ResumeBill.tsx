@@ -1,4 +1,4 @@
-import { Divider, List, ListItem } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 import dayjs from "dayjs";
 import { useContext } from "react";
 import { useFormContext } from "react-hook-form";
@@ -11,7 +11,7 @@ interface IProps {
 }
 
 const ResumeBill = ({ bills, type }: IProps) => {
-  const { contacts, cards } = useContext(AppContext);
+  const { cards } = useContext(AppContext);
   const { getValues } = useFormContext();
   const firstBill = bills[0];
   const billCard = cards.find((card) => card.id === firstBill?.idCard);
@@ -43,25 +43,39 @@ const ResumeBill = ({ bills, type }: IProps) => {
       <p>
         Quanto custou: <strong>R$ {(+getTotalBill).toFixed(2)}</strong>
       </p>
-      <p>Quem comprou: <strong>{getBuyerName()}</strong></p>
-      <p>No cartão: <strong>{billCard?.title}</strong></p>
-      <Divider sx={{ my: 2, fontSize: "1.2rem" }} >{bills && bills.length} Parcelas</Divider>
-      <List sx={{ width: "100%", bgcolor: "background.paper"}}>
+      <p>
+        Quem comprou: <strong>{getBuyerName()}</strong>
+      </p>
+      <p>
+        No cartão: <strong>{billCard?.title}</strong>
+      </p>
+      <Divider sx={{ my: 2, fontSize: "1.2rem" }}>
+        {bills && bills.length} Parcelas
+      </Divider>
+      <div className="testes">
         {bills.map((bill, index) => (
-          <ListItem key={index}>
-            <div style={{textAlign: "center" }}>
-              <p>Valor da parcela R$: {(+bill.value).toFixed(2)}</p>
+          <Button
+            key={index}
+            variant="outlined"
+            color={bill.paid ? "success" : "warning"}
+            fullWidth
+          >
+            <div>
               <p>
-                Data de vencimento:{" "}
+                Parcela {index + 1}/{bills.length}:
+              </p>
+              <p>R$: {(+bill.value).toFixed(2)}</p>
+              <p>
+                Vencimento:{" "}
                 {dayjs(
                   `${bill.year}-${bill.month + 1}-${billCard?.dueDate}`
                 ).format("DD/MM/YYYY")}
               </p>
               <p>{bill.paid ? "[PAGO]" : "[PENDENTE]"}</p>
             </div>
-          </ListItem>
+          </Button>
         ))}
-      </List>
+      </div>
     </div>
   );
 };

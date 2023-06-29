@@ -28,7 +28,7 @@ const AutocompleteContacts = () => {
     setValue("selContact", selContact);
   }, [selContact, setValue]);
 
-  const handleChange = (event: any, newValue: any) => {
+  const handleChange = (_e: any, newValue: any) => {
     if(!newValue) {
       setSelContact(null);
       return
