@@ -1,10 +1,10 @@
 import { Clear } from "@mui/icons-material";
 import {
   Button,
-  Checkbox,
   IconButton,
   InputAdornment,
   TextField,
+  Typography
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect } from "react";
@@ -126,15 +126,17 @@ const SingleInstallment = () => {
       <SelectCards label="Em qual cartão" />
       {renderDueDate()}
       <Button
-        sx={{ padding: "0", textAlign: "left" }}
-        fullWidth
         onClick={() => setValue("paid.0", !watch("paid.0"))}
+        variant="contained"
+        color={watch("paid.0") ? "success" : "warning"}
+        sx={{pl: 0}}
+        fullWidth
       >
-        <Checkbox
+        {/* <Checkbox
           checked={watch("paid.0") || false}
           onChange={(e) => setValue("paid.0", e.target.checked)}
-        />
-        <p>Pago</p>
+        /> */}
+        <Typography>{watch("paid.0") ? "Pago" : "Pendente"}</Typography>
       </Button>
     </>
   );

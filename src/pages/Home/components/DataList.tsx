@@ -108,13 +108,12 @@ export default function DataList() {
 
   const sendMessage = (billContact: BillContact) => {
     const { bills } = billContact;
-    // console.log('contato encontrado',contacts.find((contact) => contact.id === +idContact).name)
-    // return;
     const name = billContact.id !== "" ? billContact.name : user?.username;
-    // console.log('idContact', +idContact);
     const headerMessage = `*Olá, ${name}!*
 Espero que esteja bem 🙏🏼
-Estou passando aqui para enviar os dados da fatura deste mês:\n`;
+Estou passando aqui para enviar os dados da fatura de *${
+      monthNames[bills[0].month]
+    }/${bills[0].year}*\n`;
     let paid = 0;
     const bodyMessage = bills.map((bill) => {
       const billCard = cards.find(
@@ -178,12 +177,13 @@ Até a próxima!`;
           </div>
         </AccordionSummary>
         <AccordionDetails>
-          <List>
+          <List sx={{ padding: 0 }}>
             {billContact.bills.map((bill) => {
               const billCard = cards.find((card) => card.id === bill.idCard);
               return (
                 <ListItem
                   key={bill.id}
+                  sx={{ padding: 0 }}
                   secondaryAction={
                     <IconButton
                       color="primary"
@@ -193,7 +193,10 @@ Até a próxima!`;
                     </IconButton>
                   }
                 >
-                  <ListItemButton onClick={() => handlePaidBild(bill)}>
+                  <ListItemButton
+                    onClick={() => handlePaidBild(bill)}
+                    sx={{ padding: 0 }}
+                  >
                     <Checkbox
                       checked={bill.paid}
                       onChange={() => handlePaidBild(bill)}
@@ -213,13 +216,17 @@ Até a próxima!`;
     ));
   }; //renderBills
 
+  const getActualMonth = () => {
+    changeMonth(-2);
+  };
+
   return (
     <div className="DataList">
       <div className="CardResume">
         <IconButton onClick={prevMonth}>
           <ArrowBackIos />
         </IconButton>
-        <h3>
+        <h3 onClick={getActualMonth} style={{ cursor: "pointer" }}>
           {monthNames[selMonth]} / {selYear}
         </h3>
         <IconButton onClick={nextMonth}>

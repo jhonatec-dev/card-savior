@@ -9,7 +9,6 @@
   --main-color: #e0e0e0;
   --main-back-color: #242424;
 
-
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -23,7 +22,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
 }
 
 div#root {
@@ -86,7 +84,7 @@ h1 {
 
 .Fluid {
   width: 100%;
-  color: whitesmoke!important;
+  color: whitesmoke !important;
   .EditCreditCard {
     display: flex;
     flex-wrap: wrap;
@@ -100,10 +98,9 @@ h1 {
     position: relative;
     filter: drop-shadow(0px 0px 2px white);
   }
-
 }
 
-.DataList{
+.DataList {
   width: 100%;
   border: 1px solid var(--main-color);
   border-radius: 4px;
@@ -115,7 +112,7 @@ h1 {
 //   color: var(--main-color);
 // }
 
-.StepContent{
+.StepContent {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -160,8 +157,18 @@ h1 {
   text-align: center;
 }
 
-.Form{
+.Form {
   padding: 12px;
+}
+
+.testes {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 // Media queries
@@ -181,12 +188,10 @@ h1 {
     background-color: #7c1616;
   }
 
-  .EditCreditCard{
+  .EditCreditCard {
     background-blend-mode: color-burn !important;
   }
 }
-
-
 
 @media screen and (min-width: 750px) {
   .Wrapper {
@@ -201,7 +206,6 @@ h1 {
     margin: 20px auto;
   }
 
-
   .Fluid {
     width: 100%;
     display: flex;
@@ -214,7 +218,9 @@ h1 {
     }
   }
 
-
+  .testes{
+    flex-wrap: nowrap;
+  }
 }
 
 @media screen and (min-width: 1000px) {
@@ -252,10 +258,7 @@ h1 {
       width: calc(50% - 16px);
     }
   }
-
-
 }
-
 
 // KeyFrames
 @keyframes animateWrongType {

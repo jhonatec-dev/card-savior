@@ -1,13 +1,15 @@
-import { Expand } from "@mui/icons-material";
+import { ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Button,
   Checkbox,
+  Divider,
   List,
   ListItem,
   TextField,
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -41,14 +43,17 @@ const ListInstallments = () => {
   }, [errors.dueDate]);
 
   useEffect(() => {
-    
-    if(selCard){
+    if (selCard) {
       const previousDueDate = dayjs(dueDate[0]);
       const test = {
-        target : {
-          value: dayjs(`${previousDueDate.year()}-${previousDueDate.month() + 1}-${selCard.dueDate}`).format("YYYY-MM-DD"),
-        }
-      }
+        target: {
+          value: dayjs(
+            `${previousDueDate.year()}-${previousDueDate.month() + 1}-${
+              selCard.dueDate
+            }`
+          ).format("YYYY-MM-DD"),
+        },
+      };
       handleDueDateChange(test);
     }
   }, [dueDate, selCard, setValue, totalInstallments]);
@@ -103,7 +108,7 @@ const ListInstallments = () => {
         error={!!errors.dueDate}
         helperText={errors.dueDate && "Você precisa digitar uma data."}
         disabled={index > 0}
-        sx={{ width: "250px" }}
+        fullWidth
       />
     );
   };
@@ -113,7 +118,7 @@ const ListInstallments = () => {
       <Button>Gerar</Button>
       <Accordion expanded={expandAcc} onChange={() => setExpandAcc(!expandAcc)}>
         <AccordionSummary
-          expandIcon={<Expand />}
+          expandIcon={<ExpandMore />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
@@ -140,43 +145,44 @@ const ListInstallments = () => {
               Array(totalInstallments)
                 .fill(0)
                 .map((_, index: number) => (
-                  <ListItem
-                    key={index}
-                    sx={{ minHeight: "90px", padding: "0" }}
-                  >
-                    {/* onClick={() =>
+                  <>
+                    <Divider sx={{ mb: 2 }}>
+                      Parcela {index + 1}/{totalInstallments}
+                    </Divider>
+                    <ListItem
+                      key={index}
+                      sx={{ minHeight: "90px", padding: "0" }}
+                    >
+                      {/* onClick={() =>
                         setValue(`paid.${index}`, !watch(`paid.${index}`))
                       } */}
-
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                        flexWrap: "wrap",
-                        marginBottom: "18px",
-                      }}
-                    >
-                      <Button
-                        sx={{
-                          paddingLeft: "0",
-                        }}
-                        onClick={() =>
-                          setValue(`paid.${index}`, !watch(`paid.${index}`))
-                        }
-                      >
-                        <Checkbox
-                          onChange={(e) =>
-                            setValue(`paid.${index}`, e.target.checked)
+                      <div className="testes">
+                        <Button
+                          sx={{
+                            paddingLeft: "0",
+                          }}
+                          onClick={() =>
+                            setValue(`paid.${index}`, !watch(`paid.${index}`))
                           }
-                          checked={watch(`paid.${index}`) || false}
-                        />
-                        Parcela {index + 1}/{totalInstallments} - R${" "}
-                        {getInstallmentValue().toFixed(2)}
-                      </Button>
-                      {renderDueDate(index)}
-                    </div>
-                  </ListItem>
+                          fullWidth
+                          color={watch(`paid.${index}`) ? "success" : "warning"}
+                          variant="outlined"
+                        >
+                          <Checkbox
+                            onChange={(e) =>
+                              setValue(`paid.${index}`, e.target.checked)
+                            }
+                            checked={watch(`paid.${index}`) || false}
+                          />
+                          <Typography>
+                            {watch(`paid.${index}`) ? "Pago" : "Pendente"}- R${" "}
+                            {getInstallmentValue().toFixed(2)}
+                          </Typography>
+                        </Button>
+                        {renderDueDate(index)}
+                      </div>
+                    </ListItem>
+                  </>
                 ))}
           </List>
         </AccordionDetails>
