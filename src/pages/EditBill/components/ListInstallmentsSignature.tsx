@@ -55,7 +55,7 @@ const ListInstallmentsSignature = () => {
       };
       handleDueDateChange(test);
     }
-  }, [dueDate, selCard, setValue, totalInstallments]);
+  }, [dueDate, selCard, setValue]);
 
   const getInstallmentValue = () => {
     return +value / +totalInstallments;

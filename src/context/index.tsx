@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { colors, decryption, encryption, getFromLS, saveToLS } from "../utils";
 import {
@@ -50,6 +50,36 @@ export function AppProvider({ children }: ProviderProps) {
   const [bills, setBills] = useState<BillType[]>(mockBills);
   const [contacts, setContacts] = useState<ContactType[]>(mockContacts);
   const [signatures, setSignatures] = useState<SignatureType[]>(mockSignatures);
+
+  useEffect(() => {
+    //gravar no LS os dados novos
+    console.log("GRAVAR NO LS");
+  }, [cards, user, bills, contacts, signatures]);
+
+  useEffect(() => {
+    console.log("mudou a data de exibição");
+    signatures.forEach((s) => {
+      const { startDate, active, id } = s;
+      const selDate = dayjs(`${selYear}-${selMonth+1}-01`);
+      if (active && selDate.isAfter(dayjs(startDate))) {
+        //tenta recuperar uma bill com essa data e id
+        const bill = bills.find(
+          (b) => b.id === id && b.year === selYear && b.month === selMonth
+        );
+        if (!bill) {
+          const newBill: BillType = {
+            ...s,
+            year: selYear,
+            month: selMonth,
+            paid: false,
+            installment: 1,
+            totalInstallments: 1,
+          };
+          setBills([...bills, newBill]);
+        }
+      }
+    });
+  }, [selMonth, selYear]);
 
   const updateCards = (card: CardType) => {
     setCards(cards.map((c) => (c.id === card.id ? card : c)));

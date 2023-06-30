@@ -61,14 +61,16 @@ export default function EditBill() {
   });
 
   useEffect(() => {
-    const isSignature = (id: string) => {
-      return signatures.some((s) => s.id === id);
+    const getSignature = (id: string) => {
+      return signatures.find((s) => s.id === id);
     };
 
     if (id) {
       const newBills = bills.filter((bill) => bill.id === id);
+      console.log(newBills);
       setPreBills(newBills);
       const firstBill = newBills[0];
+      const signature = getSignature(firstBill.id);
       const { setValue } = methods;
       setValue("id", firstBill.id);
       setValue("description", firstBill.description);
@@ -84,8 +86,9 @@ export default function EditBill() {
       ) as CardType;
       setValue("selCard", billCard);
       setValue("totalInstallments", firstBill.totalInstallments);
+      
 
-      for (let i = 0; i < firstBill.totalInstallments; i++) {
+      for (let i = 0; i < newBills.length; i++) {
         setValue(
           `dueDate.${i}`,
           dayjs(
@@ -97,14 +100,16 @@ export default function EditBill() {
 
       if (firstBill.totalInstallments > 1) {
         setSelectedType(MULTIPLE_INSTALLMENTS);
-      } else if (isSignature(firstBill.id)) {
+      } else if (signature) {
         setSelectedType(SIGNATURE);
+        setValue("active", signature.active);
+        setValue('totalMonths', newBills.length);
       } else {
         setSelectedType(SINGLE_INSTALLMENT);
       }
       setActiveStep(1);
     }
-  }, [bills, cards, contacts, id, methods, signatures]);
+  }, [id]);
 
 
   const setMultipleInstallments = (data: any) => {
