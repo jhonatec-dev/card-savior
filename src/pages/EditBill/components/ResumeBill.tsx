@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { useFormContext } from "react-hook-form";
 import { AppContext } from "../../../context";
 import { BillType } from "../../../context/types";
+import { SIGNATURE } from "../constants/billTypes";
 
 interface IProps {
   bills: BillType[];
@@ -16,9 +17,14 @@ const ResumeBill = ({ bills, type }: IProps) => {
   const firstBill = bills[0];
   const billCard = cards.find((card) => card.id === firstBill?.idCard);
 
-  const getTotalBill = bills.reduce((acc, bill) => {
-    return acc + +bill.value;
-  }, 0);
+  const getTotalBill = () => {
+    if (type === SIGNATURE) {
+      return firstBill?.value;
+    }
+    return bills.reduce((acc, bill) => {
+      return acc + +bill.value;
+    }, 0);
+  };
 
   const getBuyerName = () => {
     const selContact = getValues("selContact");
@@ -36,18 +42,17 @@ const ResumeBill = ({ bills, type }: IProps) => {
       <p>
         O que foi comprado: <strong>{firstBill?.description}</strong>
       </p>
-      {/* <p>
-        Data de compra:{" "}
-        <strong>{dayjs(firstBill?.purchaseDate).format("DD/MM/YYYY")}</strong>
-      </p> */}
       <p>
-        Quanto custou: <strong>R$ {(+getTotalBill).toFixed(2)}</strong>
+        Quanto custou: <strong>R$ {getTotalBill().toFixed(2)}</strong>
       </p>
       <p>
         Quem comprou: <strong>{getBuyerName()}</strong>
       </p>
       <p>
         No cartão: <strong>{billCard?.title}</strong>
+      </p>
+      <p>
+        Status: <strong>{getValues("active") ? "Ativa" : "Inativa"}</strong>
       </p>
       <Divider sx={{ my: 2, fontSize: "1.2rem" }}>
         {bills && bills.length} Parcelas

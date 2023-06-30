@@ -1,14 +1,21 @@
 import { Clear } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { AutocompleteContacts } from "./AutocompleteContacts";
-import { ListInstallments } from "./ListInstallments";
+import { ListInstallmentsSignature } from "./ListInstallmentsSignature";
 import { SelectCards } from "./SelectCards";
 
 const Signature = () => {
   const {
     register,
     setValue,
+    watch,
     formState: { errors },
   } = useFormContext();
 
@@ -69,7 +76,7 @@ const Signature = () => {
 
       <SelectCards label="Em qual cartão" />
 
-      <TextField
+      {/* <TextField
         label="Parcelas"
         type="number"
         fullWidth
@@ -86,9 +93,23 @@ const Signature = () => {
         })}
         error={!!errors.totalInstallments}
         helperText={errors.totalInstallments && "Você precisa digitar um valor entre 1 e 360."}
-      />
+      /> */}
 
-      <ListInstallments />
+      <Button
+        onClick={() => setValue("active", !watch("active"))}
+        variant="contained"
+        color={watch("active") ? "success" : "warning"}
+        sx={{ pl: 0 }}
+        fullWidth
+      >
+        {/* <Checkbox
+          checked={watch("paid.0") || false}
+          onChange={(e) => setValue("paid.0", e.target.checked)}
+        /> */}
+        <Typography>{watch("active") ? "Ativa" : "Inativa"}</Typography>
+      </Button>
+
+      <ListInstallmentsSignature />
     </>
   );
 };

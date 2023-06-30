@@ -15,18 +15,21 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-const ListInstallments = () => {
+const now = dayjs();
+
+const ListInstallmentsSignature = () => {
   const {
     register,
     watch,
     setValue,
     formState: { errors },
   } = useFormContext();
-  const [totalInstallments, value, selCard, dueDate] = watch([
+  const [totalInstallments, value, selCard, dueDate, totalMonths] = watch([
     "totalInstallments",
     "value",
     "selCard",
     "dueDate",
+    "totalMonths",
   ]);
 
   const [allPaid, setAllPaid] = useState(false);
@@ -60,16 +63,15 @@ const ListInstallments = () => {
 
   const handleDueDateChange = (e: any) => {
     const newDueDate = dayjs(e.target.value);
-    for (let i = 0; i < totalInstallments; i += 1) {
-      setValue(
-        `dueDate.${i}`,
-        dayjs(
-          `${newDueDate.year()}-${newDueDate.month() + 1}-${selCard.dueDate}`
-        )
-          .add(i, "month")
-          .format("YYYY-MM-DD")
-      );
+    setValue(`dueDate.0`, dayjs(`${newDueDate.year()}-${newDueDate.month() + 1}-${selCard.dueDate}`).format("YYYY-MM-DD"));
+    let newTotalMonths = 1;
+    let nextDueDate = newDueDate;
+    while(nextDueDate.isBefore(now)) {
+      nextDueDate = nextDueDate.add(1, "month");
+      setValue(`dueDate.${newTotalMonths}`, nextDueDate.format("YYYY-MM-DD"));
+      newTotalMonths += 1;
     }
+    setValue("totalMonths", newTotalMonths);
   };
 
   const handleAllPaid = (e: any) => {
@@ -81,7 +83,7 @@ const ListInstallments = () => {
       newStatus = !allPaid;
       setAllPaid(!allPaid);
     }
-    for (let i = 0; i < totalInstallments; i += 1) {
+    for (let i = 0; i < totalMonths; i += 1) {
       setValue(`paid.${i}`, newStatus);
     }
   };
@@ -117,7 +119,7 @@ const ListInstallments = () => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <h3>{totalInstallments} Parcelas</h3>
+          <h3>{totalMonths} Parcelas</h3>
         </AccordionSummary>
         <AccordionDetails>
           <List>
@@ -136,18 +138,15 @@ const ListInstallments = () => {
                 <h3>Marcar todos como {allPaid ? "Pendente" : "Pago"}</h3>
               </Button>
             </ListItem>
-            {totalInstallments &&
-              Array(totalInstallments)
+            {totalMonths &&
+              Array(totalMonths)
                 .fill(0)
                 .map((_, index: number) => (
                   <div key={index}>
                     <Divider sx={{ mb: 2 }}>
-                      Parcela {index + 1}/{totalInstallments}
+                      Parcela {index + 1}/{totalMonths}
                     </Divider>
-                    <ListItem
-                      key={index}
-                      sx={{ minHeight: "90px", padding: "0" }}
-                    >
+                    <ListItem sx={{ minHeight: "90px", padding: "0" }}>
                       {/* onClick={() =>
                         setValue(`paid.${index}`, !watch(`paid.${index}`))
                       } */}
@@ -186,4 +185,4 @@ const ListInstallments = () => {
   );
 };
 
-export { ListInstallments };
+export { ListInstallmentsSignature };

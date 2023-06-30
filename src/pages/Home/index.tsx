@@ -1,4 +1,5 @@
 import { Add } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FloatButton from "../../components/FloatButton";
@@ -12,7 +13,7 @@ import Overdue from "./components/Overdue";
 export default function Home() {
   const navigate = useNavigate();
   // Context
-  const { user, userLogin } = useContext(AppContext);
+  const { user, userLogin, signatures } = useContext(AppContext);
 
   // Effects
   useEffect(() => {
@@ -29,6 +30,11 @@ export default function Home() {
     navigate('/add');
   }
 
+  const teste = () => {
+    console.log('teste');
+    console.log(signatures);
+  }
+
   return (
       <div className="Wrapper">
         <Header />
@@ -39,6 +45,7 @@ export default function Home() {
         </div>
         <DataList />
         <FloatButton icon={<Add />} handleClick={handleAdd} text="Adicionar novo" />
+        <Button onClick={teste}>Teste</Button>
       </div>
   )
 }

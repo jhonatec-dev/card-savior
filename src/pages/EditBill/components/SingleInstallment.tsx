@@ -4,7 +4,7 @@ import {
   IconButton,
   InputAdornment,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect } from "react";
@@ -40,12 +40,13 @@ const SingleInstallment = () => {
 
   const handleDueDateChange = (e: any) => {
     const newDueDate = dayjs(e.target.value);
-    setValue(
-      `dueDate.0`,
-      dayjs(
-        `${newDueDate.year()}-${newDueDate.month() + 1}-${selCard.dueDate}`
-      ).format("YYYY-MM-DD")
-    );
+    if (newDueDate.isValid() && selCard)
+      setValue(
+        `dueDate.0`,
+        dayjs(
+          `${newDueDate.year()}-${newDueDate.month() + 1}-${selCard.dueDate}`
+        ).format("YYYY-MM-DD")
+      );
   };
 
   const renderDueDate = () => {
@@ -129,7 +130,7 @@ const SingleInstallment = () => {
         onClick={() => setValue("paid.0", !watch("paid.0"))}
         variant="contained"
         color={watch("paid.0") ? "success" : "warning"}
-        sx={{pl: 0}}
+        sx={{ pl: 0 }}
         fullWidth
       >
         {/* <Checkbox

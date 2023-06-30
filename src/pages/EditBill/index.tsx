@@ -17,12 +17,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Header from "../../components/Header";
 import { AppContext } from "../../context";
-import { BillType, CardType, ContactType } from "../../context/types";
-import { showError } from "../../utils";
-import { SingleInstallment } from "./components";
-import { MultipleInstallments } from "./components/MultipleInstallments";
-import { ResumeBill } from "./components/ResumeBill";
-import { Signature } from "./components/Signature";
+import { BillType, CardType, ContactType, SignatureType } from "../../context/types";
+import { MultipleInstallments, ResumeBill, Signature, SingleInstallment } from "./components";
 import {
   MULTIPLE_INSTALLMENTS,
   SIGNATURE,
@@ -39,17 +35,19 @@ type FormValues = {
   dueDate: string[];
   paid: boolean[];
   description: string;
+  active? : boolean;
+  totalMonths?: number;
 };
 
 export default function EditBill() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { addBills, contacts, cards, addContact, bills, signatures } =
-    useContext(AppContext);
-
+  useContext(AppContext);
   const [activeStep, setActiveStep] = useState(0);
+  const [selectedType, setSelectedType] = useState(SINGLE_INSTALLMENT);
   const [preBills, setPreBills] = useState<BillType[]>([]);
-
+  const [preSignature, setPreSignature] = useState<SignatureType>();
   const methods = useForm<FormValues>({
     defaultValues: {
       id: uuidv4(),
@@ -57,6 +55,8 @@ export default function EditBill() {
       totalInstallments: 1,
       value: 0,
       dueDate: [dayjs().format("YYYY-MM-DD")],
+      active: true,
+      totalMonths: 1,
     }
   });
 
@@ -69,14 +69,9 @@ export default function EditBill() {
       const newBills = bills.filter((bill) => bill.id === id);
       setPreBills(newBills);
       const firstBill = newBills[0];
-      // console.log(firstBill);
       const { setValue } = methods;
       setValue("id", firstBill.id);
       setValue("description", firstBill.description);
-      // setValue(
-      //   "purchaseDate",
-      //   dayjs(firstBill.purchaseDate).format("YYYY-MM-DD")
-      // );
       setValue("value", firstBill.value * firstBill.totalInstallments);
       if (firstBill.idContact) {
         setValue(
@@ -111,8 +106,6 @@ export default function EditBill() {
     }
   }, [bills, cards, contacts, id, methods, signatures]);
 
-  const [selectedType, setSelectedType] = useState(SINGLE_INSTALLMENT);
-  // const [instalments, setInstalments] = useState<BillType[]>([]);
 
   const setMultipleInstallments = (data: any) => {
     const newBills: BillType[] = [];
@@ -139,10 +132,37 @@ export default function EditBill() {
     setPreBills(newBills);
   };
 
+  const setSignature = (data: any) => {
+    console.log(data);
+    const signature: SignatureType = {
+      id: data.id,
+      idContact: data.selContact?.id || "",
+      value: +data.value,
+      idCard: data.selCard.id,
+      description: data.description,
+      active: data.active,
+    }
+    const newBills: BillType[] = [];
+    for (let i = 0; i < data.totalMonths; i += 1) {
+      const year = dayjs(data.dueDate[i]).year();
+      const month = dayjs(data.dueDate[i]).month();
+
+      const installment = {
+        ...signature,
+        year,
+        month,
+        installment: 1,
+        totalInstallments: 1,
+        paid: (data.paid && data.paid[i]) || false,
+      };
+      newBills.push(installment);
+    }
+    setPreBills(newBills);
+  }
+
   const onSubmit = (data: any) => {
-    // console.log(data);
     if (selectedType === SIGNATURE) {
-      showError("ASSINATURA AINDA NÃO IMPLEMENTADA");
+      setSignature(data);
     } else {
       setMultipleInstallments(data);
     }
