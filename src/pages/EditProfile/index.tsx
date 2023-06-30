@@ -38,7 +38,7 @@ export default function EditProfile() {
         userLogin();
       }
     }
-  }, [navigate, pathname, userLogin]);
+  }, [pathname]);
 
   useEffect(() => {
     if(user){
@@ -72,12 +72,13 @@ export default function EditProfile() {
     }
   }
   // useEffect
-  useEffect(() => {
-    if (cards.length > 0)
-      bottomCardRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [cards]);
+  // useEffect(() => {
+  //   if (cards.length > 0)
+  //     bottomCardRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // }, [cards]);
 
   const handleAddCard = () => {
+    console.log('cheguei aqui')
     createCard();
   }
 
@@ -191,7 +192,7 @@ export default function EditProfile() {
             onClick={handleAddCard}
             ref={bottomCardRef}
           >
-            Adicionar Cartão
+            Adicionar Cartão - {cards && cards.length }
           </Button>
         </div>
       </div>

@@ -3,12 +3,6 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { colors, decryption, encryption, getFromLS, saveToLS } from "../utils";
 import {
-  mockBills,
-  mockCards,
-  mockContacts,
-  mockSignatures,
-} from "../utils/mockData";
-import {
   BillType,
   CardType,
   ContactType,
@@ -43,42 +37,59 @@ interface ProviderProps {
 export const AppContext = createContext<ContextType>({} as ContextType);
 
 export function AppProvider({ children }: ProviderProps) {
-  const [cards, setCards] = useState<CardType[]>(mockCards);
+  const [cards, setCards] = useState<CardType[]>([] as CardType[]);
   const [user, setUser] = useState<UserType | null>(null);
   const [selYear, setSelYear] = useState<number>(new Date().getFullYear());
   const [selMonth, setSelMonth] = useState<number>(new Date().getMonth());
-  const [bills, setBills] = useState<BillType[]>(mockBills);
-  const [contacts, setContacts] = useState<ContactType[]>(mockContacts);
-  const [signatures, setSignatures] = useState<SignatureType[]>(mockSignatures);
+  const [bills, setBills] = useState<BillType[]>([] as BillType[]);
+  const [contacts, setContacts] = useState<ContactType[]>([] as ContactType[]);
+  const [signatures, setSignatures] = useState<SignatureType[]>([] as SignatureType[]);
 
   useEffect(() => {
     //gravar no LS os dados novos
-    console.log("GRAVAR NO LS");
-  }, [cards, user, bills, contacts, signatures]);
+    saveToLS("bills", bills);
+    saveToLS("contacts", contacts);
+    saveToLS("signatures", signatures);
+  }, [bills, contacts, signatures]);
 
   useEffect(() => {
-    console.log("mudou a data de exibição");
-    signatures.forEach((s) => {
-      const { startDate, active, id } = s;
-      const selDate = dayjs(`${selYear}-${selMonth+1}-01`);
-      if (active && selDate.isAfter(dayjs(startDate))) {
-        //tenta recuperar uma bill com essa data e id
-        const bill = bills.find(
-          (b) => b.id === id && b.year === selYear && b.month === selMonth
-        );
-        if (!bill) {
-          const newBill: BillType = {
-            ...s,
-            year: selYear,
-            month: selMonth,
-            paid: false,
-            installment: 1,
-            totalInstallments: 1,
-          };
-          setBills([...bills, newBill]);
+    if (signatures) {
+      signatures.forEach((s) => {
+        const { startDate, active, id } = s;
+        const selDate = dayjs(`${selYear}-${selMonth + 1}-01`);
+        if (active && selDate.isAfter(dayjs(startDate))) {
+          //tenta recuperar uma bill com essa data e id
+          const bill = bills.find(
+            (b) => b.id === id && b.year === selYear && b.month === selMonth
+          );
+          if (!bill) {
+            let newBill: BillType;
+            if (selDate.isAfter(dayjs().add(1, "month"))) {
+              newBill = {
+                ...s,
+                description: `[DEMO] - ${s.description}`,
+                year: selYear,
+                month: selMonth,
+                paid: false,
+                installment: 1,
+                totalInstallments: 1,
+              };
+            } else {
+              newBill = {
+                ...s,
+                year: selYear,
+                month: selMonth,
+                paid: false,
+                installment: 1,
+                totalInstallments: 1,
+              };
+            }
+
+            setBills([...bills, newBill]);
+          }
         }
-      }
-    });
+      });
+    }
   }, [selMonth, selYear]);
 
   const updateCards = (card: CardType) => {
@@ -95,16 +106,17 @@ export function AppProvider({ children }: ProviderProps) {
   };
 
   const createCard = () => {
-    setCards([
-      ...cards,
-      {
-        id: uuidv4(),
-        title: "",
-        closingDate: 1,
-        dueDate: 10,
-        color: getNewColor(),
-      },
-    ]);
+    const newCards = [...cards, {
+      id: uuidv4(),
+      title: "",
+      closingDate: 1,
+      dueDate: 10,
+      color: getNewColor(),
+    }];
+
+    setCards(newCards);
+    
+    console.log('createCard, context', newCards);
   };
 
   const removeCard = (id: string) => {
@@ -117,18 +129,32 @@ export function AppProvider({ children }: ProviderProps) {
     const userToLS = { ...user, password: encryption(user.password) };
     saveToLS("user", userToLS);
     saveToLS("cards", cards);
+    console.log('updateUserData, context', user);
   };
 
-  const userLogin = () => {
+  const userLogin = (origem: string) => {
+    console.log('userLogin, context', origem);
     const userFromLS = getFromLS("user");
     if (userFromLS) {
       setUser({ ...userFromLS, password: decryption(userFromLS.password) });
     }
     // Descomentar após mock
-    // const cards = getFromLS('cards');
-    // if (cards) {
-    //   setCards(cards);
-    // }
+    const cardsLS = getFromLS("cards");
+    if (cardsLS) {
+      setCards(cardsLS);
+    }
+    const billsLS = getFromLS("bills");
+    if (billsLS) {
+      setBills(billsLS);
+    }
+    const signaturesLS = getFromLS("signatures");
+    if (signaturesLS) {
+      setSignatures(signaturesLS);
+    }
+    const contactsLS = getFromLS("contacts");
+    if (contactsLS) {
+      setContacts(contactsLS);
+    }
   };
 
   const addSignature = (signature: SignatureType) => {

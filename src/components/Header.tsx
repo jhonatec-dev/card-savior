@@ -13,7 +13,7 @@ export default function Header(props: Props) {
 
   return (
     <div className="Header">
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
         {showGoBack && <IconButton onClick={() => navigate(-1)} ><ArrowBack /></IconButton>}
         <h2>{title ?? 'Card Savior'}</h2>
       </div>
