@@ -22,6 +22,7 @@ import { showError } from "../../utils";
 import { SingleInstallment } from "./components";
 import { MultipleInstallments } from "./components/MultipleInstallments";
 import { ResumeBill } from "./components/ResumeBill";
+import { Signature } from "./components/Signature";
 import {
   MULTIPLE_INSTALLMENTS,
   SIGNATURE,
@@ -232,6 +233,7 @@ export default function EditBill() {
                   {selectedType === MULTIPLE_INSTALLMENTS && (
                     <MultipleInstallments />
                   )}
+                  {selectedType === SIGNATURE && <Signature />}
                   {divButtonsNav(true)}
                 </div>
               </StepContent>
