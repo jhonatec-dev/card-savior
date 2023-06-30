@@ -51,9 +51,21 @@ const ResumeBill = ({ bills, type }: IProps) => {
       <p>
         No cartão: <strong>{billCard?.title}</strong>
       </p>
-      <p>
-        Status: <strong>{getValues("active") ? "Ativa" : "Inativa"}</strong>
-      </p>
+      {type === SIGNATURE && (
+        <p>
+          Status: <strong>{getValues("active") ? "Ativa" : "Inativa"}</strong>
+        </p>
+      )}
+      {type === SIGNATURE && (
+        <p>
+          Data inicial:{" "}
+          <strong>
+            {dayjs(
+              `${firstBill.year}-${firstBill.month + 1}-${billCard?.dueDate}`
+            ).format("DD/MM/YYYY")}
+          </strong>
+        </p>
+      )}
       <Divider sx={{ my: 2, fontSize: "1.2rem" }}>
         {bills && bills.length} Parcelas
       </Divider>

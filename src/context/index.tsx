@@ -33,6 +33,7 @@ interface ContextType {
   changePaidBill: (bill: BillType) => void;
   addBills: (newBills: BillType[]) => void;
   addContact: (newContact: ContactType) => void;
+  addSignature: (newSignature: SignatureType) => void;
 }
 
 interface ProviderProps {
@@ -48,7 +49,7 @@ export function AppProvider({ children }: ProviderProps) {
   const [selMonth, setSelMonth] = useState<number>(new Date().getMonth());
   const [bills, setBills] = useState<BillType[]>(mockBills);
   const [contacts, setContacts] = useState<ContactType[]>(mockContacts);
-  const [signatures] = useState<SignatureType[]>(mockSignatures);
+  const [signatures, setSignatures] = useState<SignatureType[]>(mockSignatures);
 
   const updateCards = (card: CardType) => {
     setCards(cards.map((c) => (c.id === card.id ? card : c)));
@@ -98,6 +99,16 @@ export function AppProvider({ children }: ProviderProps) {
     // if (cards) {
     //   setCards(cards);
     // }
+  };
+
+  const addSignature = (signature: SignatureType) => {
+    if (signatures.length === 0) {
+      setSignatures([signature]);
+      return;
+    }
+    console.log("addSignature", signature);
+    const newSignatures = signatures.filter((s) => s.id !== signature.id);
+    setSignatures([...newSignatures, signature]);
   };
 
   const changeMonth = (month: number) => {
@@ -161,6 +172,7 @@ export function AppProvider({ children }: ProviderProps) {
     changePaidBill,
     addBills,
     addContact,
+    addSignature,
   };
 
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;

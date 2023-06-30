@@ -53,7 +53,7 @@ export const mockSignatures: SignatureType[] = [
     id: "593700c5-507d-4c61-be46-dff9fc25dc25",
     idContact: "0fb1c8b1-6ad0-4eb8-8ec5-a0f1bf25990f",
     value: 20,
-    // purchaseDate: "2022-10-01",
+    startDate: "2022-10-01",
     active: true,
     description: "Netflix",
     idCard: "d9ea4ead-14f0-4f77-b6a1-e13b7bf2d6fd",

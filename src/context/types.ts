@@ -30,7 +30,7 @@ export type SignatureType = {
   idContact: string,
   idCard: string,
   value: number,
-  // purchaseDate: string,
+  startDate: string,
   active: boolean,
   description: string,
 }

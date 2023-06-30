@@ -42,7 +42,7 @@ type FormValues = {
 export default function EditBill() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { addBills, contacts, cards, addContact, bills, signatures } =
+  const { addBills, contacts, cards, addContact, bills, signatures, addSignature } =
   useContext(AppContext);
   const [activeStep, setActiveStep] = useState(0);
   const [selectedType, setSelectedType] = useState(SINGLE_INSTALLMENT);
@@ -141,7 +141,9 @@ export default function EditBill() {
       idCard: data.selCard.id,
       description: data.description,
       active: data.active,
+      startDate: data.dueDate[0],
     }
+    setPreSignature(signature);
     const newBills: BillType[] = [];
     for (let i = 0; i < data.totalMonths; i += 1) {
       const year = dayjs(data.dueDate[i]).year();
@@ -183,6 +185,10 @@ export default function EditBill() {
 
   const handleSave = () => {
     addBills(preBills);
+    //enviar a signtature para o context
+    if(selectedType === SIGNATURE) {
+      addSignature(preSignature as SignatureType);
+    }
     const { getValues } = methods;
     const selContact = getValues("selContact");
     // console.log(selContact);
