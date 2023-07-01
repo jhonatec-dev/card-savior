@@ -27,19 +27,16 @@ const DataListOverdue = ({ handleEdit }: IProps) => {
     user,
     contacts,
     bills,
-    selMonth,
-    selYear,
     cards,
-    changeMonth,
     changePaidBill,
   } = useContext(AppContext);
   //State
   const [billsByContact, setBillsByContact] = useState<BillContact[]>(
     [] as BillContact[]
   );
-  const [filteredBills, setFilteredBills] = useState<BillType[]>(
-    [] as BillType[]
-  );
+  // const [filteredBills, setFilteredBills] = useState<BillType[]>(
+  //   [] as BillType[]
+  // );
 
   //Effects
   useEffect(() => {
@@ -64,7 +61,7 @@ const DataListOverdue = ({ handleEdit }: IProps) => {
         return false;
       });
       if (!overduedBills) return;
-      setFilteredBills(overduedBills);
+      // setFilteredBills(overduedBills);
       if (overduedBills.length > 0) {
         // [{...contact, bills: [{bill}, {bill}]}, {}, {}]
         const myContact: ContactType = {
@@ -99,16 +96,9 @@ const DataListOverdue = ({ handleEdit }: IProps) => {
     }
   }, [bills, cards, contacts]);
 
-  const nextMonth = () => {
-    changeMonth(1);
-  };
 
   // sdfsldkafj;
 
-  const prevMonth = () => {
-    changeMonth(-1);
-    filteredBills;
-  };
 
   const calcTotal = (bills: BillType[]) => {
     const total = bills.reduce((acc, bill) => {
@@ -221,9 +211,6 @@ Até a próxima!`;
     ));
   }; //renderBills
 
-  const getActualMonth = () => {
-    changeMonth(-2);
-  };
 
   return (
     <div className="DataList">
