@@ -55,14 +55,14 @@ export default function CardResume() {
   return (
     <div className='EditCreditCard' style={styleCard}>
       <div className='CardResume'>
-        <IconButton onClick={prevCard}>
+        <IconButton onClick={prevCard} color='inherit'>
           <ArrowBackIos />
         </IconButton>
         <div >
           <h4>{selectedCard.title}</h4>
           <h2>R$ {calculateTotal()}</h2>
         </div>
-        <IconButton onClick={nextCard}>
+        <IconButton onClick={nextCard} color='inherit'>
           <ArrowForwardIos />
         </IconButton>
 

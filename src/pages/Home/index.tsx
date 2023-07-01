@@ -10,6 +10,7 @@ import { hasUser } from "../../utils";
 import EditBill from "../EditBill";
 import CardResume from "./components/CardResume";
 import DataList from "./components/DataList";
+import { DataListOverdue } from "./components/DataListOverdue";
 import Overdue from "./components/Overdue";
 
 const Initialstyle = {
@@ -32,13 +33,14 @@ export default function Home() {
   const { width, height } = useWindowSize();
   const { user, userLogin } = useContext(AppContext);
   const [open, setOpen] = useState(false);
+  const [showOverdue, setShowOverdue] = useState(false);
   const [idToEdit, setIdToEdit] = useState("");
   const [style, setStyle] = useState(Initialstyle);
 
   useEffect(() => {
     if (width > 768) {
       console.log("tablet");
-      setStyle({...style, width: "550px", maxHeight: "700px"});
+      setStyle({ ...style, width: "550px", maxHeight: "700px" });
     } else {
       setStyle(Initialstyle);
     }
@@ -68,21 +70,31 @@ export default function Home() {
     setOpen(false);
   };
 
+  const handleShowOverdue = () => {
+    setShowOverdue(!showOverdue);
+  };
+
   return (
     <div className="Wrapper">
       <Header />
       <h3>Olá, {user?.username}!</h3>
       <div className="Fluid">
         <CardResume />
-        <Overdue />
+        <Overdue
+          handleShowOverdue={handleShowOverdue}
+          showOverdue={showOverdue}
+        />
       </div>
-      <DataList handleEdit={handleEdit} />
+      {showOverdue ? (
+        <DataListOverdue handleEdit={handleEdit} />
+      ) : (
+        <DataList handleEdit={handleEdit} />
+      )}
       <FloatButton
         icon={<Add />}
         handleClick={handleAdd}
         text="Adicionar novo"
       />
-      {/* <Button onClick={teste}>Teste</Button> */}
       <Modal
         open={open}
         onClose={handleClose}
