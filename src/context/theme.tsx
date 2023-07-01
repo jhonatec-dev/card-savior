@@ -43,9 +43,10 @@ export const ProviderTheme = ({ children }: ThemeType) => {
       //   primary: 'rgba(255, 255, 255, 0.85)',
       //   secondary: 'rgba(255, 255, 255, 0.85)',
       // },
-      // background: {
-      //   paper: 'rgba(0,0,0,0.75)',
-      // },
+      background: {
+        paper: colorScheme === 'light' ? '#e2e0e0' : '#202020',
+        default: colorScheme === 'light' ? '#e7e4e4' : '#242424',
+      },
 
     },
   });

@@ -43,10 +43,13 @@ const Signature = () => {
         type="number"
         inputMode="decimal"
         fullWidth
+        inputProps={{
+          step: 0.01,
+        }}
         InputProps={{
           startAdornment: <InputAdornment position="start">R$</InputAdornment>,
         }}
-        {...register("value", { required: true, min: 0 })}
+        {...register("value", { required: true, min: 0.1 })}
         error={!!errors.value}
         helperText={errors.value && "Você precisa digitar um valor válido."}
       />

@@ -70,7 +70,7 @@ const AutocompleteContacts = () => {
             filtered.push({
               id: newIdContact,
               inputValue,
-              name: `Add ${inputValue}`,
+              name: `Adicionar ${inputValue}`,
             });
           }
 

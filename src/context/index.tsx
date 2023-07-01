@@ -132,8 +132,7 @@ export function AppProvider({ children }: ProviderProps) {
     console.log('updateUserData, context', user);
   };
 
-  const userLogin = (origem: string) => {
-    console.log('userLogin, context', origem);
+  const userLogin = () => {
     const userFromLS = getFromLS("user");
     if (userFromLS) {
       setUser({ ...userFromLS, password: decryption(userFromLS.password) });

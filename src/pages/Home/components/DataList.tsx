@@ -25,7 +25,11 @@ type BillContact = ContactType & {
   bills: BillType[];
 };
 
-export default function DataList() {
+type IProps = {
+  handleEdit: (id: string) => void;
+}
+
+export default function DataList({handleEdit} : IProps) {
   //Context
   const {
     user,
@@ -151,10 +155,6 @@ Até a próxima!`;
     changePaidBill(bill);
   };
 
-  const handleEdit = (bill: BillType) => {
-    navigate(`/edit/${bill.id}`);
-  };
-
   const renderBills = () => {
     if (!billsByContact || billsByContact.length < 1) {
       return null;
@@ -187,7 +187,7 @@ Até a próxima!`;
                   secondaryAction={
                     <IconButton
                       color="primary"
-                      onClick={() => handleEdit(bill)}
+                      onClick={() => handleEdit(bill.id)}
                     >
                       <Edit />
                     </IconButton>

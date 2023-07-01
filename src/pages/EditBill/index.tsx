@@ -11,14 +11,25 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
+import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Header from "../../components/Header";
 import { AppContext } from "../../context";
-import { BillType, CardType, ContactType, SignatureType } from "../../context/types";
-import { MultipleInstallments, ResumeBill, Signature, SingleInstallment } from "./components";
+import {
+  BillType,
+  CardType,
+  ContactType,
+  SignatureType,
+} from "../../context/types";
+import {
+  MultipleInstallments,
+  ResumeBill,
+  Signature,
+  SingleInstallment,
+} from "./components";
 import {
   MULTIPLE_INSTALLMENTS,
   SIGNATURE,
@@ -30,34 +41,52 @@ type FormValues = {
   installment: number;
   totalInstallments: number;
   value: number;
-  selCard: CardType;
-  selContact: ContactType | null;
+  selCard?: CardType;
+  selContact?: ContactType | null;
   dueDate: string[];
   paid: boolean[];
   description: string;
-  active? : boolean;
+  active?: boolean;
   totalMonths?: number;
 };
 
-export default function EditBill() {
+const defaultValuesForm: FormValues = {
+  id: uuidv4(),
+  installment: 1,
+  totalInstallments: 1,
+  value: 0,
+  dueDate: [dayjs().format("YYYY-MM-DD")],
+  active: true,
+  totalMonths: 1,
+  description: "",
+  paid: [false],
+};
+
+type IProps = {
+  idToEdit?: string;
+  handleClose?: () => void;
+};
+
+export default function EditBill({ idToEdit, handleClose }: IProps) {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { addBills, contacts, cards, addContact, bills, signatures, addSignature } =
-  useContext(AppContext);
+  const { idParam } = useParams();
+  const id = idParam ?? idToEdit;
+  const { enqueueSnackbar } = useSnackbar();
+  const {
+    addBills,
+    contacts,
+    cards,
+    addContact,
+    bills,
+    signatures,
+    addSignature,
+  } = useContext(AppContext);
   const [activeStep, setActiveStep] = useState(0);
   const [selectedType, setSelectedType] = useState(SINGLE_INSTALLMENT);
   const [preBills, setPreBills] = useState<BillType[]>([]);
   const [preSignature, setPreSignature] = useState<SignatureType>();
   const methods = useForm<FormValues>({
-    defaultValues: {
-      id: uuidv4(),
-      installment: 1,
-      totalInstallments: 1,
-      value: 0,
-      dueDate: [dayjs().format("YYYY-MM-DD")],
-      active: true,
-      totalMonths: 1,
-    }
+    defaultValues: defaultValuesForm,
   });
 
   useEffect(() => {
@@ -86,7 +115,6 @@ export default function EditBill() {
       ) as CardType;
       setValue("selCard", billCard);
       setValue("totalInstallments", firstBill.totalInstallments);
-      
 
       for (let i = 0; i < newBills.length; i++) {
         setValue(
@@ -103,14 +131,13 @@ export default function EditBill() {
       } else if (signature) {
         setSelectedType(SIGNATURE);
         setValue("active", signature.active);
-        setValue('totalMonths', newBills.length);
+        setValue("totalMonths", newBills.length);
       } else {
         setSelectedType(SINGLE_INSTALLMENT);
       }
       setActiveStep(1);
     }
   }, [id]);
-
 
   const setMultipleInstallments = (data: any) => {
     const newBills: BillType[] = [];
@@ -147,7 +174,7 @@ export default function EditBill() {
       description: data.description,
       active: data.active,
       startDate: data.dueDate[0],
-    }
+    };
     setPreSignature(signature);
     const newBills: BillType[] = [];
     for (let i = 0; i < data.totalMonths; i += 1) {
@@ -165,7 +192,7 @@ export default function EditBill() {
       newBills.push(installment);
     }
     setPreBills(newBills);
-  }
+  };
 
   const onSubmit = (data: any) => {
     if (selectedType === SIGNATURE) {
@@ -185,13 +212,16 @@ export default function EditBill() {
   };
 
   const handleBack = () => {
+    if (activeStep === 1) {
+      methods.reset();
+    }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleSave = () => {
     addBills(preBills);
     //enviar a signtature para o context
-    if(selectedType === SIGNATURE) {
+    if (selectedType === SIGNATURE) {
       addSignature(preSignature as SignatureType);
     }
     const { getValues } = methods;
@@ -204,11 +234,19 @@ export default function EditBill() {
       });
     }
 
-    navigate("/home");
+    enqueueSnackbar("Despesa salva com sucesso!", { variant: "success" });
+
+    if (idParam) {
+      navigate("/home");
+    } else if(handleClose){
+      handleClose();
+    }
   };
 
   const shouldBackButtonBeVisible = () => {
-    return activeStep === 0 || (activeStep === 1 && id !== undefined);
+    return (
+      activeStep === 0 || (activeStep === 1 && id !== undefined && id !== "")
+    );
   };
 
   const divButtonsNav = (isSubmit = false) => (
@@ -232,7 +270,7 @@ export default function EditBill() {
           className="Form"
           onSubmit={methods.handleSubmit(onSubmit, onError)}
         >
-          <Header title="Editar despesa" showGoBack />
+          <Header title="Editar despesa" />
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
               <StepLabel>Tipo de Despesa</StepLabel>

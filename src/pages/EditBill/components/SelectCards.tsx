@@ -28,9 +28,10 @@ const SelectCards = ({ label }: IProps) => {
 
   return (
     <div style={{width: "100%"}}>
+      <strong>{label}</strong>
       <Select
         fullWidth
-        label={label}
+        placeholder="Selecione um cartão"
         variant="outlined"
         value={selCardId}
         onChange={handleChange}
@@ -43,6 +44,7 @@ const SelectCards = ({ label }: IProps) => {
                 width: "100%",
                 borderRadius: "10px",
                 padding: "10px",
+                color: "white",
                 background: `linear-gradient(131deg,${card.color} 0%, #252525 100%)`,
               }}
             >
