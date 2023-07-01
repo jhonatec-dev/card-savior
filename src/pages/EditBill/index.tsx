@@ -1,12 +1,4 @@
-import {
-  Button,
-  Step,
-  StepContent,
-  StepLabel,
-  Stepper,
-  ToggleButton,
-  ToggleButtonGroup,
-} from "@mui/material";
+import { Button, Step, StepContent, StepLabel, Stepper } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
@@ -27,6 +19,7 @@ import {
 import {
   MultipleInstallments,
   ResumeBill,
+  SelectTypeBill,
   Signature,
   SingleInstallment,
 } from "./components";
@@ -49,8 +42,6 @@ type FormValues = {
   active?: boolean;
   totalMonths?: number;
 };
-
-
 
 type IProps = {
   idToEdit?: string;
@@ -273,26 +264,20 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
           className="Form"
           onSubmit={methods.handleSubmit(onSubmit, onError)}
         >
-          <Header title="Editar despesa" showGoBack handleClick={handleClose ?? handleBack}/>
+          <Header
+            title="Editar despesa"
+            showGoBack
+            handleClick={handleClose ?? handleBack}
+          />
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
               <StepLabel>Tipo de Despesa</StepLabel>
               <StepContent sx={{ gap: "60px" }}>
                 <div className="StepContent">
-                  <h3>Escolha o tipo de despesa</h3>
-                  <ToggleButtonGroup
-                    exclusive
-                    onChange={(_e, value: string) => setSelectedType(value)}
-                    value={selectedType}
-                  >
-                    <ToggleButton value={SINGLE_INSTALLMENT}>
-                      Única
-                    </ToggleButton>
-                    <ToggleButton value={MULTIPLE_INSTALLMENTS}>
-                      Parcelada
-                    </ToggleButton>
-                    <ToggleButton value={SIGNATURE}>Assinatura</ToggleButton>
-                  </ToggleButtonGroup>
+                  <SelectTypeBill
+                    setSelectedType={setSelectedType}
+                    selectedType={selectedType}
+                  />
                   {divButtonsNav()}
                 </div>
               </StepContent>
