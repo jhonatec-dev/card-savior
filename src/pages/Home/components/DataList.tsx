@@ -16,7 +16,6 @@ import {
   ListItemButton,
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context";
 import { BillType, CardType, ContactType } from "../../../context/types";
 import { monthNames } from "../../../utils";
@@ -41,7 +40,6 @@ export default function DataList({handleEdit} : IProps) {
     changeMonth,
     changePaidBill,
   } = useContext(AppContext);
-  const navigate = useNavigate();
   //State
   const [billsByContact, setBillsByContact] = useState<BillContact[]>(
     [] as BillContact[]
