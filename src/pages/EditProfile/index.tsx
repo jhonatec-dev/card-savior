@@ -1,11 +1,18 @@
-import { Add, Backspace, Save, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Add,
+  Backspace,
+  Save,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 import { Avatar, Button, Divider, IconButton, TextField } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import validator from 'validator';
+import validator from "validator";
 import FloatButton from "../../components/FloatButton";
 import { AppContext } from "../../context/index";
-import { getFromLS, showError } from "../../utils";
+import { getFromLS } from "../../utils";
 import EditCreditCard from "./components/EditCreditCard";
 
 export default function EditProfile() {
@@ -13,27 +20,28 @@ export default function EditProfile() {
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
-  // Context
-  const { cards, createCard, user, updateUserData, userLogin } = useContext(AppContext);
+  const { enqueueSnackbar } = useSnackbar();
+  const { cards, createCard, user, updateUserData, userLogin } =
+    useContext(AppContext);
   // States
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   // useReff
   const bottomCardRef = useRef<HTMLButtonElement>(null);
   // useEffect
   useEffect(() => {
-    const userLS = getFromLS('user');
-    if (pathname === '/register') {
+    const userLS = getFromLS("user");
+    if (pathname === "/register") {
       if (userLS) {
-        navigate('/home');
+        navigate("/home");
       }
     } else {
       if (!userLS) {
-        navigate('/register');
+        navigate("/register");
       } else {
         userLogin();
       }
@@ -41,7 +49,7 @@ export default function EditProfile() {
   }, [pathname]);
 
   useEffect(() => {
-    if(user){
+    if (user) {
       setUsername(user.username);
       setEmail(user.email);
       setPhone(user.phone);
@@ -50,6 +58,11 @@ export default function EditProfile() {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (cards.length > 0)
+      bottomCardRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [cards]);
+  
   const handleSave = () => {
     // variáveis de conferência
     const usernameValid = username.length >= 3;
@@ -57,49 +70,54 @@ export default function EditProfile() {
     const passwordValid = password.length > 3;
     const passwordConfirmValid = password === passwordConfirm;
     // const cardsValid = !cards.some((card) => card.id === -1);
-    if (usernameValid && emailValid && passwordValid && passwordConfirmValid ) {
+    if (usernameValid && emailValid && passwordValid && passwordConfirmValid) {
       // salvar
       const newUser = {
         username,
         email,
         phone,
         password,
-      }
+      };
       updateUserData(newUser);
-      navigate(-1);
+      enqueueSnackbar("Salvo com sucesso!", { variant: "success" });
+      navigate("/home");
+
     } else {
-      showError('Preencha todos os campos corretamente');
+      enqueueSnackbar("Preencha todos os campos corretamente", {
+        variant: "error",
+      })
     }
-  }
-  // useEffect
-  // useEffect(() => {
-  //   if (cards.length > 0)
-  //     bottomCardRef.current?.scrollIntoView({ behavior: 'smooth' });
-  // }, [cards]);
+  };
 
   const handleAddCard = () => {
-    console.log('cheguei aqui')
+    console.log("cheguei aqui");
     createCard();
-  }
+  };
 
   return (
     <div className="Wrapper">
       <div className="UserProfile">
         <Avatar sx={{ width: 100, height: 100 }}></Avatar>
-        <h4>{pathname === '/register' ? 'Cadastre suas informações e seus cartões' : 'Edite suas informações'}</h4>
+        <h4>
+          {pathname === "/register"
+            ? "Cadastre suas informações e seus cartões"
+            : "Edite suas informações"}
+        </h4>
         <TextField
           label="Nome"
           placeholder="Nome"
           required
-          fullWidth value={username}
+          fullWidth
+          value={username}
           onChange={(e) => setUsername(e.target.value)}
           error={username.length < 3}
-          helperText={username.length < 3 ? 'Nome muito curto' : ''}
+          helperText={username.length < 3 ? "Nome muito curto" : ""}
           InputProps={{
-            endAdornment:
-              <IconButton onClick={() => setUsername('')} color="primary">
+            endAdornment: (
+              <IconButton onClick={() => setUsername("")} color="primary">
                 <Backspace />
               </IconButton>
+            ),
           }}
         />
         <TextField
@@ -111,12 +129,13 @@ export default function EditProfile() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           error={!validator.isEmail(email)}
-          helperText={!validator.isEmail(email) ? 'Email inválido' : ''}
+          helperText={!validator.isEmail(email) ? "Email inválido" : ""}
           InputProps={{
-            endAdornment:
-              <IconButton onClick={() => setEmail('')} color="primary">
+            endAdornment: (
+              <IconButton onClick={() => setEmail("")} color="primary">
                 <Backspace />
               </IconButton>
+            ),
           }}
         />
         <TextField
@@ -127,34 +146,38 @@ export default function EditProfile() {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           InputProps={{
-            endAdornment:
-              <IconButton onClick={() => setPhone('')} color="primary">
+            endAdornment: (
+              <IconButton onClick={() => setPhone("")} color="primary">
                 <Backspace />
               </IconButton>
+            ),
           }}
         />
         <TextField
           placeholder="Senha"
           label="Senha"
           fullWidth
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           value={password}
           onChange={({ target }) => setPassword(target.value)}
           InputProps={{
-            endAdornment:
+            endAdornment: (
               <>
-                <IconButton onClick={() => setShowPassword(!showPassword)} color="primary">
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  color="primary"
+                >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
-                <IconButton onClick={() => setPassword('')} color="primary">
+                <IconButton onClick={() => setPassword("")} color="primary">
                   <Backspace />
                 </IconButton>
               </>
-
+            ),
           }}
           required
           error={password.length < 4}
-          helperText={password.length < 4 ? 'Senha muito curta' : ''}
+          helperText={password.length < 4 ? "Senha muito curta" : ""}
         />
         <TextField
           placeholder="Confirme sua senha"
@@ -162,25 +185,36 @@ export default function EditProfile() {
           id="confirm-password"
           error={password !== passwordConfirm}
           fullWidth
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           value={passwordConfirm}
           onChange={({ target }) => setPasswordConfirm(target.value)}
           InputProps={{
-            endAdornment:
+            endAdornment: (
               <>
-                <IconButton onClick={() => setShowPassword(!showPassword)} color="primary">
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  color="primary"
+                >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
-                <IconButton onClick={() => setPasswordConfirm('')} color="primary">
+                <IconButton
+                  onClick={() => setPasswordConfirm("")}
+                  color="primary"
+                >
                   <Backspace />
                 </IconButton>
               </>
+            ),
           }}
-          helperText={password !== passwordConfirm ? 'Senhas não conferem' : ''}
+          helperText={password !== passwordConfirm ? "Senhas não conferem" : ""}
         />
       </div>
       <div className="CardsWrapper">
-        <Divider sx={{ margin: '20px 0', fontSize: '20px', fontWeight: 'bold' }}>Cartões</Divider>
+        <Divider
+          sx={{ margin: "20px 0", fontSize: "20px", fontWeight: "bold" }}
+        >
+          Cartões
+        </Divider>
         <div className="Fluid">
           {cards.map((card) => (
             <EditCreditCard key={card.id} id={card.id} />
@@ -192,11 +226,11 @@ export default function EditProfile() {
             onClick={handleAddCard}
             ref={bottomCardRef}
           >
-            Adicionar Cartão - {cards && cards.length }
+            Adicionar Cartão - {cards && cards.length}
           </Button>
         </div>
       </div>
       <FloatButton handleClick={handleSave} icon={<Save />} text="Salvar" />
-    </div >
-  )
+    </div>
+  );
 }

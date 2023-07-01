@@ -238,7 +238,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
 
     if (idParam) {
       navigate("/home");
-    } else if(handleClose){
+    } else if (handleClose) {
       handleClose();
     }
   };
@@ -270,7 +270,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
           className="Form"
           onSubmit={methods.handleSubmit(onSubmit, onError)}
         >
-          <Header title="Editar despesa" />
+          <Header title="Editar despesa" showGoBack handleClick={handleClose ?? handleBack}/>
           <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
               <StepLabel>Tipo de Despesa</StepLabel>
