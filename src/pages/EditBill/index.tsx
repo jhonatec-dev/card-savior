@@ -50,17 +50,7 @@ type FormValues = {
   totalMonths?: number;
 };
 
-const defaultValuesForm: FormValues = {
-  id: uuidv4(),
-  installment: 1,
-  totalInstallments: 1,
-  value: 0,
-  dueDate: [dayjs().format("YYYY-MM-DD")],
-  active: true,
-  totalMonths: 1,
-  description: "",
-  paid: [false],
-};
+
 
 type IProps = {
   idToEdit?: string;
@@ -80,7 +70,20 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
     bills,
     signatures,
     addSignature,
+    selMonth,
+    selYear,
   } = useContext(AppContext);
+  const defaultValuesForm: FormValues = {
+    id: uuidv4(),
+    installment: 1,
+    totalInstallments: 1,
+    value: 0,
+    dueDate: [dayjs(`${selYear}-${selMonth + 1}-01`).format("YYYY-MM-DD")],
+    active: true,
+    totalMonths: 1,
+    description: "",
+    paid: [false],
+  };
   const [activeStep, setActiveStep] = useState(0);
   const [selectedType, setSelectedType] = useState(SINGLE_INSTALLMENT);
   const [preBills, setPreBills] = useState<BillType[]>([]);
