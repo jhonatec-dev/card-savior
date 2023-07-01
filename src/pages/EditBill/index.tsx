@@ -90,7 +90,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
 
     if (id) {
       const newBills = bills.filter((bill) => bill.id === id);
-      console.log(newBills);
+      // console.log(newBills);
       setPreBills(newBills);
       const firstBill = newBills[0];
       const signature = getSignature(firstBill.id);
@@ -159,7 +159,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
   };
 
   const setSignature = (data: any) => {
-    console.log(data);
+    // console.log(data);
     const signature: SignatureType = {
       id: data.id,
       idContact: data.selContact?.id || "",

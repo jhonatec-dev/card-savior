@@ -1,16 +1,18 @@
-import { FilterAlt, FilterAltOff } from "@mui/icons-material";
+import { Assignment, AssignmentLate } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../../context";
 import { CardType } from "../../../context/types";
 import { monthNames } from "../../../utils";
 
-export default function Overdue() {
+type IProps = {
+  handleShowOverdue: () => void;
+  showOverdue: boolean;
+};
+
+export default function Overdue({ handleShowOverdue, showOverdue }: IProps) {
   // Context
   const { bills, cards } = useContext(AppContext);
-
-  //State
-  const [showOverdue, setShowOverdue] = useState(false);
   const [total, setTotal] = useState("0,00");
 
   // Effects
@@ -51,10 +53,6 @@ export default function Overdue() {
     background: `linear-gradient(131deg, #893939 0%, #252525 100%)`,
   };
 
-  const handleShowOverdue = () => {
-    setShowOverdue(!showOverdue);
-  };
-
   const getActualDate = () => {
     const now = new Date(Date.now());
     const yearNow = now.getFullYear();
@@ -69,11 +67,11 @@ export default function Overdue() {
         <h2>R$ {total}</h2>
       </div>
       <Button
-        startIcon={showOverdue ? <FilterAlt /> : <FilterAltOff />}
+        startIcon={showOverdue ? <Assignment /> : <AssignmentLate />}
         onClick={handleShowOverdue}
-        disabled
+        color="inherit"
       >
-        {showOverdue ? "Mostrar somente atrasados" : "Mostrar todos"}
+        {showOverdue ? "Ver todos" : "Ver atrasados"}
       </Button>
     </div>
   );
