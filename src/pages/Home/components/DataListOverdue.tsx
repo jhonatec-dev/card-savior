@@ -1,10 +1,4 @@
-import {
-  ArrowBackIos,
-  ArrowForwardIos,
-  Edit,
-  ExpandMore,
-  WhatsApp,
-} from "@mui/icons-material";
+import { Edit, ExpandMore, WhatsApp } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
@@ -18,7 +12,6 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../../context";
 import { BillType, CardType, ContactType } from "../../../context/types";
-import { monthNames } from "../../../utils";
 
 type BillContact = ContactType & {
   bills: BillType[];
@@ -130,9 +123,7 @@ const DataListOverdue = ({ handleEdit }: IProps) => {
     const name = billContact.id !== "" ? billContact.name : user?.username;
     const headerMessage = `*Olá, ${name}!*
 Espero que esteja bem 🙏🏼
-Estou passando aqui para enviar os dados da fatura de *${
-      monthNames[bills[0].month]
-    }/${bills[0].year}*\n`;
+Estou passando aqui para enviar os lançamentos do cartão que estão em atraso\n`;
     let paid = 0;
     const bodyMessage = bills.map((bill) => {
       const billCard = cards.find(
@@ -163,7 +154,6 @@ Até a próxima!`;
       `https://api.whatsapp.com/send?&text=${encodedMessage}`,
       "_blank"
     );
-    //https://api.whatsapp.com/send?phone=5533998203838&text=Ol%C3%A1%20JhonaTec!%20Estou%20entrando%20em%20contato%20pelo%20site!
   };
 
   const handlePaidBild = (bill: BillType) => {
@@ -237,17 +227,8 @@ Até a próxima!`;
 
   return (
     <div className="DataList">
-      <div className="CardResume">
-        <IconButton onClick={prevMonth}>
-          <ArrowBackIos />
-        </IconButton>
-        <h3 onClick={getActualMonth} style={{ cursor: "pointer" }}>
-          {monthNames[selMonth]} / {selYear}
-        </h3>
-        <IconButton onClick={nextMonth}>
-          <ArrowForwardIos />
-        </IconButton>
-      </div>
+      <h3 style={{ textAlign: "center", marginBottom: "20px" }}>Lançamentos em atraso</h3>
+
       <div className="Accordions">{renderBills()}</div>
     </div>
   );
