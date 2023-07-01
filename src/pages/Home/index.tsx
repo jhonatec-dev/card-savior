@@ -23,7 +23,8 @@ const Initialstyle = {
   bgcolor: "background.default",
   border: "2px solid #000",
   boxShadow: 24,
-  p: 4,
+  // p: 4,
+  maxHeight: "100%",
 };
 
 export default function Home() {
@@ -37,7 +38,7 @@ export default function Home() {
   useEffect(() => {
     if (width > 768) {
       console.log("tablet");
-      setStyle(st => ({...style, width: "550px", maxHeight: "700px"}));
+      setStyle({...style, width: "550px", maxHeight: "700px"});
     } else {
       setStyle(Initialstyle);
     }
