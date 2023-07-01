@@ -1,3 +1,4 @@
+
 export type CardType = {
   id: string,
   title: string,
@@ -9,9 +10,13 @@ export type CardType = {
 export type ContactType = {
   id: string,
   name: string,
-  email?: string,
-  phone: string,
 }
+
+export type ContactNewType = {
+  id: string;
+  name: string;
+  inputValue: string;
+};
 
 export type UserType = {
   username: string,
@@ -23,9 +28,9 @@ export type UserType = {
 export type SignatureType = {
   id: string,
   idContact: string,
-  card: CardType,
+  idCard: string,
   value: number,
-  startDate: number | string,
+  startDate: string,
   active: boolean,
   description: string,
 }
@@ -33,7 +38,7 @@ export type SignatureType = {
 export type BillType = {
   id: string,
   idContact: string,
-  card: CardType,
+  idCard: string,
   value: number,
   year: number,
   month: number,
@@ -41,4 +46,5 @@ export type BillType = {
   description: string,
   installment: number,
   totalInstallments: number,
+  // purchaseDate: string,
 }

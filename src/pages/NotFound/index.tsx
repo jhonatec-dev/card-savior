@@ -9,7 +9,7 @@ export default function NotFound() {
       <h1>404</h1>
       <h3>Page not found</h3>
       <Button
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/")}
         variant="outlined"
         color="primary"
         startIcon={<ArrowLeft />}
