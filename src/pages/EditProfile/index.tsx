@@ -90,7 +90,7 @@ export default function EditProfile() {
   };
 
   const handleAddCard = () => {
-    console.log("cheguei aqui");
+    // console.log("cheguei aqui");
     createCard();
   };
 

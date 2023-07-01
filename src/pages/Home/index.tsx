@@ -39,7 +39,7 @@ export default function Home() {
 
   useEffect(() => {
     if (width > 768) {
-      console.log("tablet");
+      // console.log("tablet");
       setStyle({ ...style, width: "550px", maxHeight: "700px" });
     } else {
       setStyle(Initialstyle);

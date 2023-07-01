@@ -116,7 +116,7 @@ export function AppProvider({ children }: ProviderProps) {
 
     setCards(newCards);
     
-    console.log('createCard, context', newCards);
+    // console.log('createCard, context', newCards);
   };
 
   const removeCard = (id: string) => {
@@ -129,7 +129,7 @@ export function AppProvider({ children }: ProviderProps) {
     const userToLS = { ...user, password: encryption(user.password) };
     saveToLS("user", userToLS);
     saveToLS("cards", cards);
-    console.log('updateUserData, context', user);
+    // console.log('updateUserData, context', user);
   };
 
   const userLogin = () => {
@@ -161,7 +161,7 @@ export function AppProvider({ children }: ProviderProps) {
       setSignatures([signature]);
       return;
     }
-    console.log("addSignature", signature);
+    // console.log("addSignature", signature);
     const newSignatures = signatures.filter((s) => s.id !== signature.id);
     setSignatures([...newSignatures, signature]);
   };
