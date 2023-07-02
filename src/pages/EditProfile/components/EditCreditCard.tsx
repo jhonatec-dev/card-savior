@@ -10,7 +10,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { enqueueSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 import ColorPicker from "../../../components/ColorPicker";
 import { AppContext } from "../../../context";
 import { CardType } from "../../../context/types";
