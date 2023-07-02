@@ -78,6 +78,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
     totalMonths: 1,
     description: "",
     paid: [false],
+    selContact: null,
   };
   const [activeStep, setActiveStep] = useState(0);
   const [selectedType, setSelectedType] = useState(SINGLE_INSTALLMENT);
@@ -213,6 +214,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
   };
 
   const onSubmit = (data: any) => {
+    console.log(data);
     if (selectedType === SIGNATURE) {
       setSignature(data);
     } else {
@@ -237,19 +239,25 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
   };
 
   const handleSave = () => {
-    addBills(preBills);
-    //enviar a signtature para o context
-    if (selectedType === SIGNATURE) {
-      addSignature(preSignature as SignatureType);
-    }
     const { getValues } = methods;
     const selContact = getValues("selContact");
     // console.log(selContact);
-    if (selContact && !contacts.find((c) => c.id === selContact.id)) {
+    if (selContact && selContact.id === "") {
+      const newIdContact = uuidv4();
       addContact({
-        id: selContact.id,
+        id: newIdContact,
         name: selContact.name,
       });
+      addBills(preBills.map((b) => ({ ...b, idContact: newIdContact })));
+      if (selectedType === SIGNATURE) {
+        addSignature({...preSignature, idContact: newIdContact} as SignatureType);
+      }
+    } else {
+      addBills(preBills);
+      //enviar a signtature para o context
+      if (selectedType === SIGNATURE) {
+        addSignature(preSignature as SignatureType);
+      }
     }
 
     enqueueSnackbar("Despesa salva com sucesso!", { variant: "success" });
@@ -287,14 +295,14 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
 
     if (response.isDenied && id) {
       removeBill(id);
-      if(handleClose){
+      if (handleClose) {
         handleClose();
       } else {
         navigate("/home");
       }
       enqueueSnackbar("Despesa removida com sucesso!", { variant: "success" });
     }
-  }
+  };
 
   const divButtonsNav = (isSubmit = false) => (
     <div>
@@ -362,7 +370,13 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
             </Step>
           </Stepper>
         </form>
-        {id && <FloatButton handleClick={handleRemoveBill} icon={<DeleteForever />} text="Remover"/>}
+        {id && (
+          <FloatButton
+            handleClick={handleRemoveBill}
+            icon={<DeleteForever />}
+            text="Remover"
+          />
+        )}
       </FormProvider>
     </LocalizationProvider>
   );

@@ -54,8 +54,9 @@ export function AppProvider({ children }: ProviderProps) {
       saveToLS("bills", bills);
       saveToLS("contacts", contacts);
       saveToLS("signatures", signatures);
+      saveToLS("cards", cards);
     }
-  }, [bills, contacts, signatures]);
+  }, [bills, contacts, signatures, cards]);
 
   useEffect(() => {
     if (signatures) {

@@ -1,12 +1,11 @@
 import { Autocomplete, TextField, createFilterOptions } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
 import { AppContext } from "../../../context";
 import { ContactNewType } from "../../../context/types";
 
 const filter = createFilterOptions<ContactNewType>();
-const newIdContact = uuidv4();
+const newIdContact = '';
 
 const AutocompleteContacts = () => {
   const { contacts } = useContext(AppContext);
@@ -34,12 +33,14 @@ const AutocompleteContacts = () => {
       return
     }
     if(typeof newValue === "string") {
+      // console.log('string', newIdContact)
       setSelContact({
         id: newIdContact,
         name: newValue,
         inputValue: "",
       });
     } else if (newValue.inputValue) {
+      // console.log('inputValue', newIdContact)
       setSelContact({
         id: newIdContact,
         name: newValue.inputValue,
