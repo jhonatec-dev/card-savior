@@ -70,7 +70,7 @@ export default function EditCreditCard(props: EditCreditCardProps) {
       icon: "question",
       title: "Tem certeza que deseja remover esse cartão?",
       text: "Todas as despesas vinculadas a esse cartão serão apagadas [CORRIGINDO O IMPORT]",
-      customClass: "glass",
+      background: "#2424249f",
       color: "#86c6EB",
       confirmButtonColor: "#76b6cB",
       confirmButtonText: "Não",

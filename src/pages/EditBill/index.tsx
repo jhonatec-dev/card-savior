@@ -8,7 +8,7 @@ import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import Swal from "sweetalert2";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 import { v4 as uuidv4 } from "uuid";
 import FloatButton from "../../components/FloatButton";
 import Header from "../../components/Header";
@@ -92,7 +92,8 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
       icon: "info",
       title: "Nenhum cartão cadastrado",
       text: "Você não possui nenhum cartão cadastrado. Estamos redirecionando para o cadastro de cartões.",
-      customClass: "glass",
+      // customClass: "glass",
+      background: "#2424249f",
       color: "#86c6EB",
       confirmButtonColor: "#76b6cB",
       confirmButtonText: "Ok",
