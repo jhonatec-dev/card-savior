@@ -10,7 +10,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { enqueueSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
-import Swal from "sweetalert2/dist/sweetalert2.js";
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import ColorPicker from "../../../components/ColorPicker";
 import { AppContext } from "../../../context";
 import { CardType } from "../../../context/types";
@@ -69,7 +69,7 @@ export default function EditCreditCard(props: EditCreditCardProps) {
     const response = await Swal.fire({
       icon: "question",
       title: "Tem certeza que deseja remover esse cartão?",
-      text: "Todas as despesas vinculadas a esse cartão serão apagadas",
+      text: "Todas as despesas vinculadas a esse cartão serão apagadas [CORRIGINDO O IMPORT]",
       customClass: "glass",
       color: "#86c6EB",
       confirmButtonColor: "#76b6cB",
