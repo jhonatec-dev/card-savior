@@ -26,6 +26,7 @@ const Initialstyle = {
   boxShadow: 24,
   paddingBottom: '60px',
   maxHeight: "100%",
+  zIndex: '1',
 };
 
 export default function Home() {
