@@ -78,7 +78,7 @@ export default function EditCreditCard(props: EditCreditCardProps) {
       denyButtonColor: "#df5240",
       showDenyButton: true,
       // showCancelButton: true,
-      timer: 5500,
+      // timer: 5500,
       timerProgressBar: true,
     });
 
