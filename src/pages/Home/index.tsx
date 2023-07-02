@@ -50,9 +50,9 @@ export default function Home() {
     if (!user) {
       if (hasUser()) {
         userLogin();
+      } else {
+        navigate("/register");
       }
-      navigate("/register");
-      return;
     }
   }, [navigate, user, userLogin]);
 
