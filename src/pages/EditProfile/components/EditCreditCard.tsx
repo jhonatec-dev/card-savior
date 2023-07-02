@@ -69,7 +69,7 @@ export default function EditCreditCard(props: EditCreditCardProps) {
     const response = await Swal.fire({
       icon: "question",
       title: "Tem certeza que deseja remover esse cartão?",
-      text: "Todas as despesas vinculadas a esse cartão serão apagadas [CORRIGINDO O IMPORT]",
+      text: "Todas as despesas vinculadas a esse cartão serão apagadas",
       background: "#242424",
       color: "#86c6EB",
       confirmButtonColor: "#76b6cB",
