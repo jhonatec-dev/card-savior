@@ -17,7 +17,6 @@ export default function Login() {
     const user = getFromLS("user");
     if (!user) {
       navigate("/register");
-      return;
     } else {
       setUsername(user.username);
     }
@@ -83,9 +82,10 @@ export default function Login() {
           textAlign: "center",
         }}
       >
-        <ToggleButtonGroup>
+        <ToggleButtonGroup exclusive>
           <ToggleButton
             href="https://linkedin.com/in/jhonatec"
+            target="_blank"
             color="primary"
             value="linkedin"
           >
@@ -93,6 +93,7 @@ export default function Login() {
           </ToggleButton>
           <ToggleButton
             href="https://github.com/jhonatec-dev"
+            target="_blank"
             color="primary"
             value="github"
           >
@@ -100,6 +101,7 @@ export default function Login() {
           </ToggleButton>
           <ToggleButton
             href="https://youtube.com/c/jhonatec"
+            target="_blank"
             color="primary"
             value="youtube"
           >

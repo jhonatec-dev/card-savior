@@ -43,13 +43,17 @@ export function AppProvider({ children }: ProviderProps) {
   const [selMonth, setSelMonth] = useState<number>(new Date().getMonth());
   const [bills, setBills] = useState<BillType[]>([] as BillType[]);
   const [contacts, setContacts] = useState<ContactType[]>([] as ContactType[]);
-  const [signatures, setSignatures] = useState<SignatureType[]>([] as SignatureType[]);
+  const [signatures, setSignatures] = useState<SignatureType[]>(
+    [] as SignatureType[]
+  );
 
   useEffect(() => {
     //gravar no LS os dados novos
-    saveToLS("bills", bills);
-    saveToLS("contacts", contacts);
-    saveToLS("signatures", signatures);
+    if (user) {
+      saveToLS("bills", bills);
+      saveToLS("contacts", contacts);
+      saveToLS("signatures", signatures);
+    }
   }, [bills, contacts, signatures]);
 
   useEffect(() => {
@@ -106,16 +110,19 @@ export function AppProvider({ children }: ProviderProps) {
   };
 
   const createCard = () => {
-    const newCards = [...cards, {
-      id: uuidv4(),
-      title: "",
-      closingDate: 1,
-      dueDate: 10,
-      color: getNewColor(),
-    }];
+    const newCards = [
+      ...cards,
+      {
+        id: uuidv4(),
+        title: "",
+        closingDate: 1,
+        dueDate: 10,
+        color: getNewColor(),
+      },
+    ];
 
     setCards(newCards);
-    
+
     // console.log('createCard, context', newCards);
   };
 
