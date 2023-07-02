@@ -26,9 +26,9 @@ type BillContact = ContactType & {
 
 type IProps = {
   handleEdit: (id: string) => void;
-}
+};
 
-export default function DataList({handleEdit} : IProps) {
+export default function DataList({ handleEdit }: IProps) {
   //Context
   const {
     user,
@@ -44,17 +44,17 @@ export default function DataList({handleEdit} : IProps) {
   const [billsByContact, setBillsByContact] = useState<BillContact[]>(
     [] as BillContact[]
   );
-  const [filteredBills, setFilteredBills] = useState<BillType[]>(
-    [] as BillType[]
-  );
 
   //Effects
   useEffect(() => {
-    if (bills && bills.length > 0) {
+    if (bills) {
+      if (bills.length === 0) {
+        setBillsByContact([]);
+        return;
+      }
       const billsForSelectedMonth = bills.filter(
         (bill) => bill.year === selYear && bill.month === selMonth
       );
-      setFilteredBills(billsForSelectedMonth);
       if (billsForSelectedMonth.length > 0) {
         // [{...contact, bills: [{bill}, {bill}]}, {}, {}]
         const myContact: ContactType = {
@@ -97,7 +97,6 @@ export default function DataList({handleEdit} : IProps) {
 
   const prevMonth = () => {
     changeMonth(-1);
-    filteredBills;
   };
 
   const calcTotal = (bills: BillType[]) => {

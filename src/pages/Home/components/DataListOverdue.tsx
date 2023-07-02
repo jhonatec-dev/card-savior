@@ -40,7 +40,11 @@ const DataListOverdue = ({ handleEdit }: IProps) => {
 
   //Effects
   useEffect(() => {
-    if (bills && bills.length > 0) {
+    if (bills) {
+      if(bills.length === 0){
+        setBillsByContact([]);
+        return;
+      }
       const now = new Date(Date.now());
       const yearNow = now.getFullYear();
       const monthNow = now.getMonth() + 1;

@@ -28,6 +28,7 @@ interface ContextType {
   addBills: (newBills: BillType[]) => void;
   addContact: (newContact: ContactType) => void;
   addSignature: (newSignature: SignatureType) => void;
+  removeBill: (id: string) => void;
 }
 
 interface ProviderProps {
@@ -131,6 +132,11 @@ export function AppProvider({ children }: ProviderProps) {
     setBills(bills.filter((b) => b.idCard !== id));
     setCards(cards.filter((card) => card.id !== id));
   };
+
+  const removeBill = (id: string) => {
+    setBills(bills.filter((b) => b.id !== id));
+    setSignatures(signatures.filter((s) => s.id !== id));
+  }
 
   const updateUserData = (user: UserType) => {
     setUser(user);
@@ -236,6 +242,7 @@ export function AppProvider({ children }: ProviderProps) {
     addBills,
     addContact,
     addSignature,
+    removeBill,
   };
 
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;

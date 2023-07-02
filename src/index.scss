@@ -58,6 +58,11 @@ h1 {
   // background-color: var(--main-back-color);
   background-color: #2424249f;
   border-radius: 10px;
+  z-index: 9999;
+}
+
+.swal2-container {
+  z-index: 20000;
 }
 
 .Wrapper {

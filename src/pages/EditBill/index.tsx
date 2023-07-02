@@ -1,3 +1,4 @@
+import { DeleteForever } from "@mui/icons-material";
 import { Button, Step, StepContent, StepLabel, Stepper } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -9,6 +10,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
+import FloatButton from "../../components/FloatButton";
 import Header from "../../components/Header";
 import { AppContext } from "../../context";
 import {
@@ -64,6 +66,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
     addSignature,
     selMonth,
     selYear,
+    removeBill,
   } = useContext(AppContext);
   const defaultValuesForm: FormValues = {
     id: uuidv4(),
@@ -97,11 +100,11 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
       timerProgressBar: true,
     });
     navigate("/editProfile");
-  }
+  };
 
   useEffect(() => {
     //verificar cartões
-    if(cards.length === 0) {
+    if (cards.length === 0) {
       handleNoCardsFound();
     }
 
@@ -263,6 +266,34 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
     );
   };
 
+  const handleRemoveBill = async () => {
+    const response = await Swal.fire({
+      icon: "question",
+      title: "Tem certeza que deseja remover essa despesa?",
+      text: "Todas os lançamentos mensais vinculados serão apagados",
+      customClass: "glass",
+      color: "#86c6EB",
+      confirmButtonColor: "#76b6cB",
+      confirmButtonText: "Não",
+      denyButtonText: "Sim",
+      denyButtonColor: "#df5240",
+      showDenyButton: true,
+      // showCancelButton: true,
+      timer: 5500,
+      timerProgressBar: true,
+    });
+
+    if (response.isDenied && id) {
+      removeBill(id);
+      if(handleClose){
+        handleClose();
+      } else {
+        navigate("/home");
+      }
+      enqueueSnackbar("Despesa removida com sucesso!", { variant: "success" });
+    }
+  }
+
   const divButtonsNav = (isSubmit = false) => (
     <div>
       <Button onClick={handleBack} disabled={shouldBackButtonBeVisible()}>
@@ -329,6 +360,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
             </Step>
           </Stepper>
         </form>
+        {id && <FloatButton handleClick={handleRemoveBill} icon={<DeleteForever />} text="Remover"/>}
       </FormProvider>
     </LocalizationProvider>
   );
