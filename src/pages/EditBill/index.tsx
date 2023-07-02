@@ -7,6 +7,7 @@ import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
 import Header from "../../components/Header";
 import { AppContext } from "../../context";
@@ -83,12 +84,31 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
     defaultValues: defaultValuesForm,
   });
 
+  const handleNoCardsFound = () => {
+    Swal.fire({
+      icon: "info",
+      title: "Nenhum cartão cadastrado",
+      text: "Você não possui nenhum cartão cadastrado. Estamos redirecionando para o cadastro de cartões.",
+      customClass: "glass",
+      color: "#86c6EB",
+      confirmButtonColor: "#76b6cB",
+      confirmButtonText: "Ok",
+      timer: 5500,
+      timerProgressBar: true,
+    });
+    navigate("/editProfile");
+  }
+
   useEffect(() => {
-    const getSignature = (id: string) => {
-      return signatures.find((s) => s.id === id);
-    };
+    //verificar cartões
+    if(cards.length === 0) {
+      handleNoCardsFound();
+    }
 
     if (id) {
+      const getSignature = (id: string) => {
+        return signatures.find((s) => s.id === id);
+      };
       const newBills = bills.filter((bill) => bill.id === id);
       // console.log(newBills);
       setPreBills(newBills);

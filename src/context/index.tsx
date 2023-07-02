@@ -120,7 +120,8 @@ export function AppProvider({ children }: ProviderProps) {
   };
 
   const removeCard = (id: string) => {
-    return console.warn("desabilitado por enquanto");
+    setSignatures(signatures.filter((s) => s.idCard !== id));
+    setBills(bills.filter((b) => b.idCard !== id));
     setCards(cards.filter((card) => card.id !== id));
   };
 

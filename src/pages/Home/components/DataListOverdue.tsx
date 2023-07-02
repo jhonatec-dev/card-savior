@@ -173,11 +173,11 @@ Até a próxima!`;
         </AccordionSummary>
         <AccordionDetails>
           <List sx={{ padding: 0 }}>
-            {billContact.bills.map((bill) => {
+            {billContact.bills.map((bill, index) => {
               const billCard = cards.find((card) => card.id === bill.idCard);
               return (
                 <ListItem
-                  key={bill.id}
+                  key={index}
                   sx={{ padding: 0 }}
                   secondaryAction={
                     <IconButton

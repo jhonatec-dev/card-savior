@@ -1,9 +1,9 @@
 import {
-  Add,
+  AddCard,
   Backspace,
   Save,
   Visibility,
-  VisibilityOff,
+  VisibilityOff
 } from "@mui/icons-material";
 import { Avatar, Button, Divider, IconButton, TextField } from "@mui/material";
 import { useSnackbar } from "notistack";
@@ -222,11 +222,12 @@ export default function EditProfile() {
           <Button
             variant="outlined"
             fullWidth
-            startIcon={<Add />}
+            startIcon={<AddCard />}
             onClick={handleAddCard}
             ref={bottomCardRef}
+            size="large"
           >
-            Adicionar Cartão - {cards && cards.length}
+            Adicionar Cartão
           </Button>
         </div>
       </div>
