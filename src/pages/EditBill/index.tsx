@@ -378,6 +378,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
             handleClick={handleRemoveBill}
             icon={<DeleteForever />}
             text="Remover"
+            color="error"
           />
         )}
       </FormProvider>

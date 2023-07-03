@@ -1,5 +1,5 @@
 import { Add } from "@mui/icons-material";
-import { Box, Modal } from "@mui/material";
+import { Box, Dialog } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWindowSize } from "usehooks-ts";
@@ -13,39 +13,13 @@ import DataList from "./components/DataList";
 import { DataListOverdue } from "./components/DataListOverdue";
 import Overdue from "./components/Overdue";
 
-const Initialstyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "100%",
-  height: "100%",
-  overflow: "auto",
-  bgcolor: "background.default",
-  border: "2px solid #000",
-  boxShadow: 24,
-  paddingBottom: '60px',
-  maxHeight: "100%",
-  zIndex: '1',
-};
-
 export default function Home() {
   const navigate = useNavigate();
-  const { width, height } = useWindowSize();
+  const { width } = useWindowSize();
   const { user, userLogin } = useContext(AppContext);
   const [open, setOpen] = useState(false);
   const [showOverdue, setShowOverdue] = useState(false);
   const [idToEdit, setIdToEdit] = useState("");
-  const [style, setStyle] = useState(Initialstyle);
-
-  useEffect(() => {
-    if (width > 768) {
-      // console.log("tablet");
-      setStyle({ ...style, width: "550px", maxHeight: "700px" });
-    } else {
-      setStyle(Initialstyle);
-    }
-  }, [width, height]);
 
   useEffect(() => {
     if (!user) {
@@ -96,16 +70,11 @@ export default function Home() {
         handleClick={handleAdd}
         text="Adicionar novo"
       />
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
+      <Dialog open={open} onClose={handleClose} fullScreen={width < 768}>
+        <Box sx={{minWidth: 550}}>
           <EditBill idToEdit={idToEdit} handleClose={handleClose} />
         </Box>
-      </Modal>
+      </Dialog>
     </div>
   );
 }
