@@ -176,6 +176,15 @@ h1 {
   margin-bottom: 20px;
 }
 
+.Welcome{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
 // Media queries
 
 @media (prefers-color-scheme: light) {
