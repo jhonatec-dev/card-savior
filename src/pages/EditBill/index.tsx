@@ -250,7 +250,10 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
       });
       addBills(preBills.map((b) => ({ ...b, idContact: newIdContact })));
       if (selectedType === SIGNATURE) {
-        addSignature({...preSignature, idContact: newIdContact} as SignatureType);
+        addSignature({
+          ...preSignature,
+          idContact: newIdContact,
+        } as SignatureType);
       }
     } else {
       addBills(preBills);
@@ -375,6 +378,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
             handleClick={handleRemoveBill}
             icon={<DeleteForever />}
             text="Remover"
+            color="error"
           />
         )}
       </FormProvider>
