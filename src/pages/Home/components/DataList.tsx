@@ -87,7 +87,7 @@ export default function DataList({ handleEdit }: IProps) {
         setBillsByContact([]);
       }
     }
-  }, [bills, contacts, selMonth, selYear, user?.email, user?.phone]);
+  }, [bills, contacts, selMonth, selYear]);
 
   const nextMonth = () => {
     changeMonth(1);
