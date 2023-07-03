@@ -3,17 +3,26 @@ import {
   Backspace,
   Save,
   Visibility,
-  VisibilityOff
+  VisibilityOff,
 } from "@mui/icons-material";
 import { Avatar, Button, Divider, IconButton, TextField } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useContext, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import validator from "validator";
 import FloatButton from "../../components/FloatButton";
 import { AppContext } from "../../context/index";
 import { getFromLS } from "../../utils";
 import EditCreditCard from "./components/EditCreditCard";
+
+type FormValues = {
+  id: string;
+  name: string;
+  // email: string;
+  // phone: string;
+  password: string;
+  passwordConfirm: string;
+};
 
 export default function EditProfile() {
   // Navigate
@@ -23,16 +32,16 @@ export default function EditProfile() {
   const { enqueueSnackbar } = useSnackbar();
   const { cards, createCard, user, updateUserData, userLogin } =
     useContext(AppContext);
-  // States
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  // useReff
   const bottomCardRef = useRef<HTMLButtonElement>(null);
-  // useEffect
+  const {
+    register,
+    setValue,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({});
+
   useEffect(() => {
     const userLS = getFromLS("user");
     if (pathname === "/register") {
@@ -50,11 +59,11 @@ export default function EditProfile() {
 
   useEffect(() => {
     if (user) {
-      setUsername(user.username);
-      setEmail(user.email);
-      setPhone(user.phone);
-      setPassword(user.password);
-      setPasswordConfirm(user.password);
+      // TODO
+      // configurar para o hookform depois
+      setValue("name", user.username);
+      setValue("password", user.password);
+      setValue("passwordConfirm", user.password);
     }
   }, [user]);
 
@@ -62,31 +71,16 @@ export default function EditProfile() {
     if (cards.length > 0)
       bottomCardRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [cards]);
-  
-  const handleSave = () => {
-    // variáveis de conferência
-    const usernameValid = username.length >= 3;
-    const emailValid = validator.isEmail(email);
-    const passwordValid = password.length > 3;
-    const passwordConfirmValid = password === passwordConfirm;
-    // const cardsValid = !cards.some((card) => card.id === -1);
-    if (usernameValid && emailValid && passwordValid && passwordConfirmValid) {
-      // salvar
-      const newUser = {
-        username,
-        email,
-        phone,
-        password,
-      };
-      updateUserData(newUser);
-      enqueueSnackbar("Salvo com sucesso!", { variant: "success" });
-      navigate("/home");
 
-    } else {
-      enqueueSnackbar("Preencha todos os campos corretamente", {
-        variant: "error",
-      })
-    }
+  const handleSave = (data: any) => {
+    // salvar
+    const newUser = {
+      username: data.name,
+      password: data.password,
+    };
+    updateUserData(newUser);
+    enqueueSnackbar("Salvo com sucesso!", { variant: "success" });
+    navigate("/home");
   };
 
   const handleAddCard = () => {
@@ -94,9 +88,16 @@ export default function EditProfile() {
     createCard();
   };
 
+  const onError = () => {
+    return;
+  };
+
   return (
     <div className="Wrapper">
-      <div className="UserProfile">
+      <form
+        onSubmit={handleSubmit(handleSave, onError)}
+        className="UserProfile"
+      >
         <Avatar sx={{ width: 100, height: 100 }}></Avatar>
         <h4>
           {pathname === "/register"
@@ -106,48 +107,16 @@ export default function EditProfile() {
         <TextField
           label="Nome"
           placeholder="Nome"
-          required
           fullWidth
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          error={username.length < 3}
-          helperText={username.length < 3 ? "Nome muito curto" : ""}
+          {...register("name", {
+            required: "Nome obrigatório",
+            minLength: { value: 3, message: "Nome muito curto" },
+          })}
+          error={!!errors.name}
+          helperText={!!errors.name && errors.name.message}
           InputProps={{
             endAdornment: (
-              <IconButton onClick={() => setUsername("")} color="primary">
-                <Backspace />
-              </IconButton>
-            ),
-          }}
-        />
-        <TextField
-          placeholder="Email"
-          label="Email"
-          fullWidth
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          error={!validator.isEmail(email)}
-          helperText={!validator.isEmail(email) ? "Email inválido" : ""}
-          InputProps={{
-            endAdornment: (
-              <IconButton onClick={() => setEmail("")} color="primary">
-                <Backspace />
-              </IconButton>
-            ),
-          }}
-        />
-        <TextField
-          placeholder="Telefone"
-          label="Telefone"
-          fullWidth
-          type="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <IconButton onClick={() => setPhone("")} color="primary">
+              <IconButton onClick={() => setValue("name", "")} color="primary">
                 <Backspace />
               </IconButton>
             ),
@@ -158,8 +127,10 @@ export default function EditProfile() {
           label="Senha"
           fullWidth
           type={showPassword ? "text" : "password"}
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
+          {...register("password", {
+            required: "Senha obrigatória",
+            minLength: { value: 4, message: "Senha muito curta" },
+          })}
           InputProps={{
             endAdornment: (
               <>
@@ -169,25 +140,23 @@ export default function EditProfile() {
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
-                <IconButton onClick={() => setPassword("")} color="primary">
+                <IconButton
+                  onClick={() => setValue("password", "")}
+                  color="primary"
+                >
                   <Backspace />
                 </IconButton>
               </>
             ),
           }}
-          required
-          error={password.length < 4}
-          helperText={password.length < 4 ? "Senha muito curta" : ""}
+          error={!!errors.password}
+          helperText={!!errors.password && errors.password.message}
         />
         <TextField
           placeholder="Confirme sua senha"
           label="Confirme sua senha"
-          id="confirm-password"
-          error={password !== passwordConfirm}
           fullWidth
           type={showPassword ? "text" : "password"}
-          value={passwordConfirm}
-          onChange={({ target }) => setPasswordConfirm(target.value)}
           InputProps={{
             endAdornment: (
               <>
@@ -198,7 +167,7 @@ export default function EditProfile() {
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
                 <IconButton
-                  onClick={() => setPasswordConfirm("")}
+                  onClick={() => setValue("passwordConfirm", "")}
                   color="primary"
                 >
                   <Backspace />
@@ -206,9 +175,17 @@ export default function EditProfile() {
               </>
             ),
           }}
-          helperText={password !== passwordConfirm ? "Senhas não conferem" : ""}
+          {...register("passwordConfirm", {
+            required: "Confirmação de senha obrigatória",
+            validate: (value) => value === watch("password"),
+          })}
+          error={!!errors.passwordConfirm}
+          helperText={
+            !!errors.passwordConfirm && errors.passwordConfirm.message
+          }
         />
-      </div>
+        <FloatButton handleClick={() => {console.log('preciso')}} icon={<Save />} text="Salvar" type="submit"/>
+      </form>
       <div className="CardsWrapper">
         <Divider
           sx={{ margin: "20px 0", fontSize: "20px", fontWeight: "bold" }}
@@ -231,7 +208,7 @@ export default function EditProfile() {
           </Button>
         </div>
       </div>
-      <FloatButton handleClick={handleSave} icon={<Save />} text="Salvar" />
+      
     </div>
   );
 }
