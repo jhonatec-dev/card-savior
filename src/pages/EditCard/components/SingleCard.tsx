@@ -15,9 +15,9 @@ import ColorPicker from "../../../components/ColorPicker";
 import { AppContext } from "../../../context";
 import { CardType } from "../../../context/types";
 
-interface EditCreditCardProps {
+type IProps = {
   id: string;
-}
+};
 
 const theme = createTheme({
   palette: {
@@ -29,7 +29,7 @@ const theme = createTheme({
   },
 });
 
-export default function EditCreditCard(props: EditCreditCardProps) {
+const SingleCard = (props: IProps) => {
   const { id } = props;
 
   // Context
@@ -64,6 +64,8 @@ export default function EditCreditCard(props: EditCreditCardProps) {
       } as CardType);
     }
   };
+
+  
 
   const handleRemoveCard = async (id: string) => {
     const response = await Swal.fire({
@@ -180,4 +182,6 @@ export default function EditCreditCard(props: EditCreditCardProps) {
       </ThemeProvider>
     </div>
   );
-}
+};
+
+export { SingleCard };

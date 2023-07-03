@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import EditBill from "../pages/EditBill";
+import { EditCard } from "../pages/EditCard";
 import EditProfile from "../pages/EditProfile";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -14,6 +15,7 @@ export default function AppRoutes() {
       <Route path="/editProfile" element={<EditProfile />} />
       <Route path="/add" element={<EditBill />} />
       <Route path="/edit/:id" element={<EditBill />} />
+      <Route path="/cards" element={<EditCard />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
