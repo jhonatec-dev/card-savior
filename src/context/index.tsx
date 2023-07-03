@@ -116,7 +116,7 @@ export function AppProvider({ children }: ProviderProps) {
       ...cards,
       {
         id: uuidv4(),
-        title: "",
+        title: `Cartão ${cards.length + 1}`,
         closingDate: 1,
         dueDate: 10,
         color: getNewColor(),
@@ -143,8 +143,6 @@ export function AppProvider({ children }: ProviderProps) {
     setUser(user);
     const userToLS = { ...user, password: encryption(user.password) };
     saveToLS("user", userToLS);
-    saveToLS("cards", cards);
-    // console.log('updateUserData, context', user);
   };
 
   const userLogin = () => {

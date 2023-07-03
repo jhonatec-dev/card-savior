@@ -105,6 +105,18 @@ h1 {
   }
 }
 
+.CardsWrapper{
+  padding: 12px;
+  padding-bottom: 80px;
+  h5{
+    text-align: center;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
 .DataList {
   width: 100%;
   border: 1px solid var(--main-color);
@@ -176,7 +188,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-.Welcome{
+.Welcome {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -201,20 +213,9 @@ h1 {
   button {
     background-color: #7c1616;
   }
-
-  .EditCreditCard {
-    background-blend-mode: color-burn !important;
-  }
 }
 
 @media screen and (min-width: 750px) {
-  .Wrapper {
-    // max-width: 1500px;
-    // margin: 0 auto;
-    // display: flex;
-    // gap: 20px;
-  }
-
   .Login {
     width: 500px;
     margin: 20px auto;
@@ -226,12 +227,11 @@ h1 {
     justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 16px;
-
-    .EditCreditCard {
-      width: calc(50% - 16px);
-    }
   }
 
+  .EditCreditCard {
+    max-width: 450px;
+  }
 }
 
 @media screen and (min-width: 1000px) {
@@ -254,20 +254,12 @@ h1 {
     max-width: 35%;
   }
 
-  .CardsWrapper {
-    max-width: 60%;
-  }
-
   .Fluid {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 16px;
-
-    .EditCreditCard {
-      width: calc(50% - 16px);
-    }
   }
 }
 

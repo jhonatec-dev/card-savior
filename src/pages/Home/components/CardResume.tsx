@@ -1,15 +1,14 @@
-import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { AddCard, ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
+import { Button, IconButton } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context";
 import { CardType } from "../../../context/types";
 import { cardVoid } from "../../../utils/mockData";
 
 export default function CardResume() {
-  // Context
   const { cards, bills, selYear, selMonth } = useContext(AppContext);
-
-  //State
+  const navigate = useNavigate();
   const [selectedCard, setSelectedCard] = useState<CardType>(cardVoid);
   const [selectIndex, setSelectIndex] = useState(-1);
 
@@ -57,6 +56,10 @@ export default function CardResume() {
     setSelectIndex(prevIndex);
   };
 
+  const handleClick = () => {
+    navigate("/cards");
+  };
+
   return (
     <div className="EditCreditCard" style={styleCard}>
       <div className="CardResume">
@@ -66,6 +69,9 @@ export default function CardResume() {
         <div>
           <h4>{selectedCard.title}</h4>
           <h2>R$ {calculateTotal()}</h2>
+          <Button startIcon={<AddCard />} color="inherit" onClick={handleClick}>
+            Adicionar cartão
+          </Button>
         </div>
         <IconButton onClick={nextCard} color="inherit">
           <ArrowForwardIos />

@@ -1,28 +1,24 @@
 import {
-  AddCard,
   Backspace,
   Close,
   Save,
   Visibility,
-  VisibilityOff,
+  VisibilityOff
 } from "@mui/icons-material";
 import {
   Avatar,
-  Button,
   Dialog,
-  Divider,
   IconButton,
-  TextField,
+  TextField
 } from "@mui/material";
 import { closeSnackbar, useSnackbar } from "notistack";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useWindowSize } from "usehooks-ts";
 import FloatButton from "../../components/FloatButton";
 import { AppContext } from "../../context/index";
 import { getFromLS } from "../../utils";
-import EditCreditCard from "./components/EditCreditCard";
 import { Welcome } from "./components/Welcome";
 
 type FormValues = {
@@ -40,11 +36,10 @@ export default function EditProfile() {
   const location = useLocation();
   const { pathname } = location;
   const { enqueueSnackbar } = useSnackbar();
-  const { cards, createCard, user, updateUserData, userLogin } =
+  const { user, updateUserData, userLogin } =
     useContext(AppContext);
   const [showPassword, setShowPassword] = useState(false);
   const [open, setOpen] = useState(true);
-  const bottomCardRef = useRef<HTMLButtonElement>(null);
   const { width } = useWindowSize();
   const {
     register,
@@ -79,10 +74,7 @@ export default function EditProfile() {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (cards.length > 0)
-      bottomCardRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [cards]);
+
 
   const handleSave = (data: any) => {
     // salvar
@@ -105,10 +97,6 @@ export default function EditProfile() {
     navigate("/home");
   };
 
-  const handleAddCard = () => {
-    // console.log("cheguei aqui");
-    createCard();
-  };
 
   const onError = () => {
     return;
@@ -224,28 +212,7 @@ export default function EditProfile() {
           type="submit"
         />
       </form>
-      <div className="CardsWrapper">
-        <Divider
-          sx={{ margin: "20px 0", fontSize: "20px", fontWeight: "bold" }}
-        >
-          Cartões
-        </Divider>
-        <div className="Fluid">
-          {cards.map((card) => (
-            <EditCreditCard key={card.id} id={card.id} />
-          ))}
-          <Button
-            variant="outlined"
-            fullWidth
-            startIcon={<AddCard />}
-            onClick={handleAddCard}
-            ref={bottomCardRef}
-            size="large"
-          >
-            Adicionar Cartão
-          </Button>
-        </div>
-      </div>
+
     </div>
   );
 }

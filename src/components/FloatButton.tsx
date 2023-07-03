@@ -7,10 +7,11 @@ interface FloatButtonProps {
   handleClick: () => void;
   type?: "submit" | "reset" | "button";
   color?: "primary" | "secondary" | "error" | "info" | "success" | "warning";
+  ref?: React.Ref<HTMLButtonElement>;
 }
 
 export default function FloatButton(props: FloatButtonProps) {
-  const { text, handleClick, icon, color, type } = props;
+  const { text, handleClick, icon, color, type, ref } = props;
 
   return (
     <Tooltip title={text} arrow placement="left">
@@ -19,6 +20,7 @@ export default function FloatButton(props: FloatButtonProps) {
         onClick={handleClick}
         color={color ?? "primary"}
         type={type}
+        ref={ref}
       >
         {icon}
       </Fab>

@@ -18,7 +18,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import { v4 as uuidv4 } from "uuid";
 import FloatButton from "../../components/FloatButton";
-import Header from "../../components/Header";
 import { AppContext } from "../../context";
 import {
   BillType,
@@ -33,6 +32,7 @@ import {
   Signature,
   SingleInstallment,
 } from "./components";
+import HeaderBill from "./components/HeaderBill";
 import {
   MULTIPLE_INSTALLMENTS,
   SIGNATURE,
@@ -108,7 +108,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
       timer: 5500,
       timerProgressBar: true,
     });
-    navigate("/editProfile");
+    navigate("/cards");
   };
 
   useEffect(() => {
@@ -355,7 +355,7 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
           className="Form"
           onSubmit={methods.handleSubmit(onSubmit, onError)}
         >
-          <Header
+          <HeaderBill
             title="Editar despesa"
             showGoBack
             handleClick={handleClose ?? handleBack}
