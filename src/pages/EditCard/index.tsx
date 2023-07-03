@@ -3,7 +3,6 @@ import { Button, Divider, IconButton } from "@mui/material";
 import { closeSnackbar, enqueueSnackbar } from "notistack";
 import { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useWindowSize } from "usehooks-ts";
 import FloatButton from "../../components/FloatButton";
 import Header from "../../components/Header";
 import { AppContext } from "../../context";
@@ -12,7 +11,6 @@ import { SingleCard } from "./components/SingleCard";
 const EditCard = () => {
   const { cards, createCard } = useContext(AppContext);
   const navigate = useNavigate();
-  const { width } = useWindowSize();
   const bottomCardRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (cards.length > 0)
