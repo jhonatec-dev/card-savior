@@ -1,6 +1,7 @@
 import {
   AddCard,
   Backspace,
+  Close,
   Save,
   Visibility,
   VisibilityOff,
@@ -13,7 +14,7 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import { useSnackbar } from "notistack";
+import { closeSnackbar, useSnackbar } from "notistack";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -90,7 +91,17 @@ export default function EditProfile() {
       password: data.password,
     };
     updateUserData(newUser);
-    enqueueSnackbar("Salvo com sucesso!", { variant: "success" });
+    enqueueSnackbar("Salvo com sucesso!", {
+      variant: "success",
+      style: {
+        maxWidth: "300px",
+      },
+      action: (key) => (
+        <IconButton onClick={() => closeSnackbar(key)} size="small">
+          <Close />
+        </IconButton>
+      ),
+    });
     navigate("/home");
   };
 

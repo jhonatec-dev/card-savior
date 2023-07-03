@@ -1,10 +1,17 @@
-import { DeleteForever } from "@mui/icons-material";
-import { Button, Step, StepContent, StepLabel, Stepper } from "@mui/material";
+import { Close, DeleteForever } from "@mui/icons-material";
+import {
+  Button,
+  IconButton,
+  Step,
+  StepContent,
+  StepLabel,
+  Stepper,
+} from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
-import { useSnackbar } from "notistack";
+import { closeSnackbar, useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -263,7 +270,17 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
       }
     }
 
-    enqueueSnackbar("Despesa salva com sucesso!", { variant: "success" });
+    enqueueSnackbar("Despesa salva com sucesso!", {
+      variant: "success",
+      style: {
+        maxWidth: "300px",
+      },
+      action: (key) => (
+        <IconButton onClick={() => closeSnackbar(key)} size="small">
+          <Close />
+        </IconButton>
+      ),
+    });
 
     if (idParam) {
       navigate("/home");
@@ -303,7 +320,17 @@ export default function EditBill({ idToEdit, handleClose }: IProps) {
       } else {
         navigate("/home");
       }
-      enqueueSnackbar("Despesa removida com sucesso!", { variant: "success" });
+      enqueueSnackbar("Despesa removida com sucesso!", {
+        variant: "success",
+        style: {
+          maxWidth: "300px",
+        },
+        action: (key) => (
+          <IconButton onClick={() => closeSnackbar(key)} size="small">
+            <Close />
+          </IconButton>
+        ),
+      });
     }
   };
 

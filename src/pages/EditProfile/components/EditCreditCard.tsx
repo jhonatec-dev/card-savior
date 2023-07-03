@@ -1,4 +1,4 @@
-import { Backspace, Clear } from "@mui/icons-material";
+import { Backspace, Clear, Close } from "@mui/icons-material";
 import {
   IconButton,
   TextField,
@@ -8,7 +8,7 @@ import {
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { enqueueSnackbar } from "notistack";
+import { closeSnackbar, enqueueSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import ColorPicker from "../../../components/ColorPicker";
@@ -84,7 +84,17 @@ export default function EditCreditCard(props: EditCreditCardProps) {
 
     if (response.isDenied) {
       removeCard(id);
-      enqueueSnackbar("Cartão removido com sucesso!", { variant: "success" });
+      enqueueSnackbar("Cartão removido com sucesso!", {
+        variant: "success",
+        style: {
+          maxWidth: "300px",
+        },
+        action: (key) => (
+          <IconButton onClick={() => closeSnackbar(key)} size="small">
+            <Close />
+          </IconButton>
+        ),
+      });
     }
   };
 

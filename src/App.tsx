@@ -47,7 +47,7 @@ function App() {
   return (
     <AppProvider>
       <ProviderTheme>
-        <SnackbarProvider maxSnack={3}>
+        <SnackbarProvider maxSnack={3} autoHideDuration={2000} preventDuplicate>
           {showInstallButton && (
             <Button sx={{margin: "4px auto"}} fullWidth startIcon={<InstallMobile />} onClick={handleInstallClick}>
               Instalar aplicativo

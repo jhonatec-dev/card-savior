@@ -71,7 +71,7 @@ export default function Home() {
         text="Adicionar novo"
       />
       <Dialog open={open} onClose={handleClose} fullScreen={width < 768}>
-        <Box sx={{minWidth: 550}}>
+        <Box>
           <EditBill idToEdit={idToEdit} handleClose={handleClose} />
         </Box>
       </Dialog>
