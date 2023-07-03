@@ -20,9 +20,9 @@ export type ContactNewType = {
 
 export type UserType = {
   username: string,
-  email: string,
+  // email: string,
   password: string,
-  phone: string,
+  // phone: string,
 }
 
 export type SignatureType = {
