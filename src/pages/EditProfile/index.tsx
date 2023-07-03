@@ -5,15 +5,24 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-import { Avatar, Button, Divider, IconButton, TextField } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Dialog,
+  Divider,
+  IconButton,
+  TextField,
+} from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useWindowSize } from "usehooks-ts";
 import FloatButton from "../../components/FloatButton";
 import { AppContext } from "../../context/index";
 import { getFromLS } from "../../utils";
 import EditCreditCard from "./components/EditCreditCard";
+import { Welcome } from "./components/Welcome";
 
 type FormValues = {
   id: string;
@@ -33,7 +42,9 @@ export default function EditProfile() {
   const { cards, createCard, user, updateUserData, userLogin } =
     useContext(AppContext);
   const [showPassword, setShowPassword] = useState(false);
+  const [open, setOpen] = useState(true);
   const bottomCardRef = useRef<HTMLButtonElement>(null);
+  const { width } = useWindowSize();
   const {
     register,
     setValue,
@@ -94,6 +105,15 @@ export default function EditProfile() {
 
   return (
     <div className="Wrapper">
+      {pathname === "/register" && (
+        <Dialog
+          open={open}
+          fullScreen={width < 768}
+          onClose={() => setOpen(false)}
+        >
+          <Welcome handleClose={() => setOpen(false)} />
+        </Dialog>
+      )}
       <form
         onSubmit={handleSubmit(handleSave, onError)}
         className="UserProfile"
@@ -184,7 +204,14 @@ export default function EditProfile() {
             !!errors.passwordConfirm && errors.passwordConfirm.message
           }
         />
-        <FloatButton handleClick={() => {console.log('preciso')}} icon={<Save />} text="Salvar" type="submit"/>
+        <FloatButton
+          handleClick={() => {
+            console.log("preciso");
+          }}
+          icon={<Save />}
+          text="Salvar"
+          type="submit"
+        />
       </form>
       <div className="CardsWrapper">
         <Divider
@@ -208,7 +235,6 @@ export default function EditProfile() {
           </Button>
         </div>
       </div>
-      
     </div>
   );
 }
