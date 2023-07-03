@@ -5,9 +5,12 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
+  useTheme,
 } from "@mui/material";
 import { KeyboardEvent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+// import jhonatecBk from "../../assets/images/jhonatec-black.png";
+import jhonatec from "../../assets/images/jhonatec.png";
 import { AppContext } from "../../context";
 import { correctPassword, getFromLS } from "../../utils";
 
@@ -22,13 +25,11 @@ export default function Login() {
     }
   }, [navigate]);
 
-  // States
+  const {palette:{mode}} = useTheme();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [showPassword, setShowPassword] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
-
-  //Context
   const { userLogin } = useContext(AppContext);
 
   const handleLogin = () => {
@@ -80,8 +81,13 @@ export default function Login() {
           bottom: "40px",
           width: "100%",
           textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
+        <img src={jhonatec} alt="jhonatec" width={"200px"} style={ mode === "dark" ? {filter: "invert(0)" } : {filter: "invert(0.7)"}} />
         <ToggleButtonGroup exclusive>
           <ToggleButton
             href="https://linkedin.com/in/jhonatec"
